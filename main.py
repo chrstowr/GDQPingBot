@@ -23,9 +23,10 @@ async def schedule_check_clock():
     while True:
 
         for run in data_handler.schedule:
-            run_datetime = data_handler.strtodatetime(run["time"])
-            reminder_time = run_datetime - timedelta(hours=0, minutes=5)
-            end_of_run = run_datetime + timedelta(hours=0, minutes=run["length"])
+            delay_delta = await data_handler.get_delay_delta()
+            run_datetime = (data_handler.strtodatetime(run["time"])) + delay_delta
+            reminder_time = (run_datetime - timedelta(hours=0, minutes=5))
+            end_of_run = (run_datetime + timedelta(hours=0, minutes=run["length"]))
 
             if reminder_time < datetime.now() < end_of_run and run["reminded"] is False:
                 # ping squad
@@ -63,6 +64,7 @@ async def schedule_check_clock():
                         message_content = ""
                         if role is not None:
                             message_content = role.mention
+                        message_content = message_content + " https://www.twitch.tv/gamesdonequick"
                         await channel_to_send_to.send(message_content, embed=reminder_embed)
 
                 break

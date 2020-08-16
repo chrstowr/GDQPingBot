@@ -1,33 +1,6 @@
 [
     {
-        "time": "2020-08-16 10:30:00",
-        "length": 25,
-        "game": "Pre-Show",
-        "run": "Jokes",
-        "runners": "Spike Vegeta, Keizaron, YellowKillerBee, Sent, JHobz, Kungfufruitcup",
-        "host": "Squint",
-        "reminded": false
-    },
-    {
-        "time": "2020-08-16 11:00:00",
-        "length": 60,
-        "game": "Demon's Souls",
-        "run": "Any % - PS3",
-        "runners": "BertoPlease",
-        "host": "Squint",
-        "reminded": false
-    },
-    {
-        "time": "2020-08-16 12:10:00",
-        "length": 64,
-        "game": "Street's of Rage 4",
-        "run": "Arcade Mania - Blaze (PC)",
-        "runners": "Mike Uyama",
-        "host": "LattMackey",
-        "reminded": false
-    },
-    {
-        "time": "2020-08-16 13:34:00",
+        "time": "2020-08-16 14:18:00",
         "length": 92,
         "game": "Rayman Legends",
         "run": "Any% - PC",
@@ -36,7 +9,7 @@
         "reminded": false
     },
     {
-        "time": "2020-08-16 15:34:00",
+        "time": "2020-08-16 16:00:00",
         "length": 72,
         "game": "ICO",
         "run": "Any% PS2 PAL - PS2",
@@ -45,7 +18,7 @@
         "reminded": false
     },
     {
-        "time": "2020-08-16 16:38:00",
+        "time": "2020-08-16 17:22:00",
         "length": 40,
         "game": "Shovel Knight: King of Cards",
         "run": "Any% - PC",
@@ -54,7 +27,7 @@
         "reminded": false
     },
     {
-        "time": "2020-08-16 17:28:00",
+        "time": "2020-08-16 18:12:00",
         "length": 35,
         "game": "Tony Hawk's Pro Skater 2x",
         "run": "All Goals and Golds (All Career) - PC",
@@ -63,7 +36,7 @@
         "reminded": false
     },
     {
-        "time": "2020-08-16 18:13:00",
+        "time": "2020-08-16 18:57:00",
         "length": 20,
         "game": "DUSK",
         "run": "Any% Out of Bounds - PC",
@@ -72,7 +45,7 @@
         "reminded": false
     },
     {
-        "time": "2020-08-16 18:43:00",
+        "time": "2020-08-16 19:27:00",
         "length": 62,
         "game": "Metal Gear Solid",
         "run": "Any% Extreme - PSTV",
@@ -81,7 +54,7 @@
         "reminded": false
     },
     {
-        "time": "2020-08-16 19:55:00",
+        "time": "2020-08-16 20:39:00",
         "length": 171,
         "game": "Secret of Mana",
         "run": "Any% 1 player 1 controller - SNES",
@@ -90,20 +63,11 @@
         "reminded": false
     },
     {
-        "time": "2020-08-16 22:56:00",
+        "time": "2020-08-16 23:40:00",
         "length": 45,
         "game": "Millennium Racer",
         "run": "Amateur Championship - PC",
         "runners": "Fireman",
-        "host": "AnEternalEnigma",
-        "reminded": false
-    },
-    {
-        "time": "2020-08-16 23:51:00",
-        "length": 35,
-        "game": "Amnesia: The Dark Descent",
-        "run": "Any% (Quit-Outs Allowed) — PC",
-        "runners": "bloodthunder",
         "host": "AnEternalEnigma",
         "reminded": false
     }
