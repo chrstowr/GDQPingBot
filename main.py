@@ -83,15 +83,6 @@ async def on_ready():
         print(f'{g.name} | (id: {g.id})')
     print()
 
-    '''
-    print('Loading user list...')
-    load_result = await data_handler.load_from_file()
-    if load_result is True:
-        print('Done')
-        print(data_handler.user_list)
-    else:
-        print('Error loading user list!')
-    '''
     print('Loading schedule...')
     load_result = await data_handler.load_schedule()
     if load_result is True:
