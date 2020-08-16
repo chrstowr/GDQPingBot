@@ -94,7 +94,7 @@ class DataHandler:
     @staticmethod
     def explodeminutes(minutes):
         hours = int(minutes / 60)
-        minutes = minutes - (hours * minutes)
+        minutes = minutes - (hours * 60)
 
         return f'{hours}h {minutes}m'
 
