@@ -2,6 +2,7 @@ import asyncio
 import json
 import os
 import discord
+import time
 from discord.ext import commands
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
@@ -21,18 +22,28 @@ data_handler = DataHandler()
 
 async def schedule_check_clock():
     while True:
+        load_occured = False
+        # Refresh schedule every 10 minutes
+        refresh_datetime = await data_handler.get_refresh_datetime()
+        if datetime.utcnow() > refresh_datetime:
+            print("Pulling new schedule...")
+            data_handler.reload_schedule()
+            new_refresh_datetime = datetime.utcnow() + timedelta(minutes=10)
+            data_handler.save_refresh_datetime(new_refresh_datetime)
+            await data_handler.load_schedule()
+            print(f"Schedule reload complete - {datetime.utcnow()}")
 
         for run in data_handler.schedule:
-            delay_delta = await data_handler.get_delay_delta()
-            run_datetime = (data_handler.strtodatetime(run["time"])) + delay_delta
-            reminder_time = (run_datetime - timedelta(hours=0, minutes=5))
-            end_of_run = (run_datetime + timedelta(hours=0, minutes=run["length"]))
-
-            if reminder_time < datetime.now() < end_of_run and run["reminded"] is False:
+            run_datetime = (data_handler.strtodatetime(run["time"]))
+            reminder_time = (run_datetime - timedelta(minutes=5))
+            end_of_run = (run_datetime + timedelta(minutes=run["length"]))
+            r = run['reminded']
+            # print(f'{reminder_time} < {datetime.utcnow()} < {end_of_run} and reminded is {r}\n')
+            if reminder_time < datetime.utcnow() < end_of_run and run["reminded"] is False:
                 # ping squad
                 run["reminded"] = True
                 await data_handler.save_schedule()
-                time_remaining = data_handler.diffdates(datetime.now(), run_datetime)
+                time_remaining = data_handler.diffdates(datetime.utcnow(), run_datetime)
                 reminder_embed = discord.Embed(title="STARTING SOON - GAMES DONE QUICK 2020",
                                                url="https://gamesdonequick.com/schedule",
                                                description=" Please click title for full schedule", color=0x466e9c)
@@ -57,7 +68,6 @@ async def schedule_check_clock():
                     print(f'{JSONDecodeError}: {e}')
 
                 for channel in channel_list:
-                    print(channel)
                     channel_to_send_to = bot.get_channel(channel)
                     if channel_to_send_to is not None:
                         role = discord.utils.get(channel_to_send_to.guild.roles, name=data_handler.ping_role_name)
@@ -68,10 +78,9 @@ async def schedule_check_clock():
                         await channel_to_send_to.send(message_content, embed=reminder_embed)
 
                 break
-            elif datetime.now() > end_of_run:
-                # remove run
-                data_handler.schedule.remove(run)
-                await data_handler.save_schedule()
+            elif datetime.utcnow() > end_of_run and run["reminded"] is False:
+                run["reminded"] = True
+
 
         await asyncio.sleep(30)
 

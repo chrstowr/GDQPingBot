@@ -1,10 +1,13 @@
 import os
 import json
+import urllib.request
+
 import discord
 from pathlib import Path
 from json import JSONDecodeError
-from datetime import datetime,timedelta
-import csv
+from datetime import datetime, timedelta
+from bs4 import BeautifulSoup
+
 
 class DataHandler:
     def __init__(self):
@@ -41,6 +44,7 @@ class DataHandler:
 
     async def get_schedule(self, ctx):
         limit = 4
+        limit_tracker = 1
 
         # Prevent out of bounds error
         if len(self.schedule) < 4:
@@ -50,9 +54,54 @@ class DataHandler:
                                        url="https://gamesdonequick.com/schedule",
                                        description=" Please click title for full schedule", color=0x466e9c)
         schedule_embed.set_thumbnail(url="https://gamesdonequick.com/static/res/img/gdqlogo.png")
-        now = datetime.now()
-        delay_delta = await self.get_delay_delta()
-        run_datetime = self.strtodatetime(self.schedule[0]["time"]) + delay_delta
+
+        for run in self.schedule:
+            run_time = self.strtodatetime(run["time"])
+            reminder_time = run_time - timedelta(minutes=5)
+            end_time = run_time + timedelta(minutes=run["length"])
+            print(f'{datetime.utcnow()} <= {reminder_time}')
+            if (datetime.utcnow() < reminder_time or (reminder_time < datetime.utcnow() < end_time)) and limit_tracker <= limit:
+                print('Match')
+                print(run["game"])
+                if limit_tracker == 1:
+                    if datetime.utcnow() > run_time:
+                        schedule_embed.add_field(
+                            name=f'Playing now: {run["game"]} ({run["run"]})',
+                            value=f'By: {run["runners"]} | '
+                                  f'Estimated length: {self.explodeminutes(run["length"])}',
+                            inline=False)
+                    else:
+                        time_remaining = self.diffdates(datetime.utcnow(), run_time)
+                        schedule_embed.add_field(
+                            name=f'{run["game"]} ({run["run"]}) in {time_remaining}',
+                            value=f'By: {run["runners"]} | '
+                                  f'Estimated length: {self.explodeminutes(run["length"])}',
+                            inline=False)
+                else:
+                    time_remaining = self.diffdates(datetime.utcnow(), run_time)
+                    schedule_embed.add_field(
+                        name=f'{run["game"]} ({run["run"]}) in {time_remaining}',
+                        value=f'By: {run["runners"]} | '
+                              f'Estimated length: {self.explodeminutes(run["length"])}',
+                        inline=False)
+                limit_tracker = limit_tracker + 1
+
+        await ctx.send(content="https://www.twitch.tv/gamesdonequick", embed=schedule_embed)
+
+    '''
+    async def get_schedule_2(self, ctx):
+        limit = 4
+
+        # Prevent out of bounds error
+        if len(self.schedule) < 4:
+            limit = len(self.schedule)
+
+        schedule_embed = discord.Embed(title="GAMES DONE QUICK 2020 - Coming up",
+                                       url="https://gamesdonequick.com/schedule",
+                                       description=" Please click title for full schedule", color=0x466e9c)
+        schedule_embed.set_thumbnail(url="https://gamesdonequick.com/static/res/img/gdqlogo.png")
+        now = datetime.utcnow()
+        run_datetime = self.strtodatetime(self.schedule[0]["time"])
         if now > run_datetime:
             schedule_embed.add_field(name=f'Playing now: {self.schedule[0]["game"]} ({self.schedule[0]["run"]})',
                                      value=f'By: {self.schedule[0]["runners"]} | '
@@ -68,7 +117,7 @@ class DataHandler:
 
         run_pointer = 1
         while run_pointer <= (limit - 1):
-            run_datetime = self.strtodatetime(self.schedule[run_pointer]["time"]) + delay_delta
+            run_datetime = self.strtodatetime(self.schedule[run_pointer]["time"])
             time_remaining = self.diffdates(now, run_datetime)
             schedule_embed.add_field(
                 name=f'{self.schedule[run_pointer]["game"]} ({self.schedule[run_pointer]["run"]}) in {time_remaining}',
@@ -78,6 +127,7 @@ class DataHandler:
 
             run_pointer = run_pointer + 1
         await ctx.send(content="https://www.twitch.tv/gamesdonequick", embed=schedule_embed)
+    '''
 
     @staticmethod
     def strtodatetime(datetime_str):
@@ -141,6 +191,123 @@ class DataHandler:
         except JSONDecodeError as e:
             print(f'{JSONDecodeError}: {e}')
             return None
+
+    async def get_refresh_datetime(self):
+        try:
+            directory = os.path.dirname(__file__)
+            file = os.path.join(directory, 'schedule_refresh.json')
+            session_data_file = Path(file)
+            with open(session_data_file, 'r') as f:
+                data = json.load(f)
+                f.close()
+                return self.strtodatetime(data[0])
+        except JSONDecodeError as e:
+            print(f'{JSONDecodeError}: {e}')
+            return None
+
+    def save_refresh_datetime(self, new_dt):
+
+        def datetime_format(o):
+            if isinstance(o, datetime):
+                return o.strftime('%Y-%m-%d %H:%M:%S')
+            else:
+                return o
+
+        try:
+            directory = os.path.dirname(__file__)
+            file = os.path.join(directory, 'schedule_refresh.json')
+            data_file = Path(file)
+            with open(data_file, 'w') as f:
+                f.write(json.dumps([new_dt], indent=4, default=datetime_format))
+                f.close()
+                return True
+        except JSONDecodeError as e:
+            print(f'{JSONDecodeError}: {e}')
+            return False
+
+    def reload_schedule(self):
+        url = "https://gamesdonequick.com/schedule"
+        req = urllib.request.Request(url, headers={'User-Agent': "Magic Browser"})
+        con = urllib.request.urlopen(req)
+        soup = BeautifulSoup(con, 'html.parser')
+
+        data = []
+        table = soup.find('table')
+        t_body = table.find('tbody')
+        rows = t_body.find_all('tr')
+
+        '''
+        for row in rows:
+            cols = row.find_all('td')
+            cols = [ele.text.strip() for ele in cols]
+            data.append([ele for ele in cols if ele])  # Get rid of empty values
+        '''
+        row_pointer = 0
+        num_of_rows = len(rows)
+        while row_pointer < num_of_rows:
+            run_data = list()
+            if row_pointer < num_of_rows - 1:
+                cols = rows[row_pointer].find_all('td')
+                cols = [ele.text.strip() for ele in cols]
+                # run_data.append([ele for ele in cols if ele])  # Get rid of empty values
+                for ele in cols:
+                    if ele:
+                        run_data.append(ele)
+            row_pointer = row_pointer + 1
+            if row_pointer < num_of_rows - 1:
+                cols = rows[row_pointer].find_all('td')
+                cols = [ele.text.strip() for ele in cols]
+                # run_data.append([ele for ele in cols if ele])  # Get rid of empty values
+                for ele in cols:
+                    if ele:
+                        run_data.append(ele)
+            row_pointer = row_pointer + 1
+
+            data.append(run_data)
+
+        # Format data
+        # 4 - length
+        master_schedule = list()
+        for run in data:
+            if len(run) == 7:
+                run_dict = {}
+                time = datetime.strptime(run[0], "%Y-%m-%dT%H:%M:%SZ")
+                length_text = run[4].split(':')
+                length = (int(length_text[0]) * 60) + int(length_text[1])
+
+                run_dict = {
+                    "time": time,
+                    "length": length,
+                    "game": run[1],
+                    "run": run[5],
+                    "runners": run[2],
+                    "host": run[6],
+                    "reminded": False
+                }
+                master_schedule.append(run_dict)
+
+        def json_filter(o):
+            if isinstance(o, datetime):
+                return o.strftime('%Y-%m-%d %H:%M:%S')
+            else:
+                return o
+
+        try:
+            directory = os.path.dirname(__file__)
+            file = os.path.join(directory, 'schedule-bak.json')
+            data_file = Path(file)
+            with open(data_file, 'w') as f:
+                f.write(json.dumps(master_schedule, indent=4, default=json_filter))
+                f.close()
+        except JSONDecodeError as e:
+            print(f'{JSONDecodeError}: {e}')
+
+        # Cross check with schedule in memory
+        for run in master_schedule:
+            match = discord.utils.find(lambda r: r["game"] is run["game"], self.schedule)
+            if match is not None:
+                match["length"] = run["length"]
+                match["time"] = run["time"]
 
     '''
 
