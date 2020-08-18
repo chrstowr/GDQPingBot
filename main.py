@@ -26,31 +26,26 @@ async def schedule_check_clock():
         # Refresh schedule every 10 minutes
         refresh_datetime = await data_handler.get_refresh_datetime()
         if datetime.utcnow() > refresh_datetime:
-            print("Pulling new schedule...")
             data_handler.reload_schedule()
             new_refresh_datetime = datetime.utcnow() + timedelta(minutes=10)
             data_handler.save_refresh_datetime(new_refresh_datetime)
             await data_handler.load_schedule()
-            print(f"Schedule reload complete - {datetime.utcnow()}")
+            print(f"Schedule refresh complete - {datetime.utcnow()}")
 
         for run in data_handler.schedule:
             run_datetime = (data_handler.strtodatetime(run["time"]))
-            reminder_time = (run_datetime - timedelta(minutes=5))
             end_of_run = (run_datetime + timedelta(minutes=run["length"]))
-            r = run['reminded']
-            # print(f'{reminder_time} < {datetime.utcnow()} < {end_of_run} and reminded is {r}\n')
-            if reminder_time < datetime.utcnow() < end_of_run and run["reminded"] is False:
+            if run_datetime < datetime.utcnow() < end_of_run and run["reminded"] is False:
                 # ping squad
                 run["reminded"] = True
                 await data_handler.save_schedule()
-                time_remaining = data_handler.diffdates(datetime.utcnow(), run_datetime)
-                reminder_embed = discord.Embed(title="STARTING SOON - GAMES DONE QUICK 2020",
-                                               url="https://gamesdonequick.com/schedule",
-                                               description=" Please click title for full schedule", color=0x466e9c)
+                reminder_embed = discord.Embed(title="GAMES DONE QUICK 2020",
+                                               url="https://gamesdonequick.com/schedule", color=0x466e9c)
                 reminder_embed.set_thumbnail(url="https://gamesdonequick.com/static/res/img/gdqlogo.png")
+                reminder_embed.set_footer(text='Speedrun start times are subject to change')
                 reminder_embed.add_field(
-                    name=f'{run["game"]} ({run["run"]}) in {time_remaining}',
-                    value=f'By: {run["runners"]} | '
+                    name=f'Coming up next:',
+                    value=f'{run["game"]} ({run["run"]})\nBy: {run["runners"]} | '
                           f'Estimated length: {data_handler.explodeminutes(run["length"])}',
                     inline=False)
 
@@ -80,7 +75,6 @@ async def schedule_check_clock():
                 break
             elif datetime.utcnow() > end_of_run and run["reminded"] is False:
                 run["reminded"] = True
-
 
         await asyncio.sleep(30)
 
