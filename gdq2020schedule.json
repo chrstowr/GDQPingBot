@@ -226,7 +226,7 @@
     },
     {
         "time": "2020-08-17 17:38:00",
-        "length": 58,
+        "length": 50,
         "game": "Zelda II: The Adventure of Link",
         "run": "Reverse Boss Order \u2014 NES",
         "runners": "EnchantressOfNumbers",
@@ -234,8 +234,8 @@
         "reminded": true
     },
     {
-        "time": "2020-08-17 18:46:00",
-        "length": 40,
+        "time": "2020-08-17 18:42:00",
+        "length": 36,
         "game": "The Elder Scrolls IV: Oblivion",
         "run": "No Out of Bounds \u2014 PC",
         "runners": "sandyX",
@@ -243,8 +243,8 @@
         "reminded": true
     },
     {
-        "time": "2020-08-17 19:36:00",
-        "length": 132,
+        "time": "2020-08-17 19:36:44",
+        "length": 129,
         "game": "The Witcher 3: Wild Hunt",
         "run": "Any% Old Patch \u2014 PC",
         "runners": "Kaadzik",
@@ -252,8 +252,8 @@
         "reminded": true
     },
     {
-        "time": "2020-08-17 21:58:00",
-        "length": 70,
+        "time": "2020-08-17 21:53:26",
+        "length": 67,
         "game": "Batman: Arkham City",
         "run": "Any% (Easy) \u2014 PC",
         "runners": "ShikenNuggets",
@@ -261,1065 +261,1074 @@
         "reminded": true
     },
     {
-        "time": "2020-08-17 23:18:00",
-        "length": 19,
+        "time": "2020-08-17 23:14:00",
+        "length": 15,
         "game": "Valley",
         "run": "Any% \u2014 PC",
         "runners": "TheRedSock",
         "host": "iggyzig",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-17 23:47:00",
-        "length": 35,
+        "time": "2020-08-17 23:54:00",
+        "length": 32,
         "game": "Dandara: Trials of Fear",
         "run": "Any% \u2014 PC",
-        "runners": "PoleCat",
+        "runners": "PoleCats",
         "host": "iggyzig",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 00:32:00",
-        "length": 19,
+        "time": "2020-08-18 00:47:00",
+        "length": 16,
         "game": "Portal",
         "run": "Glitchless \u2014 PC",
         "runners": "Shizzal",
         "host": "iggyzig",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 01:06:00",
-        "length": 36,
+        "time": "2020-08-18 01:22:00",
+        "length": 33,
         "game": "Portal 2",
         "run": "All Main Courses \u2014 PC",
-        "runners": "AJ_from_portal, betsruner",
+        "runners": "AJ, betsruner",
         "host": "iggyzig",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 01:52:00",
-        "length": 53,
+        "time": "2020-08-18 02:10:00",
+        "length": 47,
         "game": "The Talos Principle",
         "run": "All Sigils \u2014 PC",
         "runners": "Azorae",
         "host": "Brutal_Melo",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 02:55:00",
-        "length": 20,
+        "time": "2020-08-18 03:14:00",
+        "length": 18,
         "game": "Superliminal",
         "run": "Any% Warpless \u2014 PC",
         "runners": "Crisper",
         "host": "Brutal_Melo",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 03:33:00",
-        "length": 41,
+        "time": "2020-08-18 03:49:00",
+        "length": 42,
         "game": "Hollow Knight",
         "run": "Any% No Major Glitches race \u2014 PC",
         "runners": "Pestilentbox2, fireb0rn",
         "host": "Brutal_Melo",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 04:24:00",
-        "length": 40,
+        "time": "2020-08-18 04:51:00",
+        "length": 35,
         "game": "Bonus Game 1 - Ori and the Will of the Wisps",
         "run": "Any% Easy, No Out of Bounds \u2014 PC",
         "runners": "sickynar",
         "host": "Mr. Game & Shout",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 05:14:00",
-        "length": 38,
+        "time": "2020-08-18 06:03:00",
+        "length": 34,
         "game": "Gunvolt Chronicles: Luminous Avenger iX",
         "run": "Any% \u2014 PC",
         "runners": "Benja",
         "host": "Mr. Game & Shout",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 06:02:00",
-        "length": 20,
+        "time": "2020-08-18 06:45:00",
+        "length": 15,
         "game": "Yono and the Celestial Elephants",
         "run": "No Major Skips \u2014 PC",
         "runners": "Bullets",
         "host": "Mr. Game & Shout",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 06:32:00",
-        "length": 180,
+        "time": "2020-08-18 07:23:00",
+        "length": 159,
         "game": "Alien: Isolation",
         "run": "All Missions, Nightmare, No CC \u2014 PC",
         "runners": "Drayux",
         "host": "THEKyleThomas",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 09:42:00",
-        "length": 60,
+        "time": "2020-08-18 10:24:00",
+        "length": 59,
         "game": "Silent Hill: Homecoming",
         "run": "All Bosses NG+ \u2014 Xbox One",
         "runners": "shmumbler",
         "host": "Ecdycis",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 10:52:00",
-        "length": 12,
+        "time": "2020-08-18 11:43:00",
+        "length": 9,
         "game": "Alone in the Dark",
         "run": "Any% \u2014 DOS",
         "runners": "PlasticRainbow",
         "host": "AnEternalEnigma",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 11:14:00",
-        "length": 125,
+        "time": "2020-08-18 12:02:00",
+        "length": 104,
         "game": "Quest 64",
         "run": "US Any% \u2014 N64",
         "runners": "Bingchang",
         "host": "AnEternalEnigma",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 13:29:00",
-        "length": 17,
+        "time": "2020-08-18 14:04:00",
+        "length": 16,
         "game": "The Lion King",
         "run": "Any% Normal \u2014 Genesis",
         "runners": "eight",
         "host": "Lizstar",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 13:56:00",
-        "length": 22,
+        "time": "2020-08-18 14:26:00",
+        "length": 18,
         "game": "Castle of Illusion Starring Mickey Mouse",
         "run": "Any% Normal \u2014 Genesis",
         "runners": "Paulsaltine",
         "host": "Lizstar",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 14:28:00",
-        "length": 45,
+        "time": "2020-08-18 14:52:00",
+        "length": 38,
         "game": "Pulseman",
         "run": "Glitchless \u2014 Genesis",
         "runners": "d4gr0n",
         "host": "Lizstar",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 15:23:00",
-        "length": 15,
+        "time": "2020-08-18 15:38:00",
+        "length": 10,
         "game": "Super Turrican",
         "run": "Hard \u2014 SNES",
         "runners": "d4gr0n",
         "host": "Lizstar",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 15:48:00",
-        "length": 55,
+        "time": "2020-08-18 16:00:00",
+        "length": 51,
         "game": "Donkey Kong Country 2",
         "run": "Warpless \u2014 SNES",
         "runners": "Tonkotsu",
         "host": "Lizstar",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 16:53:00",
-        "length": 50,
+        "time": "2020-08-18 17:01:00",
+        "length": 45,
         "game": "Demon's Crest",
         "run": "100% \u2014 SNES",
         "runners": "Z4T0X",
         "host": "Pythonicus",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 17:53:00",
-        "length": 34,
+        "time": "2020-08-18 17:59:00",
+        "length": 29,
         "game": "Castlevania II: Belmont's Revenge",
         "run": "Any% \u2014 GB",
         "runners": "Tinnue",
         "host": "Pythonicus",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 18:37:00",
-        "length": 45,
+        "time": "2020-08-18 18:40:00",
+        "length": 41,
         "game": "Bloodstained: Curse of the Moon",
         "run": "Low% \u2014 PC",
         "runners": "Starwin",
         "host": "Pythonicus",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 19:32:00",
-        "length": 25,
+        "time": "2020-08-18 19:35:00",
+        "length": 22,
         "game": "Bloodstained: Ritual of the Night",
         "run": "Zangetsu Any% (NMG) \u2014 PC",
         "runners": "The Blacktastic",
         "host": "Nichole Goodnight",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 20:07:00",
-        "length": 40,
+        "time": "2020-08-18 20:09:00",
+        "length": 37,
         "game": "Jet Set Radio",
         "run": "Any% \u2014 PC",
         "runners": "kitcarsonn",
         "host": "Nichole Goodnight",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 20:57:00",
-        "length": 23,
+        "time": "2020-08-18 20:55:00",
+        "length": 15,
         "game": "Disney's Extreme Skate Adventure",
         "run": "Any% \u2014 Gamecube",
         "runners": "Helix",
         "host": "Nichole Goodnight",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 21:30:00",
-        "length": 37,
+        "time": "2020-08-18 21:29:00",
+        "length": 36,
         "game": "Tony Hawk's Underground",
         "run": "Any% Beginner \u2014 PC",
         "runners": "Biglaw",
         "host": "Nichole Goodnight",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 22:17:00",
-        "length": 75,
+        "time": "2020-08-18 22:22:00",
+        "length": 66,
         "game": "Trackmania Nations Forever",
         "run": "All Tracks (No E05) \u2014 PC",
         "runners": "Wirtual",
         "host": "Nichole Goodnight",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-18 23:50:00",
-        "length": 210,
+        "time": "2020-08-18 23:49:52",
+        "length": 202,
         "game": "The Legend of Zelda: Twilight Princess HD",
         "run": "Any% \u2014 Wii U",
         "runners": "gymnast86",
         "host": "Kungfufruitcup",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 03:35:00",
-        "length": 89,
+        "time": "2020-08-19 03:31:00",
+        "length": 85,
         "game": "Bonus Game 2 - Mario Kart 8 Deluxe",
         "run": "48 Tracks Relay \u2014 Nintendo Switch",
         "runners": "Amber, jacob, Pianist15",
         "host": "PlanetGhost",
-        "reminded": false
+        "reminded": true
     },
     {
         "time": "2020-08-19 05:14:00",
-        "length": 65,
+        "length": 57,
         "game": "Splatoon",
         "run": "NG+ \u2014 Wii U",
         "runners": "Kingj0444",
         "host": "PlanetGhost",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 06:29:00",
-        "length": 34,
+        "time": "2020-08-19 06:28:00",
+        "length": 30,
         "game": "Ratchet & Clank: Up Your Arsenal",
         "run": "NG+ No Quit Exploit \u2014 PS3",
         "runners": "Xem",
         "host": "PlanetGhost",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 07:13:00",
-        "length": 40,
+        "time": "2020-08-19 07:21:00",
+        "length": 30,
         "game": "DeadCore",
         "run": "No Major Glitches: Speedrun% \u2014 PC",
         "runners": "imawakka",
         "host": "Prolix",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 08:03:00",
+        "time": "2020-08-19 08:02:00",
         "length": 59,
         "game": "Darksiders Genesis",
         "run": "Any% \u2014 PC",
         "runners": "Sunnymuffin",
         "host": "Prolix",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 09:12:00",
-        "length": 120,
+        "time": "2020-08-19 09:08:00",
+        "length": 107,
         "game": "BioShock Infinite",
         "run": "Any% (HRH-Mod) \u2014 PC",
         "runners": "bloodthunder",
         "host": "Ecdycis",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 11:22:00",
-        "length": 23,
+        "time": "2020-08-19 11:07:00",
+        "length": 15,
         "game": "Gunman Clive",
         "run": "Clive - Easy \u2014 PC",
         "runners": "FCRacer",
         "host": "AnEternalEnigma",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 11:55:00",
-        "length": 12,
+        "time": "2020-08-19 12:10:00",
+        "length": 9,
         "game": "EAT GIRL",
         "run": "Any% \u2014 PC",
         "runners": "touhoe",
         "host": "AnEternalEnigma",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 12:17:00",
-        "length": 30,
+        "time": "2020-08-19 11:32:00",
+        "length": 25,
         "game": "Dogurai",
         "run": "Bones - Any% \u2014 PC",
         "runners": "FelinoAlbino",
         "host": "DoctorBobtastic",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 12:57:00",
-        "length": 42,
+        "time": "2020-08-19 12:31:00",
+        "length": 32,
         "game": "Kemono Heroes",
         "run": "Beat the Game (Normal Difficulty) \u2014 Switch",
         "runners": "GreenZSaber",
         "host": "DoctorBobtastic",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 13:49:00",
-        "length": 7,
+        "time": "2020-08-19 13:13:00",
+        "length": 6,
         "game": "Kousoku Kaitenzushi",
         "run": "All Stages \u2014 PC",
         "runners": "Cisco147",
         "host": "DoctorBobtastic",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 14:06:00",
-        "length": 84,
+        "time": "2020-08-19 13:37:00",
+        "length": 79,
         "game": "Metal Gear: Ghost Babel",
         "run": "Very Hard \u2014 GBC",
         "runners": "plywood",
         "host": "DoctorBobtastic",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 15:40:00",
-        "length": 18,
+        "time": "2020-08-19 15:04:00",
+        "length": 9,
         "game": "Neon Boost",
         "run": "Any%- Lights on, 1.2 \u2014 PC",
         "runners": "kykystas",
         "host": "DoctorBobtastic",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 16:08:00",
-        "length": 19,
+        "time": "2020-08-19 15:32:00",
+        "length": 15,
         "game": "One Step From Eden",
         "run": "Neutral Selicy Seedless Normal \u2014 PC",
         "runners": "Risch",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 16:42:00",
-        "length": 27,
+        "time": "2020-08-19 16:04:00",
+        "length": 23,
         "game": "Virtual Boy Wario Land",
         "run": "Any% \u2014 VB",
         "runners": "swordsmankirby",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 17:19:00",
-        "length": 60,
+        "time": "2020-08-19 16:37:00",
+        "length": 57,
         "game": "Mario & Luigi: Paper Jam",
         "run": "Any% \u2014 3DS",
         "runners": "GigaDB",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 18:39:00",
-        "length": 55,
+        "time": "2020-08-19 17:53:00",
+        "length": 52,
         "game": "The Legend of Zelda: Link's Awakening",
         "run": "Warpless \u2014 GB",
         "runners": "mghtymth",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 19:44:00",
-        "length": 180,
+        "time": "2020-08-19 18:57:00",
+        "length": 173,
         "game": "The Last of Us",
         "run": "Grounded mode, Glitchless, New Game \u2014 PS4",
         "runners": "AnthonyCaliber",
         "host": "marphoria",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-19 23:01:00",
-        "length": 50,
+        "time": "2020-08-19 22:20:00",
+        "length": 44,
         "game": "Freedom Planet",
         "run": "Carol Any% (Classic Mode) \u2014 PC",
         "runners": "Revolucion",
         "host": "Lizstar",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 00:01:00",
-        "length": 25,
+        "time": "2020-08-19 23:28:00",
+        "length": 23,
         "game": "Sonic the Hedgehog",
         "run": "Beat The Game Glitchless \u2014 Genesis",
         "runners": "t0uchan",
         "host": "Lizstar",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 00:36:00",
-        "length": 30,
+        "time": "2020-08-20 00:04:00",
+        "length": 24,
         "game": "Sonic the Hedgehog 2",
         "run": "Sonic - Beat the game \u2014 Genesis",
         "runners": "Joeybaby69",
         "host": "Lizstar",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 01:16:00",
-        "length": 70,
+        "time": "2020-08-20 00:45:00",
+        "length": 63,
         "game": "Sonic 3 & Knuckles",
         "run": "All Emeralds (Sonic) \u2014 Genesis",
         "runners": "TheSoundDefense",
         "host": "LattMackey",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 02:36:00",
-        "length": 60,
+        "time": "2020-08-20 02:09:00",
+        "length": 47,
         "game": "Sonic Heroes",
         "run": "Team Sonic vs Team Chaotix \u2014 Wii",
         "runners": "CriticalCyd",
         "host": "LattMackey",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 03:46:00",
-        "length": 58,
+        "time": "2020-08-20 03:16:00",
+        "length": 52,
         "game": "Bonus Game 3 - Resident Evil 3: Remake (2020)",
         "run": "New Game Standard \u2014 PC",
         "runners": "MikeWave",
         "host": "AnEternalEnigma",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 04:54:00",
-        "length": 90,
+        "time": "2020-08-20 04:35:00",
+        "length": 75,
         "game": "Devil May Cry 4: Special Edition",
         "run": "NG Nero/Dante Devil Hunter \u2014 PC",
         "runners": "Mekarazium",
         "host": "Bobby Blackwolf",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 06:49:00",
-        "length": 10,
+        "time": "2020-08-20 06:30:00",
+        "length": 4,
         "game": "Pacify",
         "run": "2 Player 100% \u2014 PC",
         "runners": "Metro72, YourAverageWhiteChick",
         "host": "LLK",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 07:09:00",
-        "length": 37,
+        "time": "2020-08-20 06:48:00",
+        "length": 29,
         "game": "Night Trap",
         "run": "Best Ending \u2014 PS4",
         "runners": "Ecdycis",
         "host": "LLK",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 07:56:00",
-        "length": 5,
+        "time": "2020-08-20 07:34:00",
+        "length": 3,
         "game": "Pringles: The Video Game",
         "run": "All As \u2014 Genesis",
         "runners": "SecksWrecks",
         "host": "LLK",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 08:11:00",
-        "length": 20,
+        "time": "2020-08-20 07:59:00",
+        "length": 18,
         "game": "Hypnospace Outlaw",
         "run": "Any% (All Cases) \u2014 PC",
         "runners": "Lizstar",
         "host": "LLK",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 08:41:00",
-        "length": 25,
+        "time": "2020-08-20 08:32:00",
+        "length": 22,
         "game": "Saint Hazel's Horsepital",
         "run": "Any% \u2014 PC",
         "runners": "Bullets",
         "host": "LLK",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 09:21:00",
-        "length": 23,
+        "time": "2020-08-20 09:08:00",
+        "length": 18,
         "game": "Ribbit King",
         "run": "All Courses \u2014 Wii",
         "runners": "Dakitteh",
         "host": "Ezmar",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 09:54:00",
-        "length": 27,
+        "time": "2020-08-20 09:34:00",
+        "length": 23,
         "game": "Streets of Fury EX",
         "run": "Any% - Ruby Diamonds \u2014 PC",
         "runners": "SCXCR",
         "host": "Ezmar",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 10:31:00",
-        "length": 20,
+        "time": "2020-08-20 10:05:00",
+        "length": 15,
         "game": "Rocko's Quest",
         "run": "Any% \u2014 PC",
         "runners": "NoseJones",
         "host": "Ezmar",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 11:01:00",
-        "length": 12,
+        "time": "2020-08-20 10:32:00",
+        "length": 9,
         "game": "Homey D. Clown",
         "run": "Any% \u2014 DOS",
         "runners": "corndan",
         "host": "Ezmar",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 11:23:00",
-        "length": 34,
+        "time": "2020-08-20 11:01:00",
+        "length": 29,
         "game": "Little Big Adventure 2",
         "run": "Any% \u2014 PC",
         "runners": "janglestorm",
         "host": "Ezmar",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 12:07:00",
-        "length": 13,
+        "time": "2020-08-20 11:40:00",
+        "length": 6,
         "game": "ALF",
         "run": "Any% \u2014 SMS",
         "runners": "Starbird",
         "host": "hugewitches",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 12:35:00",
-        "length": 25,
+        "time": "2020-08-20 11:58:00",
+        "length": 17,
         "game": "El Matador",
         "run": "Any% \u2014 PC",
         "runners": "catalystz",
         "host": "hugewitches",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 13:10:00",
-        "length": 44,
+        "time": "2020-08-20 12:21:00",
+        "length": 32,
         "game": "Asghan: The Dragon Slayer",
         "run": "Any% \u2014 PC",
         "runners": "havrd",
         "host": "hugewitches",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 14:04:00",
-        "length": 38,
+        "time": "2020-08-20 13:02:00",
+        "length": 24,
         "game": "Baldur's Gate: Enhanced Edition",
         "run": "Legacy of Bhaal% (current patch) \u2014 PC",
         "runners": "SeriouslySurly",
         "host": "hugewitches",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 14:58:00",
-        "length": 25,
+        "time": "2020-08-20 13:51:00",
+        "length": 20,
         "game": "The Simpsons Arcade Game",
         "run": "Any% Normal (JP) \u2014 PS3",
         "runners": "LRock617",
         "host": "Pythonicus",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 15:33:00",
-        "length": 75,
+        "time": "2020-08-20 14:18:00",
+        "length": 68,
         "game": "Billy Hatcher and the Giant Egg",
         "run": "Any% \u2014 Gamecube",
         "runners": "Kyrrone",
         "host": "Pythonicus",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 16:58:00",
-        "length": 40,
+        "time": "2020-08-20 15:34:00",
+        "length": 37,
         "game": "DOOM 64 (2020)",
         "run": "Be Gentle Speed \u2014 PC",
         "runners": "ZELLLOOO",
         "host": "Pythonicus",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 17:39:00",
-        "length": 16,
+        "time": "2020-08-20 16:14:00",
+        "length": 12,
         "game": "DOOM 64 (2020) - Lost Levels",
         "run": "Be Gentle Speed \u2014 PC",
         "runners": "ZELLLOOO",
         "host": "Pythonicus",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 18:05:00",
+        "time": "2020-08-20 16:37:00",
         "length": 32,
         "game": "Star Wars: Jedi Knight - Dark Forces II",
         "run": "Any% \u2014 PC",
         "runners": "Alnak",
         "host": "SamWithoutAPlan",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 18:47:00",
-        "length": 33,
+        "time": "2020-08-20 17:13:00",
+        "length": 20,
         "game": "Blood",
         "run": "Any% One Unit Whole (No Episode Warp) \u2014 PC",
         "runners": "Psych0sis",
         "host": "SamWithoutAPlan",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 19:38:00",
-        "length": 70,
+        "time": "2020-08-20 17:56:00",
+        "length": 68,
         "game": "Doom 3",
         "run": "Any% \u2014 PC",
         "runners": "ripchip_",
         "host": "SamWithoutAPlan",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 20:58:00",
-        "length": 23,
+        "time": "2020-08-20 19:21:26",
+        "length": 20,
         "game": "Warframe",
         "run": "Boss showcase \u2014 PC",
         "runners": "KrusKader",
         "host": "SakuraTsubasa",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 21:39:00",
-        "length": 40,
+        "time": "2020-08-20 19:57:43",
+        "length": 34,
         "game": "Mega Man 9",
         "run": "Any% Race \u2014 Wii",
         "runners": "Slurpeeninja, HJA",
         "host": "SakuraTsubasa",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-20 22:29:00",
-        "length": 130,
+        "time": "2020-08-20 20:52:22",
+        "length": 112,
         "game": "Yakuza Kiwami 2",
         "run": "Any% \u2014 PC",
         "runners": "Froob",
         "host": "LLK",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 01:07:00",
-        "length": 180,
+        "time": "2020-08-20 23:17:11",
+        "length": 181,
         "game": "The Legend of Zelda: Ocarina of Time",
         "run": "Randomizer Co-op \u2014 N64",
         "runners": "Raikaru, WoodenBarrel",
         "host": "musical_daredevil",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 04:17:00",
-        "length": 40,
+        "time": "2020-08-21 02:27:11",
+        "length": 31,
         "game": "Bonus Game 4 - Half-Life: Alyx",
         "run": "Any% No Spin \u2014 PC",
         "runners": "Buffet Time",
         "host": "musical_daredevil",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 05:07:00",
-        "length": 120,
+        "time": "2020-08-21 03:38:00",
+        "length": 90,
         "game": "DOOM Eternal",
         "run": "Any% No Major Glitches (Nightmare Difficulty) \u2014 PC",
         "runners": "BloodShot9001",
         "host": "Mr. Game & Shout",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 07:17:00",
-        "length": 95,
+        "time": "2020-08-21 05:27:00",
+        "length": 87,
         "game": "Call of Duty: Modern Warfare 2",
         "run": "Any% \u2014 PC",
         "runners": "Klooger",
         "host": "PlanetGhost",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 09:02:00",
-        "length": 30,
+        "time": "2020-08-21 07:00:00",
+        "length": 24,
         "game": "We Happy Few",
         "run": "We All Fall Down \u2014 PC",
         "runners": "DemonicRobots",
         "host": "PlanetGhost",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 09:42:00",
-        "length": 25,
+        "time": "2020-08-21 07:38:00",
+        "length": 24,
         "game": "Miami Vice",
         "run": "Any% \u2014 PC",
         "runners": "KZ_FREW",
         "host": "ButteredN00dles",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 10:17:00",
-        "length": 34,
+        "time": "2020-08-21 08:10:00",
+        "length": 25,
         "game": "Valdis Story: Abyssal City",
         "run": "Any% \u2014 PC",
         "runners": "RiskyCB",
         "host": "ButteredN00dles",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 11:01:00",
-        "length": 51,
+        "time": "2020-08-21 08:47:00",
+        "length": 43,
         "game": "Star Wars: Knights of the Old Republic",
         "run": "Any% \u2014 PC",
         "runners": "ChaosDrifter",
         "host": "Prolix",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 12:02:00",
-        "length": 18,
+        "time": "2020-08-21 09:40:00",
+        "length": 17,
         "game": "Elevator Action Returns",
         "run": "1CC \u2014 Saturn",
         "runners": "The Opponent",
         "host": "Prolix",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 12:30:00",
-        "length": 18,
+        "time": "2020-08-21 10:08:00",
+        "length": 17,
         "game": "Terminator: SkyNET",
         "run": "Any% \u2014 DOS",
         "runners": "tbcr",
         "host": "Prolix",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 12:58:00",
-        "length": 14,
+        "time": "2020-08-21 10:36:00",
+        "length": 15,
         "game": "Hello Neighbor",
         "run": "PC Any% \u2014 PC",
         "runners": "smythe",
         "host": "Prolix",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 13:22:00",
-        "length": 30,
+        "time": "2020-08-21 11:05:00",
+        "length": 25,
         "game": "Quest for Glory I: So You Want To Be A Hero",
         "run": "100% Route Bid War \u2014 PC",
         "runners": "davidtki",
         "host": "Prolix",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 14:04:00",
-        "length": 17,
+        "time": "2020-08-21 11:48:00",
+        "length": 13,
         "game": "Contra ReBirth",
         "run": "Normal \u2014 Wii",
         "runners": "WhiteHat94",
         "host": "Kungfufruitcup",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 14:31:00",
-        "length": 16,
+        "time": "2020-08-21 12:12:00",
+        "length": 13,
         "game": "Puzzle Bobble 2",
         "run": "Puzzle \u2014 Switch",
         "runners": "poshi",
         "host": "Kungfufruitcup",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 14:57:00",
+        "time": "2020-08-21 12:33:00",
         "length": 10,
         "game": "A Short Hike",
         "run": "All Gold Feathers (No S+Q) \u2014 PC",
         "runners": "warm_ham",
         "host": "Kungfufruitcup",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 15:17:00",
-        "length": 27,
+        "time": "2020-08-21 12:52:00",
+        "length": 22,
         "game": "Baba Is You",
         "run": "True Ending \u2014 PC",
         "runners": "Punchy",
         "host": "Kungfufruitcup",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 15:54:00",
-        "length": 42,
+        "time": "2020-08-21 13:24:00",
+        "length": 46,
         "game": "Sly Cooper and the Thievius Raccoonus",
         "run": "Any% \u2014 PS2",
         "runners": "Zenthrow",
         "host": "Kungfufruitcup",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 16:46:00",
-        "length": 30,
+        "time": "2020-08-21 14:27:00",
+        "length": 21,
         "game": "Kingdom Hearts II Final Mix",
         "run": "Lvl 1 Data Organization RTA \u2014 PS4",
         "runners": "CrispyMe",
         "host": "Kungfufruitcup",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 17:43:00",
-        "length": 25,
+        "time": "2020-08-21 15:16:00",
+        "length": 23,
         "game": "Super Hark Bros",
         "run": "100% Race \u2014 SNES",
         "runners": "UghRochester, SuperBen, papanug",
         "host": "Doctor No",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 18:18:00",
-        "length": 80,
+        "time": "2020-08-21 15:54:00",
+        "length": 75,
         "game": "Mario vs. Donkey Kong",
         "run": "Any%+ \u2014 Wii U VC",
         "runners": "ViolinGamer",
         "host": "Doctor No",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 19:58:00",
-        "length": 38,
+        "time": "2020-08-21 17:31:00",
+        "length": 30,
         "game": "Super Monkey Ball 2",
         "run": "Story Mode All Levels \u2014 Wii",
         "runners": "PetresInc",
         "host": "Doctor No",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 20:46:00",
-        "length": 23,
+        "time": "2020-08-21 18:20:00",
+        "length": 21,
         "game": "Super Mario Bros.",
         "run": "Warpless Race \u2014 NES",
         "runners": "SuperSonic71087, Kosmic, GTAce99",
         "host": "Skybilz",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 21:29:00",
-        "length": 45,
+        "time": "2020-08-21 18:53:00",
+        "length": 43,
         "game": "Super Mario Bros.: The Lost Levels",
         "run": "Warpless D-4 (Mario) \u2014 SNES",
         "runners": "SuperSonic71087, Kosmic, Picante, GTAce99",
         "host": "Skybilz",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 22:24:00",
-        "length": 55,
+        "time": "2020-08-21 19:57:00",
+        "length": 44,
         "game": "Horizon Zero Dawn",
         "run": "TFW NG+ Ultra Hard \u2014 PS4",
         "runners": "Elkjaer",
         "host": "iggyzig",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-21 23:39:00",
-        "length": 105,
+        "time": "2020-08-21 21:17:00",
+        "length": 89,
         "game": "Metroid Fusion",
         "run": "1% hard race \u2014 GBA",
         "runners": "HerculesBenchpress, CScottyW",
         "host": "iggyzig",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-22 01:34:00",
-        "length": 100,
+        "time": "2020-08-21 23:12:00",
+        "length": 88,
         "game": "The Legend of Zelda: Breath of the Wild",
         "run": "All Dog Treasures \u2014 Switch",
         "runners": "Limcube",
         "host": "hugewitches",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-22 03:29:00",
-        "length": 140,
+        "time": "2020-08-22 01:07:00",
+        "length": 146,
         "game": "Pok\u00e9mon FireRed/LeafGreen",
         "run": "Any% Glitchless Race \u2014 GBA",
         "runners": "JP_Xinnam, PulseEffect",
         "host": "DoctorBobtastic",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-22 05:59:00",
-        "length": 20,
+        "time": "2020-08-22 03:49:00",
+        "length": 14,
         "game": "Crypt of the NecroDancer: AMPLIFIED",
         "run": "Coda All Zones \u2014 PC",
         "runners": "SpootyBiscuit",
         "host": "marphoria",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-22 06:29:00",
-        "length": 60,
+        "time": "2020-08-22 04:39:00",
+        "length": 63,
         "game": "Bonus Game 5 - Pump It Up!",
         "run": "Showcase \u2014 Arcade Cabinet (PIU LX Model)",
         "runners": "happyf33tz",
         "host": "marphoria",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-22 07:39:00",
-        "length": 440,
+        "time": "2020-08-22 06:04:00",
+        "length": 366,
         "game": "Final Fantasy VII Remake",
         "run": "Any% Normal \u2014 PS4",
         "runners": "Boring_Borin",
         "host": "cartridgeblowers, SakuraTsubasa",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-22 15:09:00",
-        "length": 61,
+        "time": "2020-08-22 12:31:00",
+        "length": 57,
         "game": "Touhou 09.5 - Shoot the Bullet",
         "run": "All Scenes \u2014 PC",
         "runners": "pingval",
         "host": "Baidol",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-22 16:20:00",
-        "length": 50,
+        "time": "2020-08-22 13:37:00",
+        "length": 45,
         "game": "Ketsui: Kizuna Jigoku Tachi",
         "run": "2 Loop (Ura) \u2014 PS4",
         "runners": "Moglar5k",
         "host": "Baidol",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-22 17:20:00",
-        "length": 35,
+        "time": "2020-08-22 14:40:00",
+        "length": 29,
         "game": "DoDonPachi Saidaioujou",
         "run": "High Score Showcase \u2014 Xbox 360",
         "runners": "kayar*",
         "host": "Brutal_Melo",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-22 18:05:00",
-        "length": 80,
+        "time": "2020-08-22 15:40:00",
+        "length": 76,
         "game": "Super Metroid",
         "run": "100% \u2014 SNES",
         "runners": "ShinyZeni",
         "host": "Brutal_Melo",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-22 19:35:00",
-        "length": 148,
+        "time": "2020-08-22 17:19:00",
+        "length": 139,
         "game": "Grand Theft Auto: Vice City",
         "run": "All Missions \u2014 PC",
         "runners": "KZ_FREW",
         "host": "Doctor No",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-22 22:13:00",
-        "length": 12,
+        "time": "2020-08-22 20:00:00",
+        "length": 8,
         "game": "Super Smash Bros. 64",
         "run": "Break the Target, All Characters Blindfolded \u2014 N64",
         "runners": "Bubzia",
         "host": "Squint",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-22 22:35:00",
-        "length": 15,
+        "time": "2020-08-22 20:28:00",
+        "length": 7,
         "game": "TASBot plays Super Mario 64 Shindou",
         "run": "Any% BLJless by MKDasher, dar gos, Snark, & more \u2014 N64",
         "runners": "dwangoAC, TASBot, taters",
         "host": "Squint",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-22 23:00:00",
-        "length": 77,
+        "time": "2020-08-22 20:51:00",
+        "length": 74,
         "game": "Super Mario Odyssey",
         "run": "World Peace \u2014 Switch",
         "runners": "Dangers",
         "host": "Squint",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-23 00:27:00",
-        "length": 90,
+        "time": "2020-08-22 22:25:00",
+        "length": 77,
         "game": "Bloodborne",
         "run": "All Bosses \u2014 PS4",
         "runners": "Ahady",
         "host": "French Toast",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-23 02:07:00",
-        "length": 65,
+        "time": "2020-08-23 00:22:00",
+        "length": 41,
         "game": "Bonus Game 6 - Minecraft",
         "run": "Any% Random Seed Glitchless (1.7) \u2014 PC",
         "runners": "Illumina",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
-        "time": "2020-08-23 03:22:00",
+        "time": "2020-08-23 01:47:00",
         "length": 325,
         "game": "Pok\u00e9mon Shield",
         "run": "Any% (Shield) \u2014 Switch",
         "runners": "eddaket",
         "host": "Nichole Goodnight, YoBGS",
+        "reminded": true
+    },
+    {
+        "time": "2020-08-23 07:22:00",
+        "length": 10,
+        "game": "Finale",
+        "run": "",
+        "runners": "Tech Crew",
+        "host": "",
         "reminded": false
     }
 ]
