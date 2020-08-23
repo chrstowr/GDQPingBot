@@ -52,17 +52,19 @@ class DataHandler:
 
         schedule_embed = discord.Embed(title="GAMES DONE QUICK 2020 - Coming up",
                                        url="https://gamesdonequick.com/schedule",
-                                       description=" Please click title for full schedule", color=0x466e9c)
+                                       description="--Please click title for full schedule\n", color=0x466e9c)
         schedule_embed.set_thumbnail(url="https://gamesdonequick.com/static/res/img/gdqlogo.png")
+        schedule_embed.set_footer(text='*Speedrun start times are subject to change*')
 
         for run in self.schedule:
             run_time = self.strtodatetime(run["time"])
             reminder_time = run_time - timedelta(minutes=5)
             end_time = run_time + timedelta(minutes=run["length"])
-            print(f'{datetime.utcnow()} <= {reminder_time}')
-            if (datetime.utcnow() < reminder_time or (reminder_time < datetime.utcnow() < end_time)) and limit_tracker <= limit:
-                print('Match')
-                print(run["game"])
+            # print(f'{datetime.utcnow()} <= {reminder_time}')
+            if (datetime.utcnow() < reminder_time or (
+                    reminder_time < datetime.utcnow() < end_time)) and limit_tracker <= limit:
+                # print('Match')
+                # print(run["game"])
                 if limit_tracker == 1:
                     if datetime.utcnow() > run_time:
                         schedule_embed.add_field(
@@ -131,6 +133,9 @@ class DataHandler:
 
     @staticmethod
     def strtodatetime(datetime_str):
+        if isinstance(datetime_str, datetime):
+            datetime_str = datetime_str.strftime("%Y-%m-%d %H:%M:%S")
+
         return datetime.strptime(datetime_str, "%Y-%m-%d %H:%M:%S")
 
     @staticmethod
@@ -163,12 +168,19 @@ class DataHandler:
             return False
 
     async def save_schedule(self):
+
+        def json_filter(o):
+            if isinstance(o, datetime):
+                return o.strftime("%Y-%m-%d %H:%M:%S")
+            else:
+                return o
+
         try:
             directory = os.path.dirname(__file__)
             file = os.path.join(directory, 'gdq2020schedule.json')
             data_file = Path(file)
             with open(data_file, 'w') as f:
-                f.write(json.dumps(self.schedule, indent=4))
+                f.write(json.dumps(self.schedule, indent=4, default=json_filter))
                 f.close()
                 return True
         except JSONDecodeError as e:
@@ -205,7 +217,8 @@ class DataHandler:
             print(f'{JSONDecodeError}: {e}')
             return None
 
-    def save_refresh_datetime(self, new_dt):
+    @staticmethod
+    def save_refresh_datetime(new_dt):
 
         def datetime_format(o):
             if isinstance(o, datetime):
@@ -236,12 +249,6 @@ class DataHandler:
         t_body = table.find('tbody')
         rows = t_body.find_all('tr')
 
-        '''
-        for row in rows:
-            cols = row.find_all('td')
-            cols = [ele.text.strip() for ele in cols]
-            data.append([ele for ele in cols if ele])  # Get rid of empty values
-        '''
         row_pointer = 0
         num_of_rows = len(rows)
         while row_pointer < num_of_rows:
@@ -285,6 +292,20 @@ class DataHandler:
                     "reminded": False
                 }
                 master_schedule.append(run_dict)
+            elif len(run) == 4:
+                time = datetime.strptime(run[0], "%Y-%m-%dT%H:%M:%SZ")
+                length_text = run[3].split(':')
+                length = (int(length_text[0]) * 60) + int(length_text[1])
+                run_dict = {
+                    "time": time,
+                    "length": length,
+                    "game": run[1],
+                    "run": "",
+                    "runners": run[2],
+                    "host": "",
+                    "reminded": False
+                }
+                master_schedule.append(run_dict)
 
         def json_filter(o):
             if isinstance(o, datetime):
@@ -303,11 +324,18 @@ class DataHandler:
             print(f'{JSONDecodeError}: {e}')
 
         # Cross check with schedule in memory
+        time_updates = 0
         for run in master_schedule:
-            match = discord.utils.find(lambda r: r["game"] is run["game"], self.schedule)
+            match = discord.utils.find(lambda r: r["game"] == run["game"], self.schedule)
             if match is not None:
+
+                if match["time"] != run["time"]:
+                    time_updates = time_updates + 1
+
                 match["length"] = run["length"]
                 match["time"] = run["time"]
+
+        return f'Total updates: {time_updates} '
 
     '''
 
