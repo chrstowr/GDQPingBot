@@ -16,13 +16,6 @@ class DataHandler:
         self.ping_role_name = "GDQping"
         self.delay = 0
 
-    def user_exists(self, user):
-        id_str = str(user.id)
-        if id_str in self.user_list:
-            return True
-        else:
-            return False
-
     async def add_user(self, user, ctx):
         role = discord.utils.get(ctx.guild.roles, name=self.ping_role_name)
         member = discord.utils.get(ctx.guild.members, id=user.id)
@@ -89,47 +82,6 @@ class DataHandler:
                 limit_tracker = limit_tracker + 1
 
         await ctx.send(content="https://www.twitch.tv/gamesdonequick", embed=schedule_embed)
-
-    '''
-    async def get_schedule_2(self, ctx):
-        limit = 4
-
-        # Prevent out of bounds error
-        if len(self.schedule) < 4:
-            limit = len(self.schedule)
-
-        schedule_embed = discord.Embed(title="GAMES DONE QUICK 2020 - Coming up",
-                                       url="https://gamesdonequick.com/schedule",
-                                       description=" Please click title for full schedule", color=0x466e9c)
-        schedule_embed.set_thumbnail(url="https://gamesdonequick.com/static/res/img/gdqlogo.png")
-        now = datetime.utcnow()
-        run_datetime = self.strtodatetime(self.schedule[0]["time"])
-        if now > run_datetime:
-            schedule_embed.add_field(name=f'Playing now: {self.schedule[0]["game"]} ({self.schedule[0]["run"]})',
-                                     value=f'By: {self.schedule[0]["runners"]} | '
-                                           f'Estimated length: {self.explodeminutes(self.schedule[0]["length"])}',
-                                     inline=False)
-        else:
-            time_remaining = self.diffdates(now, run_datetime)
-            schedule_embed.add_field(
-                name=f'{self.schedule[0]["game"]} ({self.schedule[0]["run"]}) in {time_remaining}',
-                value=f'By: {self.schedule[0]["runners"]} | '
-                      f'Estimated length: {self.explodeminutes(self.schedule[0]["length"])}',
-                inline=False)
-
-        run_pointer = 1
-        while run_pointer <= (limit - 1):
-            run_datetime = self.strtodatetime(self.schedule[run_pointer]["time"])
-            time_remaining = self.diffdates(now, run_datetime)
-            schedule_embed.add_field(
-                name=f'{self.schedule[run_pointer]["game"]} ({self.schedule[run_pointer]["run"]}) in {time_remaining}',
-                value=f'By: {self.schedule[run_pointer]["runners"]} | '
-                      f'Estimated length: {self.explodeminutes(self.schedule[run_pointer]["length"])}',
-                inline=False)
-
-            run_pointer = run_pointer + 1
-        await ctx.send(content="https://www.twitch.tv/gamesdonequick", embed=schedule_embed)
-    '''
 
     @staticmethod
     def strtodatetime(datetime_str):
@@ -336,33 +288,3 @@ class DataHandler:
                 match["time"] = run["time"]
 
         return f'Total updates: {time_updates} '
-
-    '''
-
-       async def load_from_file(self):
-           try:
-               directory = os.path.dirname(__file__)
-               file = os.path.join(directory, 'data.json')
-               session_data_file = Path(file)
-               with open(session_data_file, 'r') as f:
-                   data = json.load(f)
-                   f.close()
-                   self.user_list = data
-                   return True
-           except JSONDecodeError as e:
-               print(f'{JSONDecodeError}: {e}')
-               return False
-
-            async def save_to_file(self):
-        try:
-            directory = os.path.dirname(__file__)
-            file = os.path.join(directory, 'data.json')
-            data_file = Path(file)
-            with open(data_file, 'w') as f:
-                f.write(json.dumps(self.user_list, indent=4))
-                f.close()
-                return True
-        except JSONDecodeError as e:
-            print(f'{JSONDecodeError}: {e}')
-            return False
-       '''

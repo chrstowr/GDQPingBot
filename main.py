@@ -22,18 +22,17 @@ data_handler = DataHandler()
 
 async def schedule_check_clock():
     while True:
-        load_occured = False
         # Refresh schedule every 10 minutes
         refresh_datetime = await data_handler.get_refresh_datetime()
         if datetime.utcnow() > refresh_datetime:
-            data_handler.reload_schedule()
+            num_of_updates = data_handler.reload_schedule()
             new_refresh_datetime = datetime.utcnow() + timedelta(minutes=10)
             data_handler.save_refresh_datetime(new_refresh_datetime)
-            await data_handler.load_schedule()
-            print(f"Schedule refresh complete - {datetime.utcnow()}")
+            await data_handler.save_schedule()
+            print(f"Schedule refresh complete - {datetime.utcnow()} | {num_of_updates}")
 
         for run in data_handler.schedule:
-            run_datetime = (data_handler.strtodatetime(run["time"]))
+            run_datetime = (data_handler.strtodatetime(run["time"])) - timedelta(minutes=5)
             end_of_run = (run_datetime + timedelta(minutes=run["length"]))
             if run_datetime < datetime.utcnow() < end_of_run and run["reminded"] is False:
                 # ping squad
