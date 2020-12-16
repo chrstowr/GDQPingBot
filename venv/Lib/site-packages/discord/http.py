@@ -33,7 +33,7 @@ import weakref
 
 import aiohttp
 
-from .errors import HTTPException, Forbidden, NotFound, LoginFailure, GatewayNotFound
+from .errors import HTTPException, Forbidden, NotFound, LoginFailure, DiscordServerError, GatewayNotFound
 from .gateway import DiscordClientWebSocketResponse
 from . import __version__, utils
 
@@ -252,6 +252,9 @@ class HTTPClient:
                     raise
 
             # We've run out of retries, raise.
+            if r.status >= 500:
+                raise DiscordServerError(r, data)
+
             raise HTTPException(r, data)
 
     async def get_from_cdn(self, url):
@@ -494,7 +497,7 @@ class HTTPClient:
     def ban(self, user_id, guild_id, delete_message_days=1, reason=None):
         r = Route('PUT', '/guilds/{guild_id}/bans/{user_id}', guild_id=guild_id, user_id=user_id)
         params = {
-            'delete-message-days': delete_message_days,
+            'delete_message_days': delete_message_days,
         }
 
         if reason:
@@ -659,7 +662,7 @@ class HTTPClient:
 
     def get_template(self, code):
         return self.request(Route('GET', '/guilds/templates/{code}', code=code))
-    
+
     def create_from_template(self, code, name, region, icon):
         payload = {
             'name': name,
@@ -807,7 +810,7 @@ class HTTPClient:
         params = {
             'with_counts': int(with_counts)
         }
-        return self.request(Route('GET', '/invite/{invite_id}', invite_id=invite_id), params=params)
+        return self.request(Route('GET', '/invites/{invite_id}', invite_id=invite_id), params=params)
 
     def invites_from(self, guild_id):
         return self.request(Route('GET', '/guilds/{guild_id}/invites', guild_id=guild_id))
@@ -816,7 +819,7 @@ class HTTPClient:
         return self.request(Route('GET', '/channels/{channel_id}/invites', channel_id=channel_id))
 
     def delete_invite(self, invite_id, *, reason=None):
-        return self.request(Route('DELETE', '/invite/{invite_id}', invite_id=invite_id), reason=reason)
+        return self.request(Route('DELETE', '/invites/{invite_id}', invite_id=invite_id), reason=reason)
 
     # Role management
 

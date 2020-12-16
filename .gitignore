@@ -1,6 +1,5 @@
 .env
-channels.json
+data/channels.json
 delay.json
-gdq2020schedule.json
-schedule-bak.json
-schedule_refresh.json
+data/gdq2020schedule.json
+data/schedule_refresh.json

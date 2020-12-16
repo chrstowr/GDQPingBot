@@ -1,0 +1,620 @@
+from ScheduleServices import ScheduleServices
+import os
+import json
+import urllib.request
+import re
+import discord
+import math
+from pathlib import Path
+from json import JSONDecodeError
+from datetime import datetime, timedelta
+from bs4 import BeautifulSoup
+
+
+class Schedule:
+    def __init__(self, database_ref):
+        self.data = list()
+        self.delay = 0
+        self.database = database_ref
+        self.service = ScheduleServices()
+        self.multi_page_schedule_sessions = dict()
+        self.multi_page_schedule_cleanup_next_runtime = datetime.utcnow() + timedelta(seconds=10)
+
+        self.accepted_filter_options = ['name', 'runner', 'host']
+
+    async def raw_data(self):
+        return self.data
+
+    # Helper for get()
+    async def __apply_filter(self, args, data_iterator):
+        error = False
+        error_text = ""
+        for option in self.accepted_filter_options:
+            if option in args:
+                option_index = args.index(option)
+                try:
+                    search_term = args[option_index + 1]
+                    new_data_iterator = [d for d in data_iterator if self.__iterator_item_matches(d, search_term)]
+                    return new_data_iterator, error, error_text, search_term
+                except IndexError:
+                    error_text = f'Value for\'{option}\' is missing. ' \
+                                 f'Proper format: [name, runner, host] \"[search value]\"'
+                    error = True
+        return data_iterator, error, error_text, None
+
+    async def get(self, ctx, filter_schedule=False, args=None):
+        limit = 4
+        limit_tracker = 1
+        data_iterator = self.data
+        filter_applied = ""
+
+        # Apply Filters if needed
+        if filter_schedule is True:
+            if any(o in args for o in self.accepted_filter_options):
+                result_iterator, error, error_text, filter_applied = await self.__apply_filter(args, data_iterator)
+                if error is False:
+                    data_iterator = result_iterator
+                else:
+                    await ctx.send(f'Error: {error_text}')
+                    return
+            else:
+                filter_schedule = False
+
+        # # Prevent out of bounds error
+        # if len(data_iterator) < 4:
+        #     limit = len(data_iterator)
+
+        title_desc = "Here are the upcoming games: \n"
+        if filter_schedule is True:
+            curr_page = 1
+            # f"{round(len(data_iterator) / limit)} | {len(data_iterator) / limit}")
+            max_page = math.ceil(len(data_iterator) / limit)
+            title_desc = f"Here are the results for \"{filter_applied}\" - Page {curr_page}/{max_page}\n"
+        schedule_embed = discord.Embed(title="GAMES DONE QUICK 2020 - Click me for full schedule",
+                                       url="https://gamesdonequick.com/schedule",
+                                       description=title_desc, color=0x466e9c)
+        schedule_embed.set_thumbnail(url="https://gamesdonequick.com/static/res/img/gdqlogo.png")
+
+        if filter_schedule is True:
+            if len(data_iterator) > limit:
+                schedule_embed.set_footer(
+                    text=f'*Speedrun start times are subject to change* | {len(data_iterator)} result(s) found | '
+                         f'Results 1-4 out of {len(data_iterator)} \n| Session Expires in 60s')
+            else:
+                schedule_embed.set_footer(
+                    text=f'*Speedrun start times are subject to change* | {len(data_iterator)} result(s) found')
+        else:
+            schedule_embed.set_footer(text='*Speedrun start times are subject to change*')
+
+        for run in data_iterator:
+            run_time = self.service.strtodatetime(run["time"])
+            reminder_time = run_time - timedelta(minutes=5)
+            end_time = run_time + timedelta(minutes=run["length"])
+
+            before_reminder_time = datetime.utcnow() < reminder_time
+            between_reminder_time_and_end_of_run = reminder_time < datetime.utcnow() < end_time
+            if (before_reminder_time or between_reminder_time_and_end_of_run) and limit_tracker <= limit:
+                if limit_tracker == 1 and datetime.utcnow() > run_time:
+                    schedule_embed.add_field(
+                        name=f'Playing now: {run["game"]} ({run["run"]})',
+                        value=f'By: {run["runners"]} | '
+                              f'Estimated length: {self.service.explode_minutes(run["length"])}\n',
+                        inline=False)
+                else:
+                    hours, minutes, seconds = self.service.diff_dates(datetime.utcnow(), run_time)
+                    schedule_embed.add_field(
+                        name=f'{run["run_id"]}--{run["game"]} ({run["run"]}) in {hours + minutes + seconds}',
+                        value=f'By: {run["runners"]} | '
+                              f'Estimated length: {self.service.explode_minutes(run["length"])}',
+                        inline=False)
+                limit_tracker = limit_tracker + 1
+
+        while limit_tracker <= limit:
+            self.__add_empty_embed_line(schedule_embed)
+            limit_tracker = limit_tracker + 1
+
+        if len(data_iterator) == 0 and filter_schedule is True:
+            schedule_embed.add_field(
+                name=f'No results found for \"{filter_applied}\"',
+                value="Please let the developer know if this is a mistake and check the official schedule.",
+                inline=False)
+
+        message_context = await ctx.send(content="https://www.twitch.tv/gamesdonequick", embed=schedule_embed)
+
+        if len(data_iterator) > limit and filter_schedule is True:
+            g_id = str(message_context.guild.id)
+            m_id = str(message_context.id)
+
+            if g_id not in self.multi_page_schedule_sessions:
+                self.multi_page_schedule_sessions[g_id] = dict()
+
+            self.multi_page_schedule_sessions[g_id][m_id] = MultiPageScheduleModel(message_context, data_iterator,
+                                                                                   filter_applied, limit, self.service)
+            await self.multi_page_schedule_sessions[g_id][m_id].add_controls()
+
+    # main() reaction listener
+    async def multi_page_schedule_reaction_listener(self, reaction, user):
+        m_id = str(reaction.message.id)
+        g_id = str(reaction.message.guild.id)
+        session = self.multi_page_schedule_sessions[g_id][m_id]
+
+        if reaction.emoji == "⬆":
+            await session.prev_page(reaction, user)
+        elif reaction.emoji == "⬇":
+            await session.next_page(reaction, user)
+        else:
+            await reaction.remove(user)
+
+    async def is_multi_page_session(self, reaction):
+        m_id = str(reaction.message.id)
+        g_id = str(reaction.message.guild.id)
+
+        if g_id in self.multi_page_schedule_sessions and m_id in self.multi_page_schedule_sessions[g_id]:
+            return True
+        else:
+            return False
+
+    # Looping service
+    async def schedule_update_service(self, schedule_refresh_rate=5):
+        print(f'Syncing local schedule with online schedule: {datetime.utcnow()}')
+        # Sync local schedule with latest schedule
+        await self.dev_sync()
+        new_refresh_datetime = datetime.utcnow() + timedelta(minutes=schedule_refresh_rate)
+        self.service.save_refresh_datetime(new_refresh_datetime)
+
+    async def is_time_to_run_schedule_sync_service(self):
+        refresh_datetime = await self.service.get_refresh_datetime()
+        if datetime.utcnow() > refresh_datetime:
+            return True
+        else:
+            return False
+
+    async def is_time_to_run_cleanup_service(self):
+        past_runtime = datetime.utcnow() > self.multi_page_schedule_cleanup_next_runtime
+        if past_runtime and len(self.multi_page_schedule_sessions):
+            return True
+        else:
+            return False
+
+    async def __next_runtime(self):
+        self.multi_page_schedule_cleanup_next_runtime = datetime.utcnow() + timedelta(seconds=10)
+
+    # Looping service
+    async def multi_page_schedule_cleanup_service(self):
+        if len(self.multi_page_schedule_sessions) > 0:
+            cleaned_up_session = 0
+            sessions_to_del = list()
+
+            # Find expired sessions
+            for guild in self.multi_page_schedule_sessions:
+                for message in self.multi_page_schedule_sessions[guild]:
+                    session = self.multi_page_schedule_sessions[guild][message]
+                    if session.is_expired():
+                        await session.remove_controls()
+                        sessions_to_del.append([guild, message])
+                        cleaned_up_session = cleaned_up_session + 1
+
+            # Delete expired sessions
+            for session in sessions_to_del:
+                del self.multi_page_schedule_sessions[session[0]][session[1]]
+
+            await self.__next_runtime()
+
+            # Update all sessions
+            for guild in self.multi_page_schedule_sessions:
+                for message in self.multi_page_schedule_sessions[guild]:
+                    session = self.multi_page_schedule_sessions[guild][message]
+                    await session.update()
+
+    async def get_run_from_id(self, req_id):
+        found_run = [r for r in self.data if r['run_id'] == req_id][0]
+
+        if found_run is not None and found_run["reminded"] is not True:
+            return found_run
+        else:
+            return None
+
+    async def load(self):
+        # self.data = await self.database.load_schedule()
+        await self.__load_from_file()
+        if len(self.data) > 0:
+            return True, len(self.data)
+        else:
+            return False, 0
+
+    async def save(self):
+
+        def json_filter(o):
+            if isinstance(o, datetime):
+                return o.strftime("%Y-%m-%d %H:%M:%S")
+            else:
+                return o
+
+        try:
+            directory = os.path.dirname(__file__)
+            file = os.path.join(directory, 'data/schedule_data.json')
+            data_file = Path(file)
+            with open(data_file, 'w') as f:
+                f.write(json.dumps(self.data, indent=4, default=json_filter))
+                f.close()
+                return True
+        except JSONDecodeError as e:
+            print(f'{JSONDecodeError}: {e}')
+            return False
+
+    async def dev_sync(self):
+        new_schedule = None
+        try:
+            directory = os.path.dirname(__file__)
+            file = os.path.join(directory, 'data/gdq2020schedule.json')
+            session_data_file = Path(file)
+            with open(session_data_file, 'r') as f:
+                data = json.load(f)
+                f.close()
+                new_schedule = data
+        except JSONDecodeError as e:
+            print(f'{JSONDecodeError}: {e}')
+
+        runs_to_update = list()
+        for run in new_schedule:
+            match = discord.utils.find(lambda r: r["run_id"] == run["run_id"], self.data)
+            if match is not None:
+                if match["time"] != run["time"] or match["length"] != run["length"]:
+                    match["length"] = run["length"]
+                    match["time"] = run["time"]
+
+                    runs_to_update.append(run)
+
+        await self.__save_to_file()
+        # await self.database.update_schedule_time_length(runs_to_update)
+
+        return f'Total updates: {len(runs_to_update)} '
+
+    async def sync(self):
+        url = "https://gamesdonequick.com/schedule"
+        req = urllib.request.Request(url, headers={'User-Agent': "Magic Browser"})
+        con = urllib.request.urlopen(req)
+        soup = BeautifulSoup(con, 'html.parser')
+
+        data = []
+        table = soup.find('table')
+        t_body = table.find('tbody')
+        rows = t_body.find_all('tr')
+
+        row_pointer = 0
+        num_of_rows = len(rows)
+        while row_pointer < num_of_rows:
+            run_data = list()
+            if row_pointer < num_of_rows - 1:
+                cols = rows[row_pointer].find_all('td')
+                cols = [ele.text.strip() for ele in cols]
+                # run_data.append([ele for ele in cols if ele])  # Get rid of empty values
+                for ele in cols:
+                    if ele:
+                        run_data.append(ele)
+            row_pointer = row_pointer + 1
+            if row_pointer < num_of_rows - 1:
+                cols = rows[row_pointer].find_all('td')
+                cols = [ele.text.strip() for ele in cols]
+                # run_data.append([ele for ele in cols if ele])  # Get rid of empty values
+                for ele in cols:
+                    if ele:
+                        run_data.append(ele)
+            row_pointer = row_pointer + 1
+
+            data.append(run_data)
+
+        # Format data
+        # 4 - length
+        master_schedule = list()
+        run_id = 1
+        for run in data:
+            if len(run) == 7:
+                time = datetime.strptime(run[0], "%Y-%m-%dT%H:%M:%SZ")
+                length_text = run[4].split(':')
+                length = (int(length_text[0]) * 60) + int(length_text[1])
+
+                run_dict = {
+                    "run_id": run_id,
+                    "time": time,
+                    "length": length,
+                    "game": run[1],
+                    "run": run[5],
+                    "runners": run[2],
+                    "host": run[6],
+                    "reminded": False
+                }
+                master_schedule.append(run_dict)
+            elif len(run) == 4:
+                time = datetime.strptime(run[0], "%Y-%m-%dT%H:%M:%SZ")
+                length_text = run[3].split(':')
+                length = (int(length_text[0]) * 60) + int(length_text[1])
+                run_dict = {
+                    "run_id": run_id,
+                    "time": time,
+                    "length": length,
+                    "game": run[1],
+                    "run": "",
+                    "runners": run[2],
+                    "host": "",
+                    "reminded": False
+                }
+                master_schedule.append(run_dict)
+            run_id = run_id + 1
+
+        # Cross check with schedule in memory
+        time_updates = 0
+        runs_to_update = list()
+        for run in master_schedule:
+            match = discord.utils.find(lambda r: r["game"] == run["game"], self.data)
+            if match is not None:
+
+                if match["time"] != run["time"] or match["length"] != run["length"]:
+                    time_updates = time_updates + 1
+
+                    match["length"] = run["length"]
+                    match["time"] = run["time"]
+
+                    runs_to_update.append(run)
+
+        # await self.database.update_schedule(runs_to_update)
+
+        return f'Total updates: {time_updates} '
+
+    async def __save_to_file(self):
+        def json_filter(o):
+            if isinstance(o, datetime):
+                return o.strftime("%Y-%m-%d %H:%M:%S")
+            else:
+                return o
+
+        try:
+            directory = os.path.dirname(__file__)
+            file = os.path.join(directory, 'data/schedule_data.json')
+            data_file = Path(file)
+            with open(data_file, 'w') as f:
+                f.write(json.dumps(self.data, indent=4, default=json_filter))
+                f.close()
+                return True
+        except JSONDecodeError as e:
+            print(f'{JSONDecodeError}: {e}')
+            now = datetime.utcnow()
+            date_string = now.strftime("%m_%d_%Y_%H_%M_%S")
+            directory = os.path.dirname(__file__)
+            file = os.path.join(directory, f'data/schedule_dump_{date_string}.txt')
+            data_file = Path(file)
+            with open(data_file, 'w') as f:
+                print(self.data, file=f)
+                print(f'Error saving file, dumped to /schedule_dump_{date_string}.txt')
+                f.close()
+            return False
+
+    async def __load_from_file(self):
+        try:
+            directory = os.path.dirname(__file__)
+            file = os.path.join(directory, 'data/schedule_data.json')
+            session_data_file = Path(file)
+            with open(session_data_file, 'r') as f:
+                data = json.load(f)
+                f.close()
+                self.data = data
+        except JSONDecodeError as e:
+            print(f'{JSONDecodeError}: {e}')
+
+    # Helper for get()
+    @staticmethod
+    def __add_empty_embed_line(schedule_embed):
+        schedule_embed.add_field(name='\u200b\n\u200b', value='\u200b', inline=False)
+
+    # Helper for get()
+    @staticmethod
+    def __iterator_item_matches(item, search_term):
+        r = re.search("\\b" + search_term.lower() + "\\b", item['game'].lower())
+        if r is None:
+            return False
+        else:
+            return True
+
+    # DEV FUNCTIONS
+    # -----------------------------------------------------------------------------------------------
+
+    async def generate_fake_schedule(self, new_date="2020-12-16 16:30:00"):
+
+        try:
+            datetime.strptime(new_date, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            print("Incorrect data format, should be %Y-%m-%d %H:%M:%S")
+            return False, "Incorrect data format, should be %Y-%m-%d %H:%M:%S"
+
+        new_fake_schedule = None
+        try:
+            directory = os.path.dirname(__file__)
+            file = os.path.join(directory, 'data/schedule_backup.json')
+            session_data_file = Path(file)
+            with open(session_data_file, 'r') as f:
+                new_fake_schedule = json.load(f)
+                # convert datetime strings to objects
+                for item in new_fake_schedule:
+                    item["time"] = self.service.strtodatetime(item["time"])
+                f.close()
+        except JSONDecodeError as e:
+            print(f'{JSONDecodeError}: {e}')
+
+        schedule_timedeltas = list()
+        prev_time = None
+        for item in new_fake_schedule:
+            if item['run_id'] == 1:
+                prev_time = item['time']
+            else:
+                time_delta = item['time'] - prev_time
+                schedule_timedeltas.append(time_delta)
+                prev_time = item['time']
+
+        print(f'{len(schedule_timedeltas)} deltas\n{schedule_timedeltas}')
+
+        # Iterate through fake schedule, set new start datetime on first run, then iterate it
+        #  using previously generated timedelta list
+        prev_time = None
+        delta_list_index = 0
+        for item in new_fake_schedule:
+            if item['run_id'] == 1:
+                new_start_date = self.service.strtodatetime(new_date)
+                item['time'] = new_start_date
+                prev_time = item['time']
+            else:
+                item['time'] = prev_time + schedule_timedeltas[delta_list_index]
+                prev_time = item['time']
+                delta_list_index = delta_list_index + 1
+
+        def json_filter(o):
+            if isinstance(o, datetime):
+                return o.strftime("%Y-%m-%d %H:%M:%S")
+            else:
+                return o
+
+        try:
+            directory = os.path.dirname(__file__)
+            file = os.path.join(directory, 'data/gdq2020schedule.json')
+            data_file = Path(file)
+            with open(data_file, 'w') as f:
+                f.write(json.dumps(new_fake_schedule, indent=4, default=json_filter))
+                f.close()
+                return True, f"New schedule generation success! New start datetime: {new_date}"
+        except JSONDecodeError as e:
+            print(f'{JSONDecodeError}: {e}')
+            now = datetime.utcnow()
+            date_string = now.strftime("%m_%d_%Y_%H_%M_%S")
+            directory = os.path.dirname(__file__)
+            file = os.path.join(directory, f'data/fake_schedule_dump_{date_string}.txt')
+            data_file = Path(file)
+            with open(data_file, 'w') as f:
+                print(new_fake_schedule, file=f)
+                print(f'Error saving file, dumped to /fake_schedule_dump_{date_string}.txt')
+                f.close()
+            return False, "Error saving new schedule due to JSONDecode Error"
+
+    async def delay_schedule(self, hours=0, minutes=0):
+        pass
+
+
+class MultiPageScheduleModel:
+    def __init__(self, ctx, data_iterator, filter_applied, limit, service, expire_seconds=60):
+        # self.guild_id = ctx.guild.id
+        # self.message = ctx.id
+        self.ctx = ctx
+        self.data = data_iterator
+        self.filter_string = filter_applied
+        self.limit = limit
+        self.service = service
+        self.num_of_results = len(data_iterator)
+        self.data_pages = list()
+        self.current_page = 0
+        self.expires = datetime.utcnow() + timedelta(seconds=expire_seconds)
+
+        # Find data subdivisions
+        base_value = 0
+        end_value = limit
+
+        # Create page range list
+        while True:
+            self.data_pages.append([base_value, end_value])
+
+            base_value = base_value + limit
+            end_value = end_value + limit
+
+            if end_value > self.num_of_results:
+                end_value = self.num_of_results
+
+            if base_value > self.num_of_results:
+                break
+
+    async def add_controls(self):
+        # print('adding controls')
+        await self.ctx.add_reaction("⬆")
+        await self.ctx.add_reaction("⬇")
+
+    async def remove_controls(self):
+        message = await self.ctx.channel.fetch_message(self.ctx.id)
+        await message.edit(embed=await self.get_embed())
+        for react in message.reactions:
+            await react.clear()
+
+    async def next_page(self, reaction, user):
+        data_page_max_index = len(self.data_pages) - 1
+        if self.current_page < data_page_max_index:
+            self.current_page = self.current_page + 1
+            schedule_embed = await self.get_embed()
+            await self.ctx.edit(embed=schedule_embed)
+        await reaction.remove(user)
+
+    async def prev_page(self, reaction, user):
+        if self.current_page > 0:
+            self.current_page = self.current_page - 1
+            schedule_embed = await self.get_embed()
+            await self.ctx.edit(embed=schedule_embed)
+        await reaction.remove(user)
+
+    async def update(self):
+        schedule_embed = await self.get_embed()
+        await self.ctx.edit(embed=schedule_embed)
+
+    @staticmethod
+    def __add_empty_embed_line(schedule_embed):
+        schedule_embed.add_field(name='\u200b', value='\u200b', inline=False)
+
+    async def get_embed(self):
+        base_page = self.data_pages[self.current_page][0]
+        final_page = self.data_pages[self.current_page][1]
+        limit_tracker = 1
+        curr_page = self.current_page + 1
+        max_page = len(self.data_pages)
+
+        title_desc = f"Here are the results for \"{self.filter_string}\" - Page {curr_page}/{max_page}\n"
+        schedule_embed = discord.Embed(title="GAMES DONE QUICK 2020 - Click me for full schedule",
+                                       url="https://gamesdonequick.com/schedule",
+                                       description=title_desc, color=0x466e9c)
+        schedule_embed.set_thumbnail(url="https://gamesdonequick.com/static/res/img/gdqlogo.png")
+        if not self.is_expired():
+            hours, minutes, seconds = self.service.diff_dates(datetime.utcnow(), self.expires)
+            expire_text = f'Session Expires in {seconds}'
+        else:
+            expire_text = f' Session EXPIRED'
+
+        schedule_embed.set_footer(
+            text=f'*Speedrun start times are subject to change* | {len(self.data)} result(s) found | '
+                 f'Results {base_page + 1} - {final_page} out of {len(self.data)}\n | {expire_text}')
+
+        for run in self.data[base_page:final_page]:
+            run_time = self.service.strtodatetime(run["time"])
+            reminder_time = run_time - timedelta(minutes=5)
+            end_time = run_time + timedelta(minutes=run["length"])
+
+            before_reminder_time = datetime.utcnow() < reminder_time
+            between_reminder_time_and_end_of_run = reminder_time < datetime.utcnow() < end_time
+            if (before_reminder_time or between_reminder_time_and_end_of_run) and limit_tracker <= self.limit:
+                if limit_tracker == 1 and datetime.utcnow() > run_time:
+                    schedule_embed.add_field(
+                        name=f'Playing now: {run["game"]} ({run["run"]})',
+                        value=f'By: {run["runners"]} | '
+                              f'Estimated length: {self.service.explode_minutes(run["length"])}\n',
+                        inline=False)
+                else:
+                    hours, minutes, seconds = self.service.diff_dates(datetime.utcnow(), run_time)
+                    schedule_embed.add_field(
+                        name=f'{run["run_id"]}--{run["game"]} ({run["run"]}) in {hours + minutes + seconds}',
+                        value=f'By: {run["runners"]} | '
+                              f'Estimated length: {self.service.explode_minutes(run["length"])}',
+                        inline=False)
+                limit_tracker = limit_tracker + 1
+
+        while limit_tracker <= self.limit:
+            self.__add_empty_embed_line(schedule_embed)
+            limit_tracker = limit_tracker + 1
+
+        return schedule_embed
+
+    def is_expired(self):
+        if datetime.utcnow() > self.expires:
+            return True
+        else:
+            return False

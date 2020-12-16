@@ -1,119 +1,195 @@
-import asyncio
-import json
 import os
-import discord
-import time
-from discord.ext import commands
+from time import perf_counter
+from discord.ext import commands, tasks
 from dotenv import load_dotenv
-from datetime import datetime, timedelta
-from pathlib import Path
-from json import JSONDecodeError
-from DataHandler import DataHandler
+from Subcribe import Subcribe
+from Schedule import Schedule
+from Database import Database
+from Admin import Admin
+import discord
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+bot_owner = 296008737515110400
 
 # Set prefix for bot
-bot = commands.Bot(command_prefix='+')
+intents = discord.Intents.default()
+bot = commands.Bot(command_prefix='+', intents=intents)
 
-# Initiate data handler
-data_handler = DataHandler()
+# Initiate
+database = Database()
+admin_service = Admin(database)
+schedule = Schedule(database)
+subcribe = Subcribe(database, schedule, bot)
 
 
-async def schedule_check_clock():
-    while True:
-        # Refresh schedule every 10 minutes
-        refresh_datetime = await data_handler.get_refresh_datetime()
-        if datetime.utcnow() > refresh_datetime:
-            num_of_updates = data_handler.reload_schedule()
-            new_refresh_datetime = datetime.utcnow() + timedelta(minutes=10)
-            data_handler.save_refresh_datetime(new_refresh_datetime)
-            await data_handler.save_schedule()
-            print(f"Schedule refresh complete - {datetime.utcnow()} | {num_of_updates}")
+@tasks.loop(seconds=1.0)
+async def task_loop():
+    if await schedule.is_time_to_run_schedule_sync_service():
+        # await schedule.schedule_update_service()
+        pass
 
-        for run in data_handler.schedule:
-            run_datetime = (data_handler.strtodatetime(run["time"])) - timedelta(minutes=5)
-            end_of_run = (run_datetime + timedelta(minutes=run["length"]))
-            if run_datetime < datetime.utcnow() < end_of_run and run["reminded"] is False:
-                # ping squad
-                run["reminded"] = True
-                await data_handler.save_schedule()
-                reminder_embed = discord.Embed(title="GAMES DONE QUICK 2020",
-                                               url="https://gamesdonequick.com/schedule", color=0x466e9c)
-                reminder_embed.set_thumbnail(url="https://gamesdonequick.com/static/res/img/gdqlogo.png")
-                reminder_embed.set_footer(text='Speedrun start times are subject to change')
-                reminder_embed.add_field(
-                    name=f'Coming up next:',
-                    value=f'{run["game"]} ({run["run"]})\nBy: {run["runners"]} | '
-                          f'Estimated length: {data_handler.explodeminutes(run["length"])}',
-                    inline=False)
+    if await schedule.is_time_to_run_cleanup_service():
+        await schedule.multi_page_schedule_cleanup_service()
 
-                channel_list = None
-
-                try:
-                    directory = os.path.dirname(__file__)
-                    file = os.path.join(directory, 'channels.json')
-                    session_data_file = Path(file)
-                    with open(session_data_file, 'r') as f:
-                        data = json.load(f)
-                        f.close()
-                        channel_list = data
-                except JSONDecodeError as e:
-                    print(f'{JSONDecodeError}: {e}')
-
-                for channel in channel_list:
-                    channel_to_send_to = bot.get_channel(channel)
-                    if channel_to_send_to is not None:
-                        role = discord.utils.get(channel_to_send_to.guild.roles, name=data_handler.ping_role_name)
-                        message_content = ""
-                        if role is not None:
-                            message_content = role.mention
-                        message_content = message_content + " https://www.twitch.tv/gamesdonequick"
-                        await channel_to_send_to.send(message_content, embed=reminder_embed)
-
-                break
-            elif datetime.utcnow() > end_of_run and run["reminded"] is False:
-                run["reminded"] = True
-
-        await asyncio.sleep(30)
+    if await subcribe.is_time_to_run_service():
+        await subcribe.reminder_service(admin_service.guild_directory)
 
 
 @bot.event
 async def on_ready():
     # Show connected guilds
-    print(f'{bot.user.name} is connected to the following guilds:')
+    print(f'\n{bot.user.name} is connected to the following guilds:')
     guilds = bot.guilds
     for g in guilds:
         print(f'{g.name} | (id: {g.id})')
     print()
 
-    print('Loading schedule...')
-    load_result = await data_handler.load_schedule()
-    if load_result is True:
-        print('Done')
+    # Check connection with DB
+    if await database.check_connection() is True:
+        print("DB Connection OK!")
     else:
-        print('Error loading schedule!')
+        raise ConnectionError('Could not connect to the database')
 
-    await bot.loop.create_task(schedule_check_clock())
+    # Load Schedule
+    result, items_loaded = await schedule.load()
+    if result is True:
+        print(f'Schedule successfully loaded: {items_loaded} runs loaded')
+    else:
+        raise ConnectionError('Could not connect to the database')
+
+    print('Getting initiated guilds')
+    await admin_service.load()
+
+    print('Loading subcriptions')
+    await subcribe.load()
+
+    print('Starting services')
+    if task_loop.is_running() is False:
+        await task_loop.start()
 
 
-@bot.command(name='add', help='Add yourself to the ping squad')
+@bot.event
+async def on_reaction_add(reaction, user):
+    if user.id == bot.user.id:
+        return
+
+    if await schedule.is_multi_page_session(reaction):
+        await schedule.multi_page_schedule_reaction_listener(reaction, user)
+
+
+@bot.command(name='admin')
+async def admin(ctx, *args):
+    if ctx.author.id == bot_owner or ctx.author.id == ctx.guild.owner_id or await admin_service.is_guild_admin(ctx):
+        t1 = perf_counter()
+        if args[0].lower() == 'init':
+            if admin_service.if_guild_init(ctx.guild.id) is False:
+                await admin_service.start(ctx)
+            else:
+                if admin_service.if_registered_channel(ctx):
+                    await ctx.send('This guild has already been initialized')
+        elif args[0].lower() == 'give_admin' and len(args) == 2:
+            if ctx.author.id == bot_owner or ctx.author.id == ctx.guild.owner_id:
+                result = await admin_service.give_admin(ctx)
+                if result is True:
+                    new_admin_name = ctx.message.mentions[0].name
+                    await ctx.send(f'{new_admin_name} can now use admin commands')
+                else:
+                    guild = ctx.guild.name
+                    assigner = ctx.author.name
+                    mentions = ctx.message.mentions
+                    print(f'Issues giving admin role: {guild} | assigner: {assigner} | mentions: {mentions}')
+        elif args[0].lower() == 'am_i_admin':
+            if await admin_service.is_guild_admin(ctx):
+                await ctx.message.add_reaction('✅')
+        elif args[0].lower() == 'blacklist' and len(args) == 2:
+            await admin_service.blacklist(bot_owner, ctx.guild.owner_id, ctx, args)
+        elif args[0].lower() == 'permit' and len(args) == 2:
+            await admin_service.permit(bot_owner, ctx.guild.owner_id, ctx, args)
+        elif args[0].lower() == 'resync':
+            await schedule.schedule_update_service()
+        elif args[0].lower() == 'fake_sch':
+            result = False
+            text = 'ERROR in the format of the commands: +admin fake_sch "(new_date)"'
+            if len(args) == 2:
+                result, text = await schedule.generate_fake_schedule(new_date=args[1])
+            elif len(args) == 1:
+                result, text = await schedule.generate_fake_schedule()
+
+            await ctx.send(f'```{text}```')
+
+            if result is True:
+                await schedule.schedule_update_service()
+                await ctx.message.add_reaction('✅')
+            else:
+                await ctx.message.add_reaction('❌')
+        elif args[0].lower() == 'mute':
+            subcribe.mute = True
+        elif args[0].lower() == 'unmute':
+            subcribe.mute = False
+        t2 = perf_counter()
+        print(f'Execute time for admin action: {(t2 - t1) * 1000:0.4f}ms')
+    else:
+        print(f'{ctx.author} tried to use admin command')
+
+
+@bot.command(name='sub', help='Add yourself to the ping squad')
 async def add(ctx, *args):
-    result = await data_handler.add_user(ctx.author, ctx)
-    if result is True:
-        await ctx.send(f'{ctx.author} has been added to the GDQ ping list')
+    if admin_service.if_guild_init(ctx.guild.id):
+        if admin_service.if_registered_channel(ctx) or not admin_service.is_user_blacklisted(ctx):
+            t1 = perf_counter()
+            if len(args) < 1:
+                await subcribe.help(ctx)
+            elif args[0].lower() == 'all':
+                t1 = perf_counter()
+                await subcribe.sub(ctx, args, schedule, sub_all=True)
+                t2 = perf_counter()
+            elif args[0].lower() == 'list':
+                await subcribe.list_subs(ctx)
+            else:
+                await subcribe.sub(ctx, args, schedule)
+            t2 = perf_counter()
+            print(f'Execute time for sub: {(t2 - t1) * 1000:0.4f}ms')
+    else:
+        await ctx.send('Guild or bot owner please run \'+init\' command')
 
 
-@bot.command(name='remove', help='Remove yourself from the ping squad')
+@bot.command(name='unsub', help='Remove yourself from the ping squad')
 async def remove(ctx, *args):
-    result = await data_handler.remove_user(ctx.author, ctx)
-    if result is True:
-        await ctx.send(f'{ctx.author} has been removed from the GDQ ping list')
+    if admin_service.if_guild_init(ctx.guild.id):
+        t1 = perf_counter()
+        if admin_service.if_registered_channel(ctx) or not admin_service.is_user_blacklisted(ctx):
+            if len(args) < 1 or len(args) > 1:
+                await subcribe.help(ctx)
+            elif args[0].lower() == 'all':
+                await subcribe.unsub(ctx, args, schedule, sub_all=True)
+            elif args[0].lower() == 'purge':
+                await subcribe.purge(ctx)
+            else:
+                await subcribe.unsub(ctx, args, schedule)
+        t2 = perf_counter()
+        print(f'Execute time for unsub: {(t2 - t1) * 1000:0.4f}ms')
+
+    else:
+        await ctx.send('Guild or bot owner please run \'+init\' command')
 
 
 @bot.command(name='schedule', help='See GDQ schedule')
-async def schedule(ctx, *args):
-    await data_handler.get_schedule(ctx)
+async def get_schedule(ctx, *args):
+    if admin_service.if_guild_init(ctx.guild.id):
+        if admin_service.if_registered_channel(ctx) or not admin_service.is_user_blacklisted(ctx):
+            if len(args) == 0:
+                await schedule.get(ctx)
+            else:
+                await schedule.get(ctx, filter_schedule=True, args=args)
+    else:
+        await ctx.send('Guild or bot owner please run \'+init\' command')
+
+
+@bot.command(name='purge')
+async def purge(ctx, *args):
+    if ctx.author.id == bot_owner:
+        await database.purge_subs()
 
 
 bot.run(TOKEN)
