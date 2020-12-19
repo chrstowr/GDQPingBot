@@ -104,15 +104,15 @@ class Schedule:
                         inline=False)
                 limit_tracker = limit_tracker + 1
 
-        while limit_tracker <= limit:
-            self.__add_empty_embed_line(schedule_embed)
-            limit_tracker = limit_tracker + 1
-
         if len(data_iterator) == 0 and filter_schedule is True:
             schedule_embed.add_field(
                 name=f'No results found for \"{filter_applied}\"',
                 value="Please let the developer know if this is a mistake and check the official schedule.",
                 inline=False)
+        else:
+            while limit_tracker <= limit:
+                self.__add_empty_embed_line(schedule_embed)
+                limit_tracker = limit_tracker + 1
 
         message_context = await ctx.send(content="https://www.twitch.tv/gamesdonequick", embed=schedule_embed)
 
