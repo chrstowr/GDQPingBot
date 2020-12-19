@@ -16,7 +16,7 @@ class Help:
 
     @staticmethod
     def default():
-        return '```' \
+        return '```\n' \
                'GDQping bot - receive notifications when a GDQ run is about to start.\n\n' \
                'Commands:\n' \
                '    +sub - Subcribe to a GDQ run\n' \
@@ -24,11 +24,11 @@ class Help:
                '    +schedule - Get the AGDQ 2021 schedule\n' \
                '    +admin - Only admins (obv) can use these\n\n' \
                'Type +help [category] for more info on that category\n' \
-               '```'
+               '\n```'
 
     @staticmethod
     def sub():
-        return '```' \
+        return '```\n' \
                'Usage:\n' \
                '    +sub 1 (Subscribe to single run)\n' \
                '\n' \
@@ -40,11 +40,11 @@ class Help:
                'Subscribe to runs by using it\'s ID. The ID can be found on the schedule next to the game name. ' \
                'The \'all\' command does not overwrite your single subscriptions, however it takes priority over ' \
                'your single subscriptions.' \
-               '```'
+               '\n```'
 
     @staticmethod
     def unsub():
-        return '```' \
+        return '```\n' \
                'Usage:\n' \
                '    +unsub 1 (Unsubscribe to single run)\n\n' \
                '    +unsub \"1,2,3,4,5\" (Unsubscribe to multiple runs, quotations recommended)\n\n' \
@@ -53,23 +53,23 @@ class Help:
                'Unsubscribe to runs by using it\'s ID. The ID can be found on the schedule next to the game name. ' \
                'The \'all\' subscription is a seperate preference from your single subcriptions, you will keep your ' \
                'single subscriptions if you unsub from \'all\'.' \
-               '```'
+               '\n```'
 
     @staticmethod
     def schedule():
-        return '```' \
+        return '```\n' \
                'Usage:\n' \
                '    +schedule (Show 5 next runs on the schedule)\n\n' \
                '    +schedule [\'name\', \'runner\', \'host\'] \"search string\" ' \
                     '(Search for a run using it\'s name, runner, or host)\n\n' \
                'View the latest schedule for AQGDQ 2021. The schedule is sync\'d to the AGDQ schedule every ' \
                'five minutes to reduce inconsistencies.' \
-               '```'
+               '\n```'
 
     # blacklist/permit, resync, mute/unmute, stop/start
     @staticmethod
     def admin():
-        return '```' \
+        return '```\n' \
                'Usage:\n' \
                '    +admin init (*Used once* Initiate a guild into bot\'s guild directory.)\n\n' \
                '    +admin give_admin @user(*GUILD OWNER AND BOT OWNER ONLY* Allow a guild member to use admin)\n\n' \
@@ -83,11 +83,11 @@ class Help:
                '    +admin resync (Force a resync to GDQ schedule)\n\n' \
                'Admin commands to control certain aspects of the GDQ ping bot. Please let the developer know if you' \
                ' have any good ideas.' \
-               '```'
+               '\n```'
 
     @staticmethod
     def __template():
-        return '```' \
+        return '```\n' \
                'Usage:\n' \
                '    +unsub 1 (Unsubscribe to single run)\n\n' \
                '    +unsub \"1,2,3,4,5\" (Unsubscribe to multiple runs, quotations recommended)\n\n' \
@@ -96,4 +96,4 @@ class Help:
                'Unsubscribe to runs by using it\'s ID. The ID can be found on the schedule next to the game name. ' \
                'The \'all\' subscription is a seperate preference from your single subcriptions, you will keep your ' \
                'single subscriptions if you unsub from \'all\'.' \
-               '```'
+               '\n```'
