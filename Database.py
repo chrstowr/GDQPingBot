@@ -5,8 +5,7 @@ from datetime import datetime
 class Database:
     def __init__(self):
         # mongodb://localhost:27017
-        self.__client = motor.motor_asyncio.AsyncIOMotorClient(
-            "mongodb+srv://dbAdmin:pX0rRG4EVDldHYZ4@cluster0.tynhs.mongodb.net/gdqping?retryWrites=true&w=majority")
+        self.__client = motor.motor_asyncio.AsyncIOMotorClient()
 
         __db = self.__client['gdqping']
         self.__guild_info_collection = __db['guild_info']
