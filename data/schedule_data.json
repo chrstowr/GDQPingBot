@@ -22,7 +22,7 @@
     {
         "run_id": 3,
         "time": "2020-12-16 18:03:00",
-        "length": 10,
+        "length": 50,
         "game": "Donkey Kong Country",
         "run": "Any% No Major Skips \u2014 SNES",
         "runners": "Eazinn, DadLovesBeer",
@@ -31,8 +31,8 @@
     },
     {
         "run_id": 4,
-        "time": "2020-12-16 18:18:00",
-        "length": 2,
+        "time": "2020-12-16 19:05:00",
+        "length": 52,
         "game": "Just Cause 3",
         "run": "Sky Fortress DLC \u2014 PC",
         "runners": "pmcTRILOGY",
@@ -41,8 +41,8 @@
     },
     {
         "run_id": 5,
-        "time": "2020-12-16 18:30:00",
-        "length": 2,
+        "time": "2020-12-16 20:09:00",
+        "length": 37,
         "game": "Ratchet & Clank (2016)",
         "run": "NG+ \u2014 PS4",
         "runners": "PerilousPeanut",
@@ -51,13 +51,13 @@
     },
     {
         "run_id": 6,
-        "time": "2020-12-16 18:34:00",
+        "time": "2020-12-16 20:58:00",
         "length": 56,
         "game": "Mega Man X5",
         "run": "Any% \u2014 PSX",
         "runners": "Luiz Miguel",
         "host": "Bradderfield",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 7,
@@ -67,7 +67,7 @@
         "run": "Any% \u2014 PC",
         "runners": "Lemuura",
         "host": "Bradderfield",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 8,
@@ -77,7 +77,7 @@
         "run": "Main Quest Order \u2014 PC",
         "runners": "Hetfield90, Skarfelt",
         "host": "Bradderfield",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 9,
@@ -87,7 +87,7 @@
         "run": "100% \u2014 N64",
         "runners": "Obiyo",
         "host": "French Toast",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 10,
@@ -97,7 +97,7 @@
         "run": "9% normal \u2014 GBA",
         "runners": "CScottyW",
         "host": "PurpleGhostKasper",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 11,
@@ -107,7 +107,7 @@
         "run": "Any% NMG \u2014 PC",
         "runners": "bobbyburm",
         "host": "PurpleGhostKasper",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 12,
@@ -117,7 +117,7 @@
         "run": "Pay Off Debt \u2014 GC",
         "runners": "Draz",
         "host": "PurpleGhostKasper",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 13,
@@ -127,7 +127,7 @@
         "run": "The Boss Extreme \u2014 PS3",
         "runners": "Jaguar King",
         "host": "VenBright",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 14,
@@ -137,7 +137,7 @@
         "run": "Any% \u2014 Xbox",
         "runners": "Ameiii",
         "host": "VenBright",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 15,
@@ -147,7 +147,7 @@
         "run": "Any% \u2014 Genesis",
         "runners": "RetroBrando",
         "host": "Argick",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 16,
@@ -157,7 +157,7 @@
         "run": "Any% \u2014 Genesis",
         "runners": "Joeybaby69",
         "host": "Argick",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 17,
@@ -167,7 +167,7 @@
         "run": "Any% No Camera-Freeze \u2014 Genesis",
         "runners": "GrimShins",
         "host": "Argick",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 18,
@@ -177,7 +177,7 @@
         "run": "any% \u2014 Master System",
         "runners": "coolkid",
         "host": "Argick",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 19,
@@ -187,7 +187,7 @@
         "run": "Beat the game \u2014 Master System",
         "runners": "Chachamaxx",
         "host": "Argick",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 20,
@@ -197,7 +197,7 @@
         "run": "any% \u2014 NES",
         "runners": "BugDoctor",
         "host": "Mr. Game and Shout",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 21,
@@ -207,7 +207,7 @@
         "run": "24 Bees \u2014 PC",
         "runners": "hedweg",
         "host": "Mr. Game and Shout",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 22,
@@ -217,7 +217,7 @@
         "run": "Any% \u2014 PC",
         "runners": "pale2",
         "host": "Mr. Game and Shout",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 23,
@@ -227,7 +227,7 @@
         "run": "Tails: Beat The Game \u2014 Android",
         "runners": "flying fox",
         "host": "iggyzig",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 24,
@@ -237,7 +237,7 @@
         "run": "Any% Sonic + Tails \u2014 PC",
         "runners": "Zaxon96",
         "host": "iggyzig",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 25,
@@ -247,7 +247,7 @@
         "run": "Sonic & Tails Good Ending \u2014 PC",
         "runners": "Argick",
         "host": "iggyzig",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 26,
@@ -257,7 +257,7 @@
         "run": "Shadow's Story (No MSG) \u2014 Xbox 360",
         "runners": "Gordon Ramsay",
         "host": "iggyzig",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 27,
@@ -267,7 +267,7 @@
         "run": "Any% \u2014 PC",
         "runners": "heny",
         "host": "Doctor No",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 28,
@@ -277,7 +277,7 @@
         "run": "Any% \u2014 PC",
         "runners": "Cropax",
         "host": "marphoria",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 29,
@@ -287,7 +287,7 @@
         "run": "Glitchless Main Quest \u2014 PC",
         "runners": "nucular",
         "host": "marphoria",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 30,
@@ -297,7 +297,7 @@
         "run": "Any% Corvo \u2014 PC",
         "runners": "DemonicRobots",
         "host": "French Toast",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 31,
@@ -307,7 +307,7 @@
         "run": "any% Current Patch \u2014 PC",
         "runners": "Worldlyy",
         "host": "French Toast",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 32,
@@ -317,7 +317,7 @@
         "run": "any% NG co-op \u2014 PC",
         "runners": "meatr0o, Heckson, Whisperra",
         "host": "VenBright",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 33,
@@ -327,7 +327,7 @@
         "run": "Any% \u2014 PC",
         "runners": "LilAggy",
         "host": "VenBright",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 34,
@@ -337,7 +337,7 @@
         "run": "Any% No ACE \u2014 PS3",
         "runners": "cha0sRTA",
         "host": "THEKyleThomas",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 35,
@@ -347,7 +347,7 @@
         "run": "Glitchless \u2014 PC",
         "runners": "Gyre",
         "host": "THEKyleThomas",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 36,
@@ -357,7 +357,7 @@
         "run": "any% Post OGM \u2014 PC",
         "runners": "dkPuls",
         "host": "samorasie",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 37,
@@ -367,7 +367,7 @@
         "run": "All Treasures \u2014 Switch",
         "runners": "Fox of the Flame",
         "host": "samorasie",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 38,
@@ -377,7 +377,7 @@
         "run": "Good Ending \u2014 PC",
         "runners": "ChairGTables",
         "host": "samorasie",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 39,
@@ -387,7 +387,7 @@
         "run": "any% \u2014 PC",
         "runners": "havrd",
         "host": "samorasie",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 40,
@@ -397,7 +397,7 @@
         "run": "Any% All Mansions \u2014 NES",
         "runners": "Sathdresh",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 41,
@@ -407,7 +407,7 @@
         "run": "any% \u2014 NES",
         "runners": "swordsmankirby",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 42,
@@ -417,7 +417,7 @@
         "run": "any% No Out of bounds \u2014 NES",
         "runners": "rayeo",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 43,
@@ -427,7 +427,7 @@
         "run": "Any% Easy \u2014 NES",
         "runners": "Bitty_Kong",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 44,
@@ -437,7 +437,7 @@
         "run": "Any% \u2014 NES",
         "runners": "Starwin",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 45,
@@ -447,7 +447,7 @@
         "run": "Any% \u2014 NES",
         "runners": "ViruseReturns",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 46,
@@ -457,7 +457,7 @@
         "run": "New Game \u2014 PC",
         "runners": "BahamutX_",
         "host": "Prolix",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 47,
@@ -467,7 +467,7 @@
         "run": "Novice (Race) \u2014 NES",
         "runners": "yelsraek, willbobsled",
         "host": "Prolix",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 48,
@@ -477,7 +477,7 @@
         "run": "100% \u2014 NES",
         "runners": "baldnate",
         "host": "Prolix",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 49,
@@ -487,7 +487,7 @@
         "run": "All Stages (Practice Mode) \u2014 Genesis",
         "runners": "ZeeGee",
         "host": "Prolix",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 50,
@@ -497,7 +497,7 @@
         "run": "All Bosses \u2014 NES",
         "runners": "Tecate, CHX42",
         "host": "Skybilz",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 51,
@@ -507,7 +507,7 @@
         "run": "Any% (One Hit KO/Buster Only) \u2014 NES",
         "runners": "coolkid",
         "host": "Skybilz",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 52,
@@ -517,7 +517,7 @@
         "run": "Any% No OoB (Normal) \u2014 PC",
         "runners": "Amad",
         "host": "Skybilz",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 53,
@@ -527,7 +527,7 @@
         "run": "Low% \u2014 SNES",
         "runners": "Luiz Miguel",
         "host": "Skybilz",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 54,
@@ -537,7 +537,7 @@
         "run": "Story Easy \u2014 PC",
         "runners": "Biglaw",
         "host": "Skybilz",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 55,
@@ -547,7 +547,7 @@
         "run": "All Goals & Golds All Tours \u2014 PC",
         "runners": "PARTY MAN X",
         "host": "Skybilz",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 56,
@@ -557,7 +557,7 @@
         "run": "100% \u2014 GameCube",
         "runners": "edzan",
         "host": "ateatree",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 57,
@@ -567,7 +567,7 @@
         "run": "Any% \u2014 PC",
         "runners": "KanBan85",
         "host": "ateatree",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 58,
@@ -577,7 +577,7 @@
         "run": "New Game Plus \u2014 PC",
         "runners": "MooMooAkai",
         "host": "ateatree",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 59,
@@ -587,7 +587,7 @@
         "run": "All Bosses (No Major Glitches) \u2014 PC",
         "runners": "Jason2890",
         "host": "ateatree",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 60,
@@ -597,7 +597,7 @@
         "run": "3 Weapons \u2014 PC",
         "runners": "Vorime",
         "host": "Doctor No",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 61,
@@ -607,7 +607,7 @@
         "run": "Njord Easy \u2014 PC",
         "runners": "Bullets",
         "host": "Doctor No",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 62,
@@ -617,7 +617,7 @@
         "run": "Main Campaigns Solo, Any Difficulty \u2014 PC",
         "runners": "WaifuRuns",
         "host": "AnEternalEnigma",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 63,
@@ -627,7 +627,7 @@
         "run": "Any% \u2014 PC",
         "runners": "Maxylobes",
         "host": "AnEternalEnigma",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 64,
@@ -637,7 +637,7 @@
         "run": "Any% \u2014 PC",
         "runners": "teddyras",
         "host": "AnEternalEnigma",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 65,
@@ -647,7 +647,7 @@
         "run": "A Ending NG+ \u2014 PS2",
         "runners": "Ecdycis",
         "host": "samorasie",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 66,
@@ -657,7 +657,7 @@
         "run": "Jill (Arrange) Any% NMG \u2014 PSX",
         "runners": "RetroBrando",
         "host": "samorasie",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 67,
@@ -667,7 +667,7 @@
         "run": "Extra New Game \u2014 PC",
         "runners": "Punchy",
         "host": "zokubun",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 68,
@@ -677,7 +677,7 @@
         "run": "Any% \u2014 PC",
         "runners": "Swordfish4649",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 69,
@@ -687,7 +687,7 @@
         "run": "Any% \u2014 SNES",
         "runners": "apathyduck",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 70,
@@ -697,7 +697,7 @@
         "run": "Any% \u2014 PC",
         "runners": "yoshipro",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 71,
@@ -707,7 +707,7 @@
         "run": "2-Island% - Frozen Titans \u2014 PC",
         "runners": "RooseSR",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 72,
@@ -717,7 +717,7 @@
         "run": "Any% \u2014 PS4",
         "runners": "SteveTheWizard",
         "host": "YoBGS",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 73,
@@ -727,7 +727,7 @@
         "run": "Any% No Save & Quit \u2014 GBA",
         "runners": "Plexa",
         "host": "Argick",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 74,
@@ -737,7 +737,7 @@
         "run": "Any% \u2014 PC",
         "runners": "MiphaSR",
         "host": "Asuka424",
-        "reminded": false
+        "reminded": true
     },
     {
         "run_id": 75,

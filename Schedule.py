@@ -60,14 +60,9 @@ class Schedule:
             else:
                 filter_schedule = False
 
-        # # Prevent out of bounds error
-        # if len(data_iterator) < 4:
-        #     limit = len(data_iterator)
-
         title_desc = "Here are the upcoming games: \n"
         if filter_schedule is True:
             curr_page = 1
-            # f"{round(len(data_iterator) / limit)} | {len(data_iterator) / limit}")
             max_page = math.ceil(len(data_iterator) / limit)
             title_desc = f"Here are the results for \"{filter_applied}\" - Page {curr_page}/{max_page}\n"
         schedule_embed = discord.Embed(title="GAMES DONE QUICK 2020 - Click me for full schedule",
@@ -88,7 +83,7 @@ class Schedule:
 
         for run in data_iterator:
             run_time = self.service.strtodatetime(run["time"])
-            reminder_time = run_time - timedelta(minutes=5)
+            reminder_time = run_time - timedelta(minutes=10)
             end_time = run_time + timedelta(minutes=run["length"])
 
             before_reminder_time = datetime.utcnow() < reminder_time
@@ -418,13 +413,8 @@ class Schedule:
     # DEV FUNCTIONS
     # -----------------------------------------------------------------------------------------------
 
-    async def generate_fake_schedule(self, new_date="2020-12-16 16:30:00"):
-
-        try:
-            datetime.strptime(new_date, "%Y-%m-%d %H:%M:%S")
-        except ValueError:
-            print("Incorrect data format, should be %Y-%m-%d %H:%M:%S")
-            return False, "Incorrect data format, should be %Y-%m-%d %H:%M:%S"
+    async def generate_fake_schedule(self):
+        new_date = datetime.utcnow() + timedelta(minutes=20)
 
         new_fake_schedule = None
         try:
