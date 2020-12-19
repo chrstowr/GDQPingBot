@@ -3,3 +3,5 @@ data/channels.json
 delay.json
 data/gdq2020schedule.json
 data/schedule_refresh.json
+data/guild_directory.json
+data/subscriptions.json
