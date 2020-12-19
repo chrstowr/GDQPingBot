@@ -1,3 +1,4 @@
+import os
 import motor.motor_asyncio
 from datetime import datetime
 
@@ -5,7 +6,8 @@ from datetime import datetime
 class Database:
     def __init__(self):
         # mongodb://localhost:27017
-        self.__client = motor.motor_asyncio.AsyncIOMotorClient()
+        connection_string = os.getenv('CONNECTION_STRING')
+        self.__client = motor.motor_asyncio.AsyncIOMotorClient(connection_string)
 
         __db = self.__client['gdqping']
         self.__guild_info_collection = __db['guild_info']
