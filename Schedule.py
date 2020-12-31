@@ -11,6 +11,8 @@ from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 
 
+# TODO: Add timestamps to log outputs
+
 class Schedule:
     def __init__(self, database_ref):
         self.data = list()
@@ -24,6 +26,27 @@ class Schedule:
 
     async def raw_data(self):
         return self.data
+
+    # Helper for get()
+    @staticmethod
+    def __iterator_item_matches(item, search_term):
+        r = re.search("\\b" + search_term.lower() + "\\b", item['game'].lower())
+        if r is None:
+            return False
+        else:
+            return True
+
+        # Helper for get()
+
+    @staticmethod
+    def __iterator_item_matches_to_string(item, search_term):
+        r1 = re.search("\\b" + search_term.lower() + "\\b", item['game'].lower())
+        r2 = re.search("\\b" + search_term.lower() + "\\b", item['runners'].lower())
+        r3 = re.search("\\b" + search_term.lower() + "\\b", item['host'].lower())
+        if any(reg is not None for reg in [r1, r2, r3]):
+            return True
+        else:
+            return False
 
     # Helper for get()
     async def __apply_filter(self, args, data_iterator):
@@ -42,6 +65,17 @@ class Schedule:
                     error = True
         return data_iterator, error, error_text, None
 
+        # Helper for get()
+
+    async def __apply_filter_from_string(self, args, data_iterator):
+        error = False
+        error_text = ""
+
+        search_string = args[0]
+        new_data_iterator = [d for d in data_iterator if self.__iterator_item_matches_to_string(d, search_string)]
+        return new_data_iterator, error, error_text, search_string
+
+    # TODO: Set option to DM whole schedule
     async def get(self, ctx, filter_schedule=False, args=None):
         limit = 4
         limit_tracker = 1
@@ -49,7 +83,7 @@ class Schedule:
         filter_applied = ""
 
         # Apply Filters if needed
-        if filter_schedule is True:
+        if filter_schedule is True and len(args) > 1:
             if any(o in args for o in self.accepted_filter_options):
                 result_iterator, error, error_text, filter_applied = await self.__apply_filter(args, data_iterator)
                 if error is False:
@@ -59,6 +93,13 @@ class Schedule:
                     return
             else:
                 filter_schedule = False
+        else:
+            result_iterator, error, error_text, filter_applied = await self.__apply_filter_from_string(args, data_iterator)
+            if error is False:
+                data_iterator = result_iterator
+            else:
+                await ctx.send(f'Error: {error_text}')
+                return
 
         title_desc = "Here are the upcoming games: \n"
         if filter_schedule is True:
@@ -180,29 +221,36 @@ class Schedule:
             cleaned_up_session = 0
             sessions_to_del = list()
 
-            # Find expired sessions
-            for guild in self.multi_page_schedule_sessions:
-                for message in self.multi_page_schedule_sessions[guild]:
-                    session = self.multi_page_schedule_sessions[guild][message]
+            # # Find expired sessions
+            # for guild in self.multi_page_schedule_sessions:
+            #     for message in self.multi_page_schedule_sessions[guild]:
+            #         session = self.multi_page_schedule_sessions[guild][message]
+            #         if session.is_expired():
+            #             await session.remove_controls()
+            #             sessions_to_del.append([guild, message])
+            #             cleaned_up_session = cleaned_up_session + 1
+            #
+            # # Delete expired sessions
+            # for session in sessions_to_del:
+            #     del self.multi_page_schedule_sessions[session[0]][session[1]]
+
+            # New implementation of clearing multipage sessions
+            for guild, guild_sessions in self.multi_page_schedule_sessions.copy().items():
+                for session_id, session in guild_sessions.copy().items():
                     if session.is_expired():
                         await session.remove_controls()
-                        sessions_to_del.append([guild, message])
+                        del self.multi_page_schedule_sessions[guild][session_id]
                         cleaned_up_session = cleaned_up_session + 1
-
-            # Delete expired sessions
-            for session in sessions_to_del:
-                del self.multi_page_schedule_sessions[session[0]][session[1]]
 
             await self.__next_runtime()
 
             # Update all sessions
-            for guild in self.multi_page_schedule_sessions:
-                for message in self.multi_page_schedule_sessions[guild]:
-                    session = self.multi_page_schedule_sessions[guild][message]
+            for guild, guild_sessions in self.multi_page_schedule_sessions.copy().items():
+                for session_id, session in guild_sessions.copy().items():
                     await session.update()
 
     async def get_run_from_id(self, req_id):
-        found_run = [r for r in self.data if r['run_id'] == req_id][0]
+        found_run = [r for r in self.data.copy() if r['run_id'] == req_id][0]
 
         if found_run is not None and found_run["reminded"] is not True:
             return found_run
@@ -251,19 +299,22 @@ class Schedule:
             print(f'{JSONDecodeError}: {e}')
 
         runs_to_update = list()
+        id = 1
         for run in new_schedule:
-            match = discord.utils.find(lambda r: r["run_id"] == run["run_id"], self.data)
-            if match is not None:
-                if match["time"] != run["time"] or match["length"] != run["length"]:
-                    match["length"] = run["length"]
-                    match["time"] = run["time"]
+            # add ids
+            run['run_id'] = id
+            id = id + 1
 
-                    runs_to_update.append(run)
+            # Convert start times to datetime obj
+            run['time'] = datetime.strptime(run['time'], "%Y-%m-%d %H:%M:%S")
 
+            # Check if current time is after reminder time + buffer (10 + 5 minutes before run start)
+            # if yes reminded = True
+            if datetime.utcnow() > run['time'] - timedelta(minutes=15):
+                run['reminded'] = True
+
+        self.data = new_schedule
         await self.__save_to_file()
-        # await self.database.update_schedule_time_length(runs_to_update)
-
-        return f'Total updates: {len(runs_to_update)} '
 
     async def sync(self):
         url = "https://gamesdonequick.com/schedule"
@@ -308,6 +359,10 @@ class Schedule:
                 time = datetime.strptime(run[0], "%Y-%m-%dT%H:%M:%SZ")
                 length_text = run[4].split(':')
                 length = (int(length_text[0]) * 60) + int(length_text[1])
+                reminded = False
+
+                if datetime.utcnow() > time - timedelta(minutes=15):
+                    reminded = True
 
                 run_dict = {
                     "run_id": run_id,
@@ -317,13 +372,17 @@ class Schedule:
                     "run": run[5],
                     "runners": run[2],
                     "host": run[6],
-                    "reminded": False
+                    "reminded": reminded
                 }
                 master_schedule.append(run_dict)
             elif len(run) == 4:
                 time = datetime.strptime(run[0], "%Y-%m-%dT%H:%M:%SZ")
                 length_text = run[3].split(':')
                 length = (int(length_text[0]) * 60) + int(length_text[1])
+                reminded = False
+                if datetime.utcnow() > time - timedelta(minutes=15):
+                    reminded = True
+
                 run_dict = {
                     "run_id": run_id,
                     "time": time,
@@ -332,29 +391,13 @@ class Schedule:
                     "run": "",
                     "runners": run[2],
                     "host": "",
-                    "reminded": False
+                    "reminded": reminded
                 }
                 master_schedule.append(run_dict)
             run_id = run_id + 1
 
-        # Cross check with schedule in memory
-        time_updates = 0
-        runs_to_update = list()
-        for run in master_schedule:
-            match = discord.utils.find(lambda r: r["game"] == run["game"], self.data)
-            if match is not None:
-
-                if match["time"] != run["time"] or match["length"] != run["length"]:
-                    time_updates = time_updates + 1
-
-                    match["length"] = run["length"]
-                    match["time"] = run["time"]
-
-                    runs_to_update.append(run)
-
-        # await self.database.update_schedule(runs_to_update)
-
-        return f'Total updates: {time_updates} '
+        self.data = master_schedule
+        await self.__save_to_file()
 
     async def __save_to_file(self):
         def json_filter(o):
@@ -401,15 +444,6 @@ class Schedule:
     def __add_empty_embed_line(schedule_embed):
         schedule_embed.add_field(name='\u200b\n\u200b', value='\u200b', inline=False)
 
-    # Helper for get()
-    @staticmethod
-    def __iterator_item_matches(item, search_term):
-        r = re.search("\\b" + search_term.lower() + "\\b", item['game'].lower())
-        if r is None:
-            return False
-        else:
-            return True
-
     # DEV FUNCTIONS
     # -----------------------------------------------------------------------------------------------
 
@@ -440,7 +474,7 @@ class Schedule:
                 schedule_timedeltas.append(time_delta)
                 prev_time = item['time']
 
-        print(f'{len(schedule_timedeltas)} deltas\n{schedule_timedeltas}')
+        print(f'{len(schedule_timedeltas)}')
 
         # Iterate through fake schedule, set new start datetime on first run, then iterate it
         #  using previously generated timedelta list
@@ -574,7 +608,7 @@ class MultiPageScheduleModel:
             text=f'*Speedrun start times are subject to change* | {len(self.data)} result(s) found | '
                  f'Results {base_page + 1} - {final_page} out of {len(self.data)}\n | {expire_text}')
 
-        for run in self.data[base_page:final_page]:
+        for run in self.data.copy()[base_page:final_page]:
             run_time = self.service.strtodatetime(run["time"])
             reminder_time = run_time - timedelta(minutes=5)
             end_time = run_time + timedelta(minutes=run["length"])

@@ -18,9 +18,15 @@ class Help:
     def default():
         return '```\n' \
                'GDQping bot - receive notifications when a GDQ run is about to start.\n\n' \
+               '    Quick Tutorial:\n' \
+               '    1. Search for a run on the schedule\n' \
+               '    2. Find the ID of the run with +schedule\n' \
+               '    3. Use sub cmd to subscribe to that run\n' \
+               '    4. Get a ping about 10 minutes before\n' \
+               '    5. Profit!\n\n' \
                'Commands:\n' \
-               '    +sub - Subcribe to a GDQ run\n' \
-               '    +unsub - Unsubscribe to a GDQ run\n' \
+               '    +sub [number]- Subcribe to a GDQ run\n' \
+               '    +unsub [number]- Unsubscribe to a GDQ run\n' \
                '    +schedule - Get the AGDQ 2021 schedule\n' \
                '    +admin - Only admins (obv) can use these\n\n' \
                'Type +help [category] for more info on that category\n' \
@@ -60,6 +66,7 @@ class Help:
         return '```\n' \
                'Usage:\n' \
                '    +schedule (Show 5 next runs on the schedule)\n\n' \
+               '    +schedule \"search string\" (Quickly search for a run)\n\n' \
                '    +schedule [\'name\', \'runner\', \'host\'] \"search string\" ' \
                     '(Search for a run using it\'s name, runner, or host)\n\n' \
                'View the latest schedule for AQGDQ 2021. The schedule is sync\'d to the AGDQ schedule every ' \
