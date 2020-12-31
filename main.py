@@ -192,7 +192,7 @@ async def add(ctx, *args):
                 t2 = perf_counter()
                 print(f'Execute time for sub: {(t2 - t1) * 1000:0.4f}ms')
         else:
-            await ctx.send('Guild or bot owner please run \'+init\' command')
+            await ctx.send('Guild or bot owner please run \'+admin init\' command')
 
 
 @bot.command(name='unsub')
@@ -213,7 +213,7 @@ async def remove(ctx, *args):
             print(f'Execute time for unsub: {(t2 - t1) * 1000:0.4f}ms')
 
         else:
-            await ctx.send('Guild or bot owner please run \'+init\' command')
+            await ctx.send('Guild or bot owner please run \'+admin init\' command')
 
 
 @bot.command(name='schedule')
@@ -226,7 +226,7 @@ async def get_schedule(ctx, *args):
                 else:
                     await schedule.get(ctx, filter_schedule=True, args=args)
         else:
-            await ctx.send('Guild or bot owner please run \'+init\' command')
+            await ctx.send('Guild or bot owner please run \'+admin init\' command')
 
 
 @bot.command(name='purge')

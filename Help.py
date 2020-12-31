@@ -84,9 +84,9 @@ class Help:
                '    +admin blacklist @user (The bot will ignore commands issued by this user)\n\n' \
                '    +admin permit @user (Allow the bot to see commands by this user again)\n\n' \
                '    +admin mute (Turn off @role in the reminder message)\n\n' \
-               '    +admin unmute (Turn on @role in the reminder messgae)\n\n' \
-               '    +admin stop (*NOT WORKING YET* Turn off reminder message)\n\n' \
-               '    +admin start (*NOT WORKING YET* Turn on reminder message)\n\n' \
+               '    +admin unmute (Turn on @role in the reminder message)\n\n' \
+               '    +admin stop (Turn off reminder message)\n\n' \
+               '    +admin start (Turn on reminder message)\n\n' \
                '    +admin resync (Force a resync to GDQ schedule)\n\n' \
                'Admin commands to control certain aspects of the GDQ ping bot. Please let the developer know if you' \
                ' have any good ideas.' \

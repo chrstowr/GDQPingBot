@@ -25,6 +25,7 @@ class Subcribe:
         sch_max_len = len(schedule.data)
         role = discord.utils.get(ctx.guild.roles, name=self.ping_role_name)
         member = ctx.author
+        print(f'{member.name} | unsub | {args} | {datetime.utcnow()}')
         if sub_all is False:
             options = args[0].split(',')
             args_to_process = len(options)
@@ -134,7 +135,7 @@ class Subcribe:
 
     async def purge(self, ctx):
         result, data = await self.__purge_runs(ctx.author.id, ctx.guild.id)
-
+        print(f'{ctx.author.name} | purge | {datetime.utcnow()}')
         if result is True:
             await ctx.message.add_reaction('✅')
             # db_result = await self.database.purge_subs_by_user(ctx.author.id, ctx.guild.id)
@@ -192,10 +193,8 @@ class Subcribe:
                 list_text = list_text + single_sub_title + '(None)'
             else:
                 list_text = list_text + single_sub_title + '\n'.join(single_sub_chunk)
-            t3 = perf_counter()
+
             await ctx.author.send(list_text + '```')
-            t4 = perf_counter()
-            print(f'Execute time for sub list ctx.send: {(t4 - t3) * 1000:0.4f}ms')
 
     async def is_time_to_run_service(self):
         if datetime.utcnow() > self.reminder_service_next_runtime:

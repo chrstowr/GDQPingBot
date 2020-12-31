@@ -1,7 +1,7 @@
 [
     {
         "run_id": 1,
-        "time": "2020-12-16 16:30:00",
+        "time": "2020-12-31 23:46:33",
         "length": 20,
         "game": "Pre-Show",
         "run": "Intro \u2014",
@@ -11,737 +11,737 @@
     },
     {
         "run_id": 2,
-        "time": "2020-12-16 17:00:00",
+        "time": "2021-01-01 00:16:33",
         "length": 46,
         "game": "Mirror's Edge",
         "run": "Any% Inbounds \u2014 PC",
         "runners": "Hekigan",
         "host": "briesbe",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 3,
-        "time": "2020-12-16 18:03:00",
+        "time": "2021-01-01 01:19:33",
         "length": 50,
         "game": "Donkey Kong Country",
         "run": "Any% No Major Skips \u2014 SNES",
         "runners": "Eazinn, DadLovesBeer",
         "host": "briesbe",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 4,
-        "time": "2020-12-16 19:05:00",
+        "time": "2021-01-01 02:21:33",
         "length": 52,
         "game": "Just Cause 3",
         "run": "Sky Fortress DLC \u2014 PC",
         "runners": "pmcTRILOGY",
         "host": "Asuka424",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 5,
-        "time": "2020-12-16 20:09:00",
+        "time": "2021-01-01 03:25:33",
         "length": 37,
         "game": "Ratchet & Clank (2016)",
         "run": "NG+ \u2014 PS4",
         "runners": "PerilousPeanut",
         "host": "Asuka424",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 6,
-        "time": "2020-12-16 20:58:00",
+        "time": "2021-01-01 04:14:33",
         "length": 56,
         "game": "Mega Man X5",
         "run": "Any% \u2014 PSX",
         "runners": "Luiz Miguel",
         "host": "Bradderfield",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 7,
-        "time": "2020-12-16 22:06:00",
+        "time": "2021-01-01 05:22:33",
         "length": 60,
         "game": "Dragon Age: Origins",
         "run": "Any% \u2014 PC",
         "runners": "Lemuura",
         "host": "Bradderfield",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 8,
-        "time": "2020-12-16 23:23:00",
+        "time": "2021-01-01 06:39:33",
         "length": 75,
         "game": "Ori and the Will of the Wisps",
         "run": "Main Quest Order \u2014 PC",
         "runners": "Hetfield90, Skarfelt",
         "host": "Bradderfield",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 9,
-        "time": "2020-12-17 01:05:00",
+        "time": "2021-01-01 08:21:33",
         "length": 112,
         "game": "Diddy Kong Racing",
         "run": "100% \u2014 N64",
         "runners": "Obiyo",
         "host": "French Toast",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 10,
-        "time": "2020-12-17 03:09:00",
+        "time": "2021-01-01 10:25:33",
         "length": 60,
         "game": "Metroid: Zero Mission",
         "run": "9% normal \u2014 GBA",
         "runners": "CScottyW",
         "host": "PurpleGhostKasper",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 11,
-        "time": "2020-12-17 04:21:00",
+        "time": "2021-01-01 11:37:33",
         "length": 52,
         "game": "Lightmatter",
         "run": "Any% NMG \u2014 PC",
         "runners": "bobbyburm",
         "host": "PurpleGhostKasper",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 12,
-        "time": "2020-12-17 05:25:00",
+        "time": "2021-01-01 12:41:33",
         "length": 115,
         "game": "Pikmin 2",
         "run": "Pay Off Debt \u2014 GC",
         "runners": "Draz",
         "host": "PurpleGhostKasper",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 13,
-        "time": "2020-12-17 07:30:00",
+        "time": "2021-01-01 14:46:33",
         "length": 125,
         "game": "Metal Gear Solid 4: Guns of the Patriots",
         "run": "The Boss Extreme \u2014 PS3",
         "runners": "Jaguar King",
         "host": "VenBright",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 14,
-        "time": "2020-12-17 09:45:00",
+        "time": "2021-01-01 17:01:33",
         "length": 80,
         "game": "Otogi: Myth of Demons",
         "run": "Any% \u2014 Xbox",
         "runners": "Ameiii",
         "host": "VenBright",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 15,
-        "time": "2020-12-17 11:15:00",
+        "time": "2021-01-01 18:31:33",
         "length": 35,
         "game": "Ghostbusters",
         "run": "Any% \u2014 Genesis",
         "runners": "RetroBrando",
         "host": "Argick",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 16,
-        "time": "2020-12-17 12:00:00",
+        "time": "2021-01-01 19:16:33",
         "length": 30,
         "game": "Magical Taruruuto-kun",
         "run": "Any% \u2014 Genesis",
         "runners": "Joeybaby69",
         "host": "Argick",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 17,
-        "time": "2020-12-17 12:40:00",
+        "time": "2021-01-01 19:56:33",
         "length": 30,
         "game": "Ecco the Dolphin",
         "run": "Any% No Camera-Freeze \u2014 Genesis",
         "runners": "GrimShins",
         "host": "Argick",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 18,
-        "time": "2020-12-17 13:20:00",
+        "time": "2021-01-01 20:36:33",
         "length": 12,
         "game": "Taz-Mania",
         "run": "any% \u2014 Master System",
         "runners": "coolkid",
         "host": "Argick",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 19,
-        "time": "2020-12-17 13:42:00",
+        "time": "2021-01-01 20:58:33",
         "length": 18,
         "game": "The Lucky Dime Caper starring Donald Duck",
         "run": "Beat the game \u2014 Master System",
         "runners": "Chachamaxx",
         "host": "Argick",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 20,
-        "time": "2020-12-17 14:10:00",
+        "time": "2021-01-01 21:26:33",
         "length": 70,
         "game": "Startropics",
         "run": "any% \u2014 NES",
         "runners": "BugDoctor",
         "host": "Mr. Game and Shout",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 21,
-        "time": "2020-12-17 15:30:00",
+        "time": "2021-01-01 22:46:33",
         "length": 80,
         "game": "Yooka-Laylee and the Impossible Lair",
         "run": "24 Bees \u2014 PC",
         "runners": "hedweg",
         "host": "Mr. Game and Shout",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 22,
-        "time": "2020-12-17 17:00:00",
+        "time": "2021-01-02 00:16:33",
         "length": 35,
         "game": "Turok Dinosaur Hunter - PC Remaster",
         "run": "Any% \u2014 PC",
         "runners": "pale2",
         "host": "Mr. Game and Shout",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 23,
-        "time": "2020-12-17 17:45:00",
+        "time": "2021-01-02 01:01:33",
         "length": 25,
         "game": "Sonic 1 (2013)",
         "run": "Tails: Beat The Game \u2014 Android",
         "runners": "flying fox",
         "host": "iggyzig",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 24,
-        "time": "2020-12-17 18:20:00",
+        "time": "2021-01-02 01:36:33",
         "length": 42,
         "game": "Sonic 3: Angel Island Revisited",
         "run": "Any% Sonic + Tails \u2014 PC",
         "runners": "Zaxon96",
         "host": "iggyzig",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 25,
-        "time": "2020-12-17 19:12:00",
+        "time": "2021-01-02 02:28:33",
         "length": 58,
         "game": "Sonic Mania",
         "run": "Sonic & Tails Good Ending \u2014 PC",
         "runners": "Argick",
         "host": "iggyzig",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 26,
-        "time": "2020-12-17 20:20:00",
+        "time": "2021-01-02 03:36:33",
         "length": 52,
         "game": "Sonic the Hedgehog (2006)",
         "run": "Shadow's Story (No MSG) \u2014 Xbox 360",
         "runners": "Gordon Ramsay",
         "host": "iggyzig",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 27,
-        "time": "2020-12-17 21:22:00",
+        "time": "2021-01-02 04:38:33",
         "length": 95,
         "game": "Darksiders",
         "run": "Any% \u2014 PC",
         "runners": "heny",
         "host": "Doctor No",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 28,
-        "time": "2020-12-17 23:07:00",
+        "time": "2021-01-02 06:23:33",
         "length": 29,
         "game": "Dark Messiah of Might and Magic",
         "run": "Any% \u2014 PC",
         "runners": "Cropax",
         "host": "marphoria",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 29,
-        "time": "2020-12-17 23:46:00",
+        "time": "2021-01-02 07:02:33",
         "length": 88,
         "game": "Bonus Game 1 - The Elder Scrolls V: Skyrim",
         "run": "Glitchless Main Quest \u2014 PC",
         "runners": "nucular",
         "host": "marphoria",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 30,
-        "time": "2020-12-18 01:49:00",
+        "time": "2021-01-02 09:05:33",
         "length": 35,
         "game": "Dishonored 2",
         "run": "Any% Corvo \u2014 PC",
         "runners": "DemonicRobots",
         "host": "French Toast",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 31,
-        "time": "2020-12-18 02:34:00",
+        "time": "2021-01-02 09:50:33",
         "length": 35,
         "game": "Divinity: Original Sin 2 Definitive Edition",
         "run": "any% Current Patch \u2014 PC",
         "runners": "Worldlyy",
         "host": "French Toast",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 32,
-        "time": "2020-12-18 03:29:00",
+        "time": "2021-01-02 10:45:33",
         "length": 95,
         "game": "Diablo III",
         "run": "any% NG co-op \u2014 PC",
         "runners": "meatr0o, Heckson, Whisperra",
         "host": "VenBright",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 33,
-        "time": "2020-12-18 05:14:00",
+        "time": "2021-01-02 12:30:33",
         "length": 37,
         "game": "Mortal Shell",
         "run": "Any% \u2014 PC",
         "runners": "LilAggy",
         "host": "VenBright",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 34,
-        "time": "2020-12-18 06:01:00",
+        "time": "2021-01-02 13:17:33",
         "length": 100,
         "game": "Wild Arms",
         "run": "Any% No ACE \u2014 PS3",
         "runners": "cha0sRTA",
         "host": "THEKyleThomas",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 35,
-        "time": "2020-12-18 07:51:00",
+        "time": "2021-01-02 15:07:33",
         "length": 24,
         "game": "Ultima VI: The False Prophet",
         "run": "Glitchless \u2014 PC",
         "runners": "Gyre",
         "host": "THEKyleThomas",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 36,
-        "time": "2020-12-18 08:25:00",
+        "time": "2021-01-02 15:41:33",
         "length": 20,
         "game": "Journey to the Savage Planet",
         "run": "any% Post OGM \u2014 PC",
         "runners": "dkPuls",
         "host": "samorasie",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 37,
-        "time": "2020-12-18 08:55:00",
+        "time": "2021-01-02 16:11:33",
         "length": 25,
         "game": "Revenge of the Bird King",
         "run": "All Treasures \u2014 Switch",
         "runners": "Fox of the Flame",
         "host": "samorasie",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 38,
-        "time": "2020-12-18 09:30:00",
+        "time": "2021-01-02 16:46:33",
         "length": 7,
         "game": "Super Ledgehop: Double Laser",
         "run": "Good Ending \u2014 PC",
         "runners": "ChairGTables",
         "host": "samorasie",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 39,
-        "time": "2020-12-18 09:47:00",
+        "time": "2021-01-02 17:03:33",
         "length": 20,
         "game": "Nikita: The mystery of the hidden treasure",
         "run": "any% \u2014 PC",
         "runners": "havrd",
         "host": "samorasie",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 40,
-        "time": "2020-12-18 10:17:00",
+        "time": "2021-01-02 17:33:33",
         "length": 50,
         "game": "Dracula II: Noroi no Fuuin",
         "run": "Any% All Mansions \u2014 NES",
         "runners": "Sathdresh",
         "host": "YoBGS",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 41,
-        "time": "2020-12-18 11:17:00",
+        "time": "2021-01-02 18:33:33",
         "length": 15,
         "game": "Banana Prince",
         "run": "any% \u2014 NES",
         "runners": "swordsmankirby",
         "host": "YoBGS",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 42,
-        "time": "2020-12-18 11:42:00",
+        "time": "2021-01-02 18:58:33",
         "length": 15,
         "game": "Little Samson",
         "run": "any% No Out of bounds \u2014 NES",
         "runners": "rayeo",
         "host": "YoBGS",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 43,
-        "time": "2020-12-18 12:07:00",
+        "time": "2021-01-02 19:23:33",
         "length": 20,
         "game": "The Cowlitz 2nd Adventure/Lost Adventure",
         "run": "Any% Easy \u2014 NES",
         "runners": "Bitty_Kong",
         "host": "YoBGS",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 44,
-        "time": "2020-12-18 12:37:00",
+        "time": "2021-01-02 19:53:33",
         "length": 15,
         "game": "Fist of the North Star",
         "run": "Any% \u2014 NES",
         "runners": "Starwin",
         "host": "YoBGS",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 45,
-        "time": "2020-12-18 13:02:00",
+        "time": "2021-01-02 20:18:33",
         "length": 10,
         "game": "RollerGames",
         "run": "Any% \u2014 NES",
         "runners": "ViruseReturns",
         "host": "YoBGS",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 46,
-        "time": "2020-12-18 13:22:00",
+        "time": "2021-01-02 20:38:33",
         "length": 60,
         "game": "River City Girls",
         "run": "New Game \u2014 PC",
         "runners": "BahamutX_",
         "host": "Prolix",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 47,
-        "time": "2020-12-18 14:37:00",
+        "time": "2021-01-02 21:53:33",
         "length": 10,
         "game": "River City Ransom",
         "run": "Novice (Race) \u2014 NES",
         "runners": "yelsraek, willbobsled",
         "host": "Prolix",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 48,
-        "time": "2020-12-18 14:57:00",
+        "time": "2021-01-02 22:13:33",
         "length": 22,
         "game": "Strider",
         "run": "100% \u2014 NES",
         "runners": "baldnate",
         "host": "Prolix",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 49,
-        "time": "2020-12-18 15:34:00",
+        "time": "2021-01-02 22:50:33",
         "length": 17,
         "game": "Aladdin",
         "run": "All Stages (Practice Mode) \u2014 Genesis",
         "runners": "ZeeGee",
         "host": "Prolix",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 50,
-        "time": "2020-12-18 16:01:00",
+        "time": "2021-01-02 23:17:33",
         "length": 22,
         "game": "Metroid",
         "run": "All Bosses \u2014 NES",
         "runners": "Tecate, CHX42",
         "host": "Skybilz",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 51,
-        "time": "2020-12-18 16:33:00",
+        "time": "2021-01-02 23:49:33",
         "length": 40,
         "game": "Mega Man",
         "run": "Any% (One Hit KO/Buster Only) \u2014 NES",
         "runners": "coolkid",
         "host": "Skybilz",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 52,
-        "time": "2020-12-18 17:23:00",
+        "time": "2021-01-03 00:39:33",
         "length": 37,
         "game": "Mega Man 11",
         "run": "Any% No OoB (Normal) \u2014 PC",
         "runners": "Amad",
         "host": "Skybilz",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 53,
-        "time": "2020-12-18 18:10:00",
+        "time": "2021-01-03 01:26:33",
         "length": 55,
         "game": "Mega Man X3",
         "run": "Low% \u2014 SNES",
         "runners": "Luiz Miguel",
         "host": "Skybilz",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 54,
-        "time": "2020-12-18 19:15:00",
+        "time": "2021-01-03 02:31:33",
         "length": 9,
         "game": "Tony Hawk's Underground 2",
         "run": "Story Easy \u2014 PC",
         "runners": "Biglaw",
         "host": "Skybilz",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 55,
-        "time": "2020-12-18 19:34:00",
+        "time": "2021-01-03 02:50:33",
         "length": 22,
         "game": "Tony Hawk's Pro Skater 1+2",
         "run": "All Goals & Golds All Tours \u2014 PC",
         "runners": "PARTY MAN X",
         "host": "Skybilz",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 56,
-        "time": "2020-12-18 20:06:00",
+        "time": "2021-01-03 03:22:33",
         "length": 115,
         "game": "Metroid Prime",
         "run": "100% \u2014 GameCube",
         "runners": "edzan",
         "host": "ateatree",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 57,
-        "time": "2020-12-18 22:11:00",
+        "time": "2021-01-03 05:27:33",
         "length": 35,
         "game": "Braid",
         "run": "Any% \u2014 PC",
         "runners": "KanBan85",
         "host": "ateatree",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 58,
-        "time": "2020-12-18 22:56:00",
+        "time": "2021-01-03 06:12:33",
         "length": 40,
         "game": "Shovel Knight: Specter of Torment",
         "run": "New Game Plus \u2014 PC",
         "runners": "MooMooAkai",
         "host": "ateatree",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 59,
-        "time": "2020-12-18 23:46:00",
+        "time": "2021-01-03 07:02:33",
         "length": 35,
         "game": "Cuphead",
         "run": "All Bosses (No Major Glitches) \u2014 PC",
         "runners": "Jason2890",
         "host": "ateatree",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 60,
-        "time": "2020-12-19 00:31:00",
+        "time": "2021-01-03 07:47:33",
         "length": 65,
         "game": "Bonus Game 2 - Hades",
         "run": "3 Weapons \u2014 PC",
         "runners": "Vorime",
         "host": "Doctor No",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 61,
-        "time": "2020-12-19 02:11:00",
+        "time": "2021-01-03 09:27:33",
         "length": 25,
         "game": "BPM: Bullets Per Minute",
         "run": "Njord Easy \u2014 PC",
         "runners": "Bullets",
         "host": "Doctor No",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 62,
-        "time": "2020-12-19 02:46:00",
+        "time": "2021-01-03 10:02:33",
         "length": 70,
         "game": "Left 4 Dead 2",
         "run": "Main Campaigns Solo, Any Difficulty \u2014 PC",
         "runners": "WaifuRuns",
         "host": "AnEternalEnigma",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 63,
-        "time": "2020-12-19 04:06:00",
+        "time": "2021-01-03 11:22:33",
         "length": 55,
         "game": "F.E.A.R.",
         "run": "Any% \u2014 PC",
         "runners": "Maxylobes",
         "host": "AnEternalEnigma",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 64,
-        "time": "2020-12-19 05:11:00",
+        "time": "2021-01-03 12:27:33",
         "length": 25,
         "game": "Carrion",
         "run": "Any% \u2014 PC",
         "runners": "teddyras",
         "host": "AnEternalEnigma",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 65,
-        "time": "2020-12-19 05:46:00",
+        "time": "2021-01-03 13:02:33",
         "length": 65,
         "game": "Haunting Ground",
         "run": "A Ending NG+ \u2014 PS2",
         "runners": "Ecdycis",
         "host": "samorasie",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 66,
-        "time": "2020-12-19 07:01:00",
+        "time": "2021-01-03 14:17:33",
         "length": 70,
         "game": "Resident Evil: Director's Cut",
         "run": "Jill (Arrange) Any% NMG \u2014 PSX",
         "runners": "RetroBrando",
         "host": "samorasie",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 67,
-        "time": "2020-12-19 08:21:00",
+        "time": "2021-01-03 15:37:33",
         "length": 43,
         "game": "Silent Hill 3",
         "run": "Extra New Game \u2014 PC",
         "runners": "Punchy",
         "host": "zokubun",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 68,
-        "time": "2020-12-19 09:14:00",
+        "time": "2021-01-03 16:30:33",
         "length": 10,
         "game": "PIEN",
         "run": "Any% \u2014 PC",
         "runners": "Swordfish4649",
         "host": "YoBGS",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 69,
-        "time": "2020-12-19 09:34:00",
+        "time": "2021-01-03 16:50:33",
         "length": 25,
         "game": "Michael Jordan: Chaos in The Windy City",
         "run": "Any% \u2014 SNES",
         "runners": "apathyduck",
         "host": "YoBGS",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 70,
-        "time": "2020-12-19 10:09:00",
+        "time": "2021-01-03 17:25:33",
         "length": 22,
         "game": "Ice Age: Scrat's Nutty Adventure",
         "run": "Any% \u2014 PC",
         "runners": "yoshipro",
         "host": "YoBGS",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 71,
-        "time": "2020-12-19 10:41:00",
+        "time": "2021-01-03 17:57:33",
         "length": 15,
         "game": "Into The Breach",
         "run": "2-Island% - Frozen Titans \u2014 PC",
         "runners": "RooseSR",
         "host": "YoBGS",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 72,
-        "time": "2020-12-19 11:06:00",
+        "time": "2021-01-03 18:22:33",
         "length": 100,
         "game": "Gravity Rush Remastered",
         "run": "Any% \u2014 PS4",
         "runners": "SteveTheWizard",
         "host": "YoBGS",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 73,
-        "time": "2020-12-19 12:56:00",
+        "time": "2021-01-03 20:12:33",
         "length": 240,
         "game": "Golden Sun",
         "run": "Any% No Save & Quit \u2014 GBA",
         "runners": "Plexa",
         "host": "Argick",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 74,
-        "time": "2020-12-19 17:06:00",
+        "time": "2021-01-04 00:22:33",
         "length": 60,
         "game": "Minecraft Dungeons",
         "run": "Any% \u2014 PC",
         "runners": "MiphaSR",
         "host": "Asuka424",
-        "reminded": true
+        "reminded": false
     },
     {
         "run_id": 75,
-        "time": "2020-12-19 18:16:00",
+        "time": "2021-01-04 01:32:33",
         "length": 30,
         "game": "Spider-Man: Shattered Dimensions",
         "run": "Any% \u2014 Nintendo DS",
@@ -751,7 +751,7 @@
     },
     {
         "run_id": 76,
-        "time": "2020-12-19 18:56:00",
+        "time": "2021-01-04 02:12:33",
         "length": 65,
         "game": "Spyro Reignited Trilogy:Spyro 3 Year of the Dragon",
         "run": "Any% \u2014 PC",
@@ -761,7 +761,7 @@
     },
     {
         "run_id": 77,
-        "time": "2020-12-19 20:11:00",
+        "time": "2021-01-04 03:27:33",
         "length": 60,
         "game": "Crash Bandicoot: N. Sane Trilogy",
         "run": "Crash Bandicoot 1 Any% \u2014 PC",
@@ -771,7 +771,7 @@
     },
     {
         "run_id": 78,
-        "time": "2020-12-19 21:26:00",
+        "time": "2021-01-04 04:42:33",
         "length": 80,
         "game": "Ratchet & Clank: Going Commando",
         "run": "All Platinum Bolts \u2014 PS2",
@@ -781,7 +781,7 @@
     },
     {
         "run_id": 79,
-        "time": "2020-12-19 22:56:00",
+        "time": "2021-01-04 06:12:33",
         "length": 65,
         "game": "Devil May Cry 3: Special Edition",
         "run": "Vergil New Game \u2014 PC",
@@ -791,7 +791,7 @@
     },
     {
         "run_id": 80,
-        "time": "2020-12-20 00:36:00",
+        "time": "2021-01-04 07:52:33",
         "length": 162,
         "game": "Super Mario World 2: Yoshi's Island",
         "run": "100% \u2014 SNES",
@@ -801,7 +801,7 @@
     },
     {
         "run_id": 81,
-        "time": "2020-12-20 03:28:00",
+        "time": "2021-01-04 10:44:33",
         "length": 100,
         "game": "The Legend of Zelda: Skyward Sword",
         "run": "Any% \u2014 Wii",
@@ -811,7 +811,7 @@
     },
     {
         "run_id": 82,
-        "time": "2020-12-20 05:18:00",
+        "time": "2021-01-04 12:34:33",
         "length": 60,
         "game": "Bonus Game 3 - Zelda: The Wand of Gamelon",
         "run": "All Cutscenes \u2014 CD-i",
@@ -821,7 +821,7 @@
     },
     {
         "run_id": 83,
-        "time": "2020-12-20 06:28:00",
+        "time": "2021-01-04 13:44:33",
         "length": 45,
         "game": "King's Quest: Mask of Eternity",
         "run": "Any% \u2014 PC",
@@ -831,7 +831,7 @@
     },
     {
         "run_id": 84,
-        "time": "2020-12-20 07:23:00",
+        "time": "2021-01-04 14:39:33",
         "length": 23,
         "game": "Pinobee: Wings of Adventure",
         "run": "Any% \u2014 GBA",
@@ -841,7 +841,7 @@
     },
     {
         "run_id": 85,
-        "time": "2020-12-20 08:01:00",
+        "time": "2021-01-04 15:17:33",
         "length": 23,
         "game": "Epic Dumpster Bear 2: He Who Bears Wins",
         "run": "Any% race \u2014 PC",
@@ -851,7 +851,7 @@
     },
     {
         "run_id": 86,
-        "time": "2020-12-20 08:34:00",
+        "time": "2021-01-04 15:50:33",
         "length": 18,
         "game": "Snow White in Happily Ever After",
         "run": "Hard \u2014 SNES",
@@ -861,7 +861,7 @@
     },
     {
         "run_id": 87,
-        "time": "2020-12-20 09:02:00",
+        "time": "2021-01-04 16:18:33",
         "length": 20,
         "game": "Alcatraz: Prison Escape",
         "run": "MAXIMUM SECURITY \u2014 PC",
@@ -871,7 +871,7 @@
     },
     {
         "run_id": 88,
-        "time": "2020-12-20 09:32:00",
+        "time": "2021-01-04 16:48:33",
         "length": 80,
         "game": "Mr. Bones",
         "run": "All Cutscenes \u2014 Saturn",
@@ -881,7 +881,7 @@
     },
     {
         "run_id": 89,
-        "time": "2020-12-20 11:02:00",
+        "time": "2021-01-04 18:18:33",
         "length": 50,
         "game": "Shinobi Legions",
         "run": "Cutscene% \u2014 Saturn",
@@ -891,7 +891,7 @@
     },
     {
         "run_id": 90,
-        "time": "2020-12-20 12:02:00",
+        "time": "2021-01-04 19:18:33",
         "length": 30,
         "game": "Energy",
         "run": "Any% Quality of Life Translation Patch \u2014 PC Engine",
@@ -901,7 +901,7 @@
     },
     {
         "run_id": 91,
-        "time": "2020-12-20 12:42:00",
+        "time": "2021-01-04 19:58:33",
         "length": 30,
         "game": "The Lawnmower Man",
         "run": "Any% \u2014 SNES",
@@ -911,7 +911,7 @@
     },
     {
         "run_id": 92,
-        "time": "2020-12-20 13:22:00",
+        "time": "2021-01-04 20:38:33",
         "length": 31,
         "game": "The Mummy",
         "run": "Hub 1 \u2014 PSX",
@@ -921,7 +921,7 @@
     },
     {
         "run_id": 93,
-        "time": "2020-12-20 14:03:00",
+        "time": "2021-01-04 21:19:33",
         "length": 45,
         "game": "Vigilance",
         "run": "Any% (Rookie - Hex) \u2014 PC",
@@ -931,7 +931,7 @@
     },
     {
         "run_id": 94,
-        "time": "2020-12-20 14:58:00",
+        "time": "2021-01-04 22:14:33",
         "length": 15,
         "game": "Sammy Suricate in Lion Land",
         "run": "All Levels \u2014 PC",
@@ -941,7 +941,7 @@
     },
     {
         "run_id": 95,
-        "time": "2020-12-20 15:23:00",
+        "time": "2021-01-04 22:39:33",
         "length": 88,
         "game": "The Legend of Zelda: Link's Awakening DX",
         "run": "100% (no WW/OoB) \u2014 GBC",
@@ -951,7 +951,7 @@
     },
     {
         "run_id": 96,
-        "time": "2020-12-20 17:01:00",
+        "time": "2021-01-05 00:17:33",
         "length": 250,
         "game": "Pok\u00e9mon Platinum",
         "run": "Any% Glitchless \u2014 DS",
@@ -961,7 +961,7 @@
     },
     {
         "run_id": 97,
-        "time": "2020-12-20 21:21:00",
+        "time": "2021-01-05 04:37:33",
         "length": 55,
         "game": "Deus Ex: Mankind Divided",
         "run": "any% \u2014 PC",
@@ -971,7 +971,7 @@
     },
     {
         "run_id": 98,
-        "time": "2020-12-20 22:26:00",
+        "time": "2021-01-05 05:42:33",
         "length": 95,
         "game": "Halo 3: ODST",
         "run": "New Game+ Legendary \u2014 Xbox One",
@@ -981,7 +981,7 @@
     },
     {
         "run_id": 99,
-        "time": "2020-12-21 00:36:00",
+        "time": "2021-01-05 07:52:33",
         "length": 80,
         "game": "Bonus Game 4 - Halo 3",
         "run": "Easy \u2014 PC",
@@ -991,7 +991,7 @@
     },
     {
         "run_id": 100,
-        "time": "2020-12-21 02:06:00",
+        "time": "2021-01-05 09:22:33",
         "length": 32,
         "game": "Half-Life",
         "run": "WON - Scriptless \u2014 PC",
@@ -1001,7 +1001,7 @@
     },
     {
         "run_id": 101,
-        "time": "2020-12-21 02:48:00",
+        "time": "2021-01-05 10:04:33",
         "length": 130,
         "game": "Star Wars Jedi: Fallen Order",
         "run": "any% - No PBC \u2014 PC",
@@ -1011,7 +1011,7 @@
     },
     {
         "run_id": 102,
-        "time": "2020-12-21 05:13:00",
+        "time": "2021-01-05 12:29:33",
         "length": 105,
         "game": "Resident Evil 5",
         "run": "NG Co-Op Amateur \u2014 PC",
@@ -1021,7 +1021,7 @@
     },
     {
         "run_id": 103,
-        "time": "2020-12-21 07:08:00",
+        "time": "2021-01-05 14:24:33",
         "length": 60,
         "game": "TimeSplitters 2",
         "run": "Hard Story \u2014 PS2",
@@ -1031,7 +1031,7 @@
     },
     {
         "run_id": 104,
-        "time": "2020-12-21 08:18:00",
+        "time": "2021-01-05 15:34:33",
         "length": 25,
         "game": "I Wanna Be The Fangame!",
         "run": "Any% (Medium) \u2014 PC",
@@ -1041,7 +1041,7 @@
     },
     {
         "run_id": 105,
-        "time": "2020-12-21 08:53:00",
+        "time": "2021-01-05 16:09:33",
         "length": 23,
         "game": "Slowdrive",
         "run": "Any% \u2014 PC",
@@ -1051,7 +1051,7 @@
     },
     {
         "run_id": 106,
-        "time": "2020-12-21 09:26:00",
+        "time": "2021-01-05 16:42:33",
         "length": 15,
         "game": "Alwa's Legacy",
         "run": "any% \u2014 PC",
@@ -1061,7 +1061,7 @@
     },
     {
         "run_id": 107,
-        "time": "2020-12-21 09:51:00",
+        "time": "2021-01-05 17:07:33",
         "length": 25,
         "game": "Sheepo",
         "run": "6 Real Eggs \u2014 PC",
@@ -1071,7 +1071,7 @@
     },
     {
         "run_id": 108,
-        "time": "2020-12-21 10:26:00",
+        "time": "2021-01-05 17:42:33",
         "length": 30,
         "game": "RITE",
         "run": "Any% \u2014 PC",
@@ -1081,7 +1081,7 @@
     },
     {
         "run_id": 109,
-        "time": "2020-12-21 11:06:00",
+        "time": "2021-01-05 18:22:33",
         "length": 16,
         "game": "Whipseey and the Lost Atlas",
         "run": "Beat the Game \u2014 PC",
@@ -1091,7 +1091,7 @@
     },
     {
         "run_id": 110,
-        "time": "2020-12-21 11:32:00",
+        "time": "2021-01-05 18:48:33",
         "length": 17,
         "game": "Demolition Man",
         "run": "Crazed% \u2014 SNES",
@@ -1101,7 +1101,7 @@
     },
     {
         "run_id": 111,
-        "time": "2020-12-21 11:59:00",
+        "time": "2021-01-05 19:15:33",
         "length": 22,
         "game": "Night in the Woods: DemonTower",
         "run": "DemonTower Any% \u2014 PC",
@@ -1111,7 +1111,7 @@
     },
     {
         "run_id": 112,
-        "time": "2020-12-21 12:31:00",
+        "time": "2021-01-05 19:47:33",
         "length": 40,
         "game": "Inertial Drift",
         "run": "100% Viv \u2014 PC",
@@ -1121,7 +1121,7 @@
     },
     {
         "run_id": 113,
-        "time": "2020-12-21 13:21:00",
+        "time": "2021-01-05 20:37:33",
         "length": 70,
         "game": "Metal Gear Solid: The Twin Snakes",
         "run": "All Dog Tags (Extreme) \u2014 Gamecube",
@@ -1131,7 +1131,7 @@
     },
     {
         "run_id": 114,
-        "time": "2020-12-21 14:41:00",
+        "time": "2021-01-05 21:57:33",
         "length": 26,
         "game": "Nezumi Man",
         "run": "any% \u2014 PC",
@@ -1141,7 +1141,7 @@
     },
     {
         "run_id": 115,
-        "time": "2020-12-21 15:17:00",
+        "time": "2021-01-05 22:33:33",
         "length": 20,
         "game": "Luigi's Mansion",
         "run": "Any% \u2014 Wii",
@@ -1151,7 +1151,7 @@
     },
     {
         "run_id": 116,
-        "time": "2020-12-21 15:55:00",
+        "time": "2021-01-05 23:11:33",
         "length": 30,
         "game": "Super Mario Land 2: 6 Golden Coin",
         "run": "Any% Glitchless \u2014 Game Boy",
@@ -1161,7 +1161,7 @@
     },
     {
         "run_id": 117,
-        "time": "2020-12-21 16:35:00",
+        "time": "2021-01-05 23:51:33",
         "length": 30,
         "game": "Wario Land: Super Mario Land 3",
         "run": "Any% \u2014 Game Boy",
@@ -1171,7 +1171,7 @@
     },
     {
         "run_id": 118,
-        "time": "2020-12-21 17:15:00",
+        "time": "2021-01-06 00:31:33",
         "length": 65,
         "game": "Wario Land 4",
         "run": "Normal Any% Zipless \u2014 Game Boy",
@@ -1181,7 +1181,7 @@
     },
     {
         "run_id": 119,
-        "time": "2020-12-21 18:30:00",
+        "time": "2021-01-06 01:46:33",
         "length": 75,
         "game": "Donkey Kong Country 2 Unveiled",
         "run": "Any% \u2014 SNES",
@@ -1191,7 +1191,7 @@
     },
     {
         "run_id": 120,
-        "time": "2020-12-21 19:55:00",
+        "time": "2021-01-06 03:11:33",
         "length": 85,
         "game": "Warcraft III: Reign of Chaos",
         "run": "Night Elf \u2014 PC",
@@ -1201,7 +1201,7 @@
     },
     {
         "run_id": 121,
-        "time": "2020-12-21 21:30:00",
+        "time": "2021-01-06 04:46:33",
         "length": 125,
         "game": "Final Fantasy VII",
         "run": "Any% \u2014 PC",
@@ -1211,7 +1211,7 @@
     },
     {
         "run_id": 122,
-        "time": "2020-12-22 00:10:00",
+        "time": "2021-01-06 07:26:33",
         "length": 30,
         "game": "The Legend of Zelda: Majora's Mask",
         "run": "Any% \u2014 N64",
@@ -1221,7 +1221,7 @@
     },
     {
         "run_id": 123,
-        "time": "2020-12-22 00:50:00",
+        "time": "2021-01-06 08:06:33",
         "length": 55,
         "game": "Bonus Game 5 - Super Mario 64",
         "run": "16 Star Blindfolded \u2014 N64",
@@ -1231,7 +1231,7 @@
     },
     {
         "run_id": 124,
-        "time": "2020-12-22 01:55:00",
+        "time": "2021-01-06 09:11:33",
         "length": 82,
         "game": "Super Mario Sunshine",
         "run": "Any% \u2014 Gamecube",
@@ -1241,7 +1241,7 @@
     },
     {
         "run_id": 125,
-        "time": "2020-12-22 03:27:00",
+        "time": "2021-01-06 10:43:33",
         "length": 170,
         "game": "Yakuza 6: The Song of Life",
         "run": "Any% \u2014 PS4",
@@ -1251,7 +1251,7 @@
     },
     {
         "run_id": 126,
-        "time": "2020-12-22 06:32:00",
+        "time": "2021-01-06 13:48:33",
         "length": 30,
         "game": "Scooby-Doo! Night of 100 Frights",
         "run": "Any% No CE \u2014 Gamecube",
@@ -1261,7 +1261,7 @@
     },
     {
         "run_id": 127,
-        "time": "2020-12-22 07:12:00",
+        "time": "2021-01-06 14:28:33",
         "length": 65,
         "game": "MediEvil",
         "run": "Any% NO DGS \u2014 PS1",
@@ -1271,7 +1271,7 @@
     },
     {
         "run_id": 128,
-        "time": "2020-12-22 08:27:00",
+        "time": "2021-01-06 15:43:33",
         "length": 38,
         "game": "Muchi Muchi Pork! 1.01",
         "run": "Harahara \u2014 Xbox 360",
@@ -1281,7 +1281,7 @@
     },
     {
         "run_id": 129,
-        "time": "2020-12-22 09:15:00",
+        "time": "2021-01-06 16:31:33",
         "length": 48,
         "game": "Oddworld: Stranger's Wrath HD",
         "run": "any% No Ghost \u2014 PC",
@@ -1291,7 +1291,7 @@
     },
     {
         "run_id": 130,
-        "time": "2020-12-22 10:23:00",
+        "time": "2021-01-06 17:39:33",
         "length": 26,
         "game": "Serious Sam: The First Encounter",
         "run": "any% co-op \u2014 PC",
@@ -1301,7 +1301,7 @@
     },
     {
         "run_id": 131,
-        "time": "2020-12-22 10:59:00",
+        "time": "2021-01-06 18:15:33",
         "length": 29,
         "game": "Serious Sam: The Second Encounter",
         "run": "any% co-op \u2014 PC",
@@ -1311,7 +1311,7 @@
     },
     {
         "run_id": 132,
-        "time": "2020-12-22 11:38:00",
+        "time": "2021-01-06 18:54:33",
         "length": 65,
         "game": "Thief II: The Metal Age",
         "run": "any% Normal NewDark \u2014 PC",
@@ -1321,7 +1321,7 @@
     },
     {
         "run_id": 133,
-        "time": "2020-12-22 12:53:00",
+        "time": "2021-01-06 20:09:33",
         "length": 50,
         "game": "Comfort Zone",
         "run": "All Exits 100% \u2014 SNES",
@@ -1331,7 +1331,7 @@
     },
     {
         "run_id": 134,
-        "time": "2020-12-22 13:53:00",
+        "time": "2021-01-06 21:09:33",
         "length": 32,
         "game": "X-Men Arcade",
         "run": "1CC Console 4P JP Version \u2014 PS3",
@@ -1341,7 +1341,7 @@
     },
     {
         "run_id": 135,
-        "time": "2020-12-22 14:35:00",
+        "time": "2021-01-06 21:51:33",
         "length": 20,
         "game": "Celeste",
         "run": "All C-Sides with Dance Pads \u2014 PC",
@@ -1351,7 +1351,7 @@
     },
     {
         "run_id": 136,
-        "time": "2020-12-22 15:05:00",
+        "time": "2021-01-06 22:21:33",
         "length": 35,
         "game": "Castlevania III: Dracula's Curse",
         "run": "Trevor Only \u2014 NES",
@@ -1361,7 +1361,7 @@
     },
     {
         "run_id": 137,
-        "time": "2020-12-22 15:50:00",
+        "time": "2021-01-06 23:06:33",
         "length": 35,
         "game": "Castlevania: Order of Ecclesia",
         "run": "Albus any% \u2014 Nintendo 3DS",
@@ -1371,7 +1371,7 @@
     },
     {
         "run_id": 138,
-        "time": "2020-12-22 16:35:00",
+        "time": "2021-01-06 23:51:33",
         "length": 30,
         "game": "Bloodstained: Curse of the Moon 2",
         "run": "Any% Ultimate Episode 1 \u2014 PC",
@@ -1381,7 +1381,7 @@
     },
     {
         "run_id": 139,
-        "time": "2020-12-22 17:15:00",
+        "time": "2021-01-07 00:31:33",
         "length": 12,
         "game": "Super Mario Bros. 2",
         "run": "any% Single Character Bidwar \u2014 NES",
@@ -1391,7 +1391,7 @@
     },
     {
         "run_id": 140,
-        "time": "2020-12-22 17:37:00",
+        "time": "2021-01-07 00:53:33",
         "length": 92,
         "game": "Super Meat Boy",
         "run": "106% \u2014 PC",
@@ -1401,7 +1401,7 @@
     },
     {
         "run_id": 141,
-        "time": "2020-12-22 19:19:00",
+        "time": "2021-01-07 02:35:33",
         "length": 45,
         "game": "The Messenger",
         "run": "Linear No OoB \u2014 PC",
@@ -1411,7 +1411,7 @@
     },
     {
         "run_id": 142,
-        "time": "2020-12-22 20:14:00",
+        "time": "2021-01-07 03:30:33",
         "length": 75,
         "game": "Beat Saber",
         "run": "Expert+ Showcase \u2014 PC (VR)",
@@ -1421,7 +1421,7 @@
     },
     {
         "run_id": 143,
-        "time": "2020-12-22 21:39:00",
+        "time": "2021-01-07 04:55:33",
         "length": 31,
         "game": "TASbot plays Freedom Planet Milla",
         "run": "any% Milla by Fladervy, Tris255, and Revolucoin \u2014 PC",
@@ -1431,7 +1431,7 @@
     },
     {
         "run_id": 144,
-        "time": "2020-12-22 22:20:00",
+        "time": "2021-01-07 05:36:33",
         "length": 30,
         "game": "TASBot plays Legend of Zelda Link's Awakening DX",
         "run": "no wrong warp by TwistedTammer \u2014 Game Boy",
@@ -1441,7 +1441,7 @@
     },
     {
         "run_id": 145,
-        "time": "2020-12-22 23:05:00",
+        "time": "2021-01-07 06:21:33",
         "length": 27,
         "game": "Sekiro: Shadows Die Twice",
         "run": "Any% Race \u2014 PC",
@@ -1451,7 +1451,7 @@
     },
     {
         "run_id": 146,
-        "time": "2020-12-22 23:42:00",
+        "time": "2021-01-07 06:58:33",
         "length": 60,
         "game": "The Legend of Zelda: A Link to the Past",
         "run": "All Dungeons \u2014 SNES",
@@ -1461,7 +1461,7 @@
     },
     {
         "run_id": 147,
-        "time": "2020-12-23 01:02:00",
+        "time": "2021-01-07 08:18:33",
         "length": 90,
         "game": "Super Mario Bros. 35",
         "run": "Battle Showcase \u2014 Nintendo Switch",
@@ -1471,7 +1471,7 @@
     },
     {
         "run_id": 148,
-        "time": "2020-12-23 02:42:00",
+        "time": "2021-01-07 09:58:33",
         "length": 40,
         "game": "Super Orb Bros.",
         "run": "100% \u2014 NES",
@@ -1481,7 +1481,7 @@
     },
     {
         "run_id": 149,
-        "time": "2020-12-23 03:32:00",
+        "time": "2021-01-07 10:48:33",
         "length": 115,
         "game": "Pok\u00e9mon Blue",
         "run": "Catch 'em All \u2014 Game Boy",
@@ -1491,7 +1491,7 @@
     },
     {
         "run_id": 150,
-        "time": "2020-12-23 05:37:00",
+        "time": "2021-01-07 12:53:33",
         "length": 50,
         "game": "Bonus Game 6 - The Legend of Zelda: Ocarina of Time",
         "run": "All Dungeons \u2014 Wii VC",
@@ -1501,7 +1501,7 @@
     },
     {
         "run_id": 151,
-        "time": "2020-12-23 06:37:00",
+        "time": "2021-01-07 13:53:33",
         "length": 10,
         "game": "Finale",
         "run": "",

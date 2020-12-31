@@ -82,6 +82,8 @@ class Schedule:
         data_iterator = self.data
         filter_applied = ""
 
+        print(f'{ctx.author.name} | get schedule | {datetime.utcnow()}')
+
         # Apply Filters if needed
         if filter_schedule is True and len(args) > 1:
             if any(o in args for o in self.accepted_filter_options):
@@ -93,8 +95,9 @@ class Schedule:
                     return
             else:
                 filter_schedule = False
-        else:
-            result_iterator, error, error_text, filter_applied = await self.__apply_filter_from_string(args, data_iterator)
+        elif filter_schedule is True and len(args) == 1:
+            result_iterator, error, error_text, filter_applied = await self.__apply_filter_from_string(args,
+                                                                                                       data_iterator)
             if error is False:
                 data_iterator = result_iterator
             else:
@@ -263,7 +266,12 @@ class Schedule:
         if len(self.data) > 0:
             return True, len(self.data)
         else:
-            return False, 0
+            await self.dev_sync()
+            if len(self.data) == 0:
+                return False, 0
+            else:
+                await self.__save_to_file()
+                return True, len(self.data)
 
     async def save(self):
 
@@ -310,7 +318,7 @@ class Schedule:
 
             # Check if current time is after reminder time + buffer (10 + 5 minutes before run start)
             # if yes reminded = True
-            if datetime.utcnow() > run['time'] - timedelta(minutes=15):
+            if datetime.utcnow() > run['time'] - timedelta(minutes=10):
                 run['reminded'] = True
 
         self.data = new_schedule
@@ -361,7 +369,7 @@ class Schedule:
                 length = (int(length_text[0]) * 60) + int(length_text[1])
                 reminded = False
 
-                if datetime.utcnow() > time - timedelta(minutes=15):
+                if datetime.utcnow() > time - timedelta(minutes=10):
                     reminded = True
 
                 run_dict = {
@@ -380,7 +388,7 @@ class Schedule:
                 length_text = run[3].split(':')
                 length = (int(length_text[0]) * 60) + int(length_text[1])
                 reminded = False
-                if datetime.utcnow() > time - timedelta(minutes=15):
+                if datetime.utcnow() > time - timedelta(minutes=10):
                     reminded = True
 
                 run_dict = {
@@ -448,7 +456,7 @@ class Schedule:
     # -----------------------------------------------------------------------------------------------
 
     async def generate_fake_schedule(self):
-        new_date = datetime.utcnow() + timedelta(minutes=20)
+        new_date = datetime.utcnow() + timedelta(minutes=11)
 
         new_fake_schedule = None
         try:
@@ -503,6 +511,7 @@ class Schedule:
             with open(data_file, 'w') as f:
                 f.write(json.dumps(new_fake_schedule, indent=4, default=json_filter))
                 f.close()
+                await self.dev_sync()
                 return True, f"New schedule generation success! New start datetime: {new_date}"
         except JSONDecodeError as e:
             print(f'{JSONDecodeError}: {e}')
