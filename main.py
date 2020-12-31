@@ -29,7 +29,7 @@ subcribe = Subcribe(database, schedule, bot)
 @tasks.loop(seconds=1.0)
 async def task_loop():
     if await schedule.is_time_to_run_schedule_sync_service():
-        # await schedule.schedule_update_service()
+        await schedule.schedule_update_service()
         pass
 
     if await schedule.is_time_to_run_cleanup_service():

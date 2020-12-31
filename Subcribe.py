@@ -17,7 +17,7 @@ class Subcribe:
         self.bot = bot
         self.mute = False
 
-        self.subscriptions = list()
+        self.subscriptions = dict()
 
         self.reminder_service_next_runtime = datetime.utcnow() + timedelta(seconds=1)
 
@@ -159,7 +159,7 @@ class Subcribe:
 
     async def load(self):
         await self.__load_from_file()
-        print(f'Loaded {len(self.subscriptions)} runs from file')
+        print(f'Loaded {len(self.subscriptions)} subscriptions from file')
 
     async def list_subs(self, ctx):
         sub_list = await self.__get_user_subs_by_id(ctx.author.id, ctx.guild.id, limit=10)
@@ -227,7 +227,7 @@ class Subcribe:
                         reminder_embed.set_footer(text='Speedrun start times are subject to change')
                         reminder_embed.add_field(
                             name=f'Coming up next:',
-                            value=f'{run["game"]} ({run["run"]})\nBy: {run["runners"]} | '
+                            value=f'{run["run_id"]}-{run["game"]} ({run["run"]})\nBy: {run["runners"]} | '
                                   f'Estimated length: {self.schedule.service.explode_minutes(run["length"])}',
                             inline=False)
 
@@ -251,6 +251,9 @@ class Subcribe:
                                     raise ValueError(f'Unable to get \'{self.ping_role_name}\' role '
                                                      f'from \'{channel_to_send_to.guild.name}\' guild')
 
+                # Clean up un-needed sub data
+                await self.__delete_old_subs(run['run_id'])
+                await self.__save_runs_to_file()
                 # Set flag that game reminder has been sent
                 run["reminded"] = True
                 await self.schedule.save()
@@ -260,6 +263,11 @@ class Subcribe:
                 await self.schedule.save()
 
         await self.__next_runtime()
+
+    async def __delete_old_subs(self, run_id):
+        for key, value in self.subscriptions.copy().items():
+            if value['run_id'] == run_id:
+                del self.subscriptions[key]
 
     async def __validate_roles(self, run_id, guild_info):
         role_addition = True
@@ -300,18 +308,18 @@ class Subcribe:
                 role_removal = False
 
     async def __get_subs_by_guild(self, r_id, g_id):
-        sub_list = {key: value for key, value in self.subscriptions.items() if
+        sub_list = {key: value for key, value in self.subscriptions.copy().items() if
                     value['guild_id'] == g_id and (value['run_id'] == r_id or value['run_id'] == 0)}
 
         # Find duplitcate items and remove them, run 0 take priority
         cleaned_list = list()
-        for key, value in sub_list.items():
+        for key, value in sub_list.copy().items():
             if value["run_id"] == 0:
                 cleaned_list.append(value)
             else:
                 if not any(
                         value2["discord_id"] == value["discord_id"] and value2["run_id"] == 0
-                        for key2, value2 in sub_list.items()):
+                        for key2, value2 in sub_list.copy().items()):
                     cleaned_list.append(value)
 
         return cleaned_list
@@ -337,7 +345,7 @@ class Subcribe:
         count = 0
         sub_list = list()
 
-        for (key, value) in self.subscriptions.items():
+        for (key, value) in self.subscriptions.copy().items():
             if self.subscriptions[key]['guild_id'] == g_id and self.subscriptions[key]['discord_id'] == u_id \
                     and count <= limit:
                 sub_list.append(value)
@@ -390,7 +398,7 @@ class Subcribe:
             return True, runs_deleted
 
     async def __purge_runs(self, u_id, g_id):
-        runs_to_delete = {key: value for key, value in self.subscriptions.items()
+        runs_to_delete = {key: value for key, value in self.subscriptions.copy().items()
                           if value['guild_id'] == g_id and
                           value['discord_id'] == u_id}
 
