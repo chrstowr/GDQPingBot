@@ -41,7 +41,7 @@ async def task_loop():
 @bot.event
 async def on_ready():
     # Show connected guilds
-    print(f'\n{bot.user.name} v1.0 is connected to the following guilds:')
+    print(f'\n{bot.user.name} v1.2 is connected to the following guilds:')
     guilds = bot.guilds
     for g in guilds:
         print(f'{g.name} | (id: {g.id})')

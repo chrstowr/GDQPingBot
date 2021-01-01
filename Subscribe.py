@@ -1,11 +1,10 @@
-import os
 import json
-import discord
-from time import perf_counter
-from copy import copy
+import os
 from datetime import datetime, timedelta
-from pathlib import Path
 from json import JSONDecodeError
+from pathlib import Path
+
+import discord
 
 
 class Subscribe:
@@ -414,22 +413,19 @@ class Subscribe:
         else:
             return False, runs_to_delete
 
-    async def __correct_sub_run_ids(self, run_ids_that_changed):
+    async def correct_sub_run_ids(self, run_ids_that_changed):
         old_sub_dict = self.subscriptions.copy()
         new_sub_dict = dict()
-        keys_to_delete = list()
+
+        print(f'Correcting {len(run_ids_that_changed)} subs: {run_ids_that_changed} | {datetime.utcnow()}')
 
         # Find matching items, if match, pop it and add to new sub dict()
         for r_ids in run_ids_that_changed:
-            for key, value in old_sub_dict.items():
+            for key, value in old_sub_dict.copy().items():
                 if value['run_id'] == r_ids[0]:
                     value['run_id'] = r_ids[1]
                     new_sub_dict[key] = value
-                    keys_to_delete.append(key)
-
-        # Delete matching keys
-        for key in keys_to_delete:
-            del old_sub_dict[key]
+                    del old_sub_dict[key]
 
         # Add remaining runs
         for key, value in old_sub_dict.items():

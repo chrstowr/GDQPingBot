@@ -335,7 +335,7 @@ class Schedule:
 
         # If there were any mismatches, correct subscriptions
         if len(run_ids_that_changed) > 0:
-            await subscription.__correct_sub_run_ids(run_ids_that_changed)
+            await subscription.correct_sub_run_ids(run_ids_that_changed)
 
         self.data = new_schedule
         await self.__save_to_file()
@@ -419,6 +419,17 @@ class Schedule:
                 }
                 master_schedule.append(run_dict)
             run_id = run_id + 1
+
+        # Validate run ids are the same
+        run_ids_that_changed = list()
+        for run in self.data.copy():
+            for run2 in master_schedule:
+                if run['game'] == run2['game'] and run['run_id'] != run2['run_id']:
+                    run_ids_that_changed.append([run['run_id'], run2['run_id']])
+
+        # If there were any mismatches, correct subscriptions
+        if len(run_ids_that_changed) > 0:
+            await subscription.correct_sub_run_ids(run_ids_that_changed)
 
         self.data = master_schedule
         await self.__save_to_file()
@@ -525,7 +536,7 @@ class Schedule:
             with open(data_file, 'w') as f:
                 f.write(json.dumps(new_fake_schedule, indent=4, default=json_filter))
                 f.close()
-                await self.dev_sync(subscription)
+                await self.sync(subscription)
                 return True, f"New schedule generation success! New start datetime: {new_date}"
         except JSONDecodeError as e:
             print(f'{JSONDecodeError}: {e}')
