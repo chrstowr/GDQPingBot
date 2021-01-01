@@ -8,7 +8,7 @@ from pathlib import Path
 from json import JSONDecodeError
 
 
-class Subcribe:
+class Subscribe:
 
     def __init__(self, database_ref, schedule_ref, bot):
         self.ping_role_name = "GDQping"
@@ -252,7 +252,7 @@ class Subcribe:
 
                 # Clean up un-needed sub data
                 await self.__delete_old_subs(run['run_id'])
-                await self.__save_runs_to_file()
+                await self.__save_subs_to_file()
                 # Set flag that game reminder has been sent
                 run["reminded"] = True
                 await self.schedule.save()
@@ -374,7 +374,7 @@ class Subcribe:
         if len(runs_inserted) == 0:
             return False, None
         else:
-            await self.__save_runs_to_file()
+            await self.__save_subs_to_file()
             return True, runs_inserted
 
     async def __remove_runs(self, list_of_runs):
@@ -393,7 +393,7 @@ class Subcribe:
         if len(runs_deleted) == 0:
             return False, None
         else:
-            await self.__save_runs_to_file()
+            await self.__save_subs_to_file()
             return True, runs_deleted
 
     async def __purge_runs(self, u_id, g_id):
@@ -409,12 +409,36 @@ class Subcribe:
                 items_deleted = items_deleted + 1
 
         if len(runs_to_delete) == items_deleted:
-            await self.__save_runs_to_file()
+            await self.__save_subs_to_file()
             return True, runs_to_delete
         else:
             return False, runs_to_delete
 
-    async def __save_runs_to_file(self):
+    async def __correct_sub_run_ids(self, run_ids_that_changed):
+        old_sub_dict = self.subscriptions.copy()
+        new_sub_dict = dict()
+        keys_to_delete = list()
+
+        # Find matching items, if match, pop it and add to new sub dict()
+        for r_ids in run_ids_that_changed:
+            for key, value in old_sub_dict.items():
+                if value['run_id'] == r_ids[0]:
+                    value['run_id'] = r_ids[1]
+                    new_sub_dict[key] = value
+                    keys_to_delete.append(key)
+
+        # Delete matching keys
+        for key in keys_to_delete:
+            del old_sub_dict[key]
+
+        # Add remaining runs
+        for key, value in old_sub_dict.items():
+            new_sub_dict[key] = value
+
+        self.subscriptions = new_sub_dict
+        await self.__save_subs_to_file()
+
+    async def __save_subs_to_file(self):
         try:
             directory = os.path.dirname(__file__)
             file = os.path.join(directory, 'data/subscriptions.json')

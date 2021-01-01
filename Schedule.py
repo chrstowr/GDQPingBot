@@ -142,7 +142,7 @@ class Schedule:
                 else:
                     hours, minutes, seconds = self.service.diff_dates(datetime.utcnow(), run_time)
                     schedule_embed.add_field(
-                        name=f'{run["run_id"]}--{run["game"]} ({run["run"]}) in {hours + minutes + seconds}',
+                        name=f'{run["run_id"]}--{run["game"]} ({run["run"]}) in {hours + minutes}',
                         value=f'By: {run["runners"]} | '
                               f'Estimated length: {self.service.explode_minutes(run["length"])}',
                         inline=False)
@@ -194,12 +194,32 @@ class Schedule:
             return False
 
     # Looping service
-    async def schedule_update_service(self, schedule_refresh_rate=5):
-        print(f'Syncing local schedule with online schedule: {datetime.utcnow()}')
+    async def schedule_update_service(self, subscription, schedule_refresh_rate=5):
+        # print(f'Syncing local schedule with online schedule: {datetime.utcnow()}')
         # Sync local schedule with latest schedule
-        await self.dev_sync()
+        old_schedule = self.data.copy()
+        await self.dev_sync(subscription)
+        new_schedule = self.data.copy()
+        await self.__schedule_comp(old_schedule, new_schedule)
         new_refresh_datetime = datetime.utcnow() + timedelta(minutes=schedule_refresh_rate)
         self.service.save_refresh_datetime(new_refresh_datetime)
+
+    @staticmethod
+    async def __schedule_comp(old, new):
+        time_updates = 0
+        added_runs = len(new) - len(old)
+
+        for item in old:
+            for item2 in new:
+                if item2['game'] == item['game']:
+                    if item2['time'] != item['time']:
+                        time_updates = time_updates + 1
+                    break
+
+        if time_updates > 0 or added_runs != 0:
+            print(
+                f'Updates from latest sync: Time updates: {time_updates} | Added runs: {added_runs} | '
+                f'{datetime.utcnow()}')
 
     async def is_time_to_run_schedule_sync_service(self):
         refresh_datetime = await self.service.get_refresh_datetime()
@@ -222,20 +242,6 @@ class Schedule:
     async def multi_page_schedule_cleanup_service(self):
         if len(self.multi_page_schedule_sessions) > 0:
             cleaned_up_session = 0
-            sessions_to_del = list()
-
-            # # Find expired sessions
-            # for guild in self.multi_page_schedule_sessions:
-            #     for message in self.multi_page_schedule_sessions[guild]:
-            #         session = self.multi_page_schedule_sessions[guild][message]
-            #         if session.is_expired():
-            #             await session.remove_controls()
-            #             sessions_to_del.append([guild, message])
-            #             cleaned_up_session = cleaned_up_session + 1
-            #
-            # # Delete expired sessions
-            # for session in sessions_to_del:
-            #     del self.multi_page_schedule_sessions[session[0]][session[1]]
 
             # New implementation of clearing multipage sessions
             for guild, guild_sessions in self.multi_page_schedule_sessions.copy().items():
@@ -260,13 +266,13 @@ class Schedule:
         else:
             return None
 
-    async def load(self):
+    async def load(self, subscription):
         # self.data = await self.database.load_schedule()
         await self.__load_from_file()
         if len(self.data) > 0:
             return True, len(self.data)
         else:
-            await self.dev_sync()
+            await self.dev_sync(subscription)
             if len(self.data) == 0:
                 return False, 0
             else:
@@ -293,7 +299,7 @@ class Schedule:
             print(f'{JSONDecodeError}: {e}')
             return False
 
-    async def dev_sync(self):
+    async def dev_sync(self, subscription):
         new_schedule = None
         try:
             directory = os.path.dirname(__file__)
@@ -306,25 +312,35 @@ class Schedule:
         except JSONDecodeError as e:
             print(f'{JSONDecodeError}: {e}')
 
-        runs_to_update = list()
-        id = 1
+        r_id = 1
         for run in new_schedule:
             # add ids
-            run['run_id'] = id
-            id = id + 1
+            run['run_id'] = r_id
+            r_id = r_id + 1
 
             # Convert start times to datetime obj
             run['time'] = datetime.strptime(run['time'], "%Y-%m-%d %H:%M:%S")
 
-            # Check if current time is after reminder time + buffer (10 + 5 minutes before run start)
+            # Check if current time is after reminder time (10 minutes before run start)
             # if yes reminded = True
             if datetime.utcnow() > run['time'] - timedelta(minutes=10):
                 run['reminded'] = True
 
+        # Validate run ids are the same
+        run_ids_that_changed = list()
+        for run in self.data.copy():
+            for run2 in new_schedule:
+                if run['game'] == run2['game'] and run['run_id'] != run2['run_id']:
+                    run_ids_that_changed.append([run['run_id'], run2['run_id']])
+
+        # If there were any mismatches, correct subscriptions
+        if len(run_ids_that_changed) > 0:
+            await subscription.__correct_sub_run_ids(run_ids_that_changed)
+
         self.data = new_schedule
         await self.__save_to_file()
 
-    async def sync(self):
+    async def sync(self, subscription):
         url = "https://gamesdonequick.com/schedule"
         req = urllib.request.Request(url, headers={'User-Agent': "Magic Browser"})
         con = urllib.request.urlopen(req)
@@ -455,7 +471,7 @@ class Schedule:
     # DEV FUNCTIONS
     # -----------------------------------------------------------------------------------------------
 
-    async def generate_fake_schedule(self):
+    async def generate_fake_schedule(self, subscription):
         new_date = datetime.utcnow() + timedelta(minutes=11)
 
         new_fake_schedule = None
@@ -481,8 +497,6 @@ class Schedule:
                 time_delta = item['time'] - prev_time
                 schedule_timedeltas.append(time_delta)
                 prev_time = item['time']
-
-        print(f'{len(schedule_timedeltas)}')
 
         # Iterate through fake schedule, set new start datetime on first run, then iterate it
         #  using previously generated timedelta list
@@ -511,7 +525,7 @@ class Schedule:
             with open(data_file, 'w') as f:
                 f.write(json.dumps(new_fake_schedule, indent=4, default=json_filter))
                 f.close()
-                await self.dev_sync()
+                await self.dev_sync(subscription)
                 return True, f"New schedule generation success! New start datetime: {new_date}"
         except JSONDecodeError as e:
             print(f'{JSONDecodeError}: {e}')
@@ -634,7 +648,7 @@ class MultiPageScheduleModel:
                 else:
                     hours, minutes, seconds = self.service.diff_dates(datetime.utcnow(), run_time)
                     schedule_embed.add_field(
-                        name=f'{run["run_id"]}--{run["game"]} ({run["run"]}) in {hours + minutes + seconds}',
+                        name=f'{run["run_id"]}--{run["game"]} ({run["run"]}) in {hours + minutes}',
                         value=f'By: {run["runners"]} | '
                               f'Estimated length: {self.service.explode_minutes(run["length"])}',
                         inline=False)
