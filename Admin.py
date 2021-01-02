@@ -8,17 +8,13 @@ from json import JSONDecodeError
 
 class Admin:
 
-    def __init__(self, database):
+    def __init__(self):
         # self.auth_guild_ids = list()
         self.guild_directory = {}
-        self.database = database
         self.files_loaded = False
 
     # Get list of initiated guilds
     async def load(self):
-        # db_guild_list = await self.database.get_guild_info()
-        # for guild in db_guild_list:
-        #     self.guild_directory[str(guild['guild_id'])] = guild
         await self.__load_from_file()
 
     async def mute(self, ctx):
@@ -34,7 +30,6 @@ class Admin:
             return False
         else:
             assign_admin_to = ctx.message.mentions[0]
-            # result = await self.database.give_admin_to_user(assign_admin_to.id, ctx.guild.id)
             if assign_admin_to.id not in self.guild_directory[str(ctx.guild.id)]['approved_admins']:
                 self.guild_directory[str(ctx.guild.id)]['approved_admins'].append(assign_admin_to.id)
                 if assign_admin_to.id not in self.guild_directory[str(ctx.guild.id)]['approved_admins']:
@@ -48,7 +43,6 @@ class Admin:
             return False
         else:
             assign_admin_to = ctx.message.mentions[0]
-            # result = await self.database.give_admin_to_user(assign_admin_to.id, ctx.guild.id)
             if assign_admin_to.id in self.guild_directory[str(ctx.guild.id)]['approved_admins']:
                 self.guild_directory[str(ctx.guild.id)]['approved_admins'].remove(assign_admin_to.id)
                 if assign_admin_to.id not in self.guild_directory[str(ctx.guild.id)]['approved_admins']:
@@ -82,7 +76,6 @@ class Admin:
                 result = await self.__blacklist_user(ctx.guild.id, member.id)
                 if result is True:
                     await ctx.message.add_reaction('✅')
-                    await self.database.blacklist_user(ctx.guild.id, member.id)
                 else:
                     await ctx.message.add_reaction('❌')
 
@@ -93,7 +86,6 @@ class Admin:
                 result = await self.__permit_user(ctx.guild.id, member.id)
                 if result is True:
                     await ctx.message.add_reaction('✅')
-                    # await self.database.permit_user(ctx.guild.id, member.id)
                 else:
                     await ctx.message.add_reaction('❌')
 
@@ -212,11 +204,6 @@ class Admin:
         result, data = await self.__save_new_guild(ctx.guild.id, ctx.channel.id)
         if result is True and data is not None:
             await ctx.send(final_report + '```')
-            result = await self.database.save_new_guild(data)
-            if result is True:
-                print(f'New data for {ctx.guild.name} saved to database')
-            else:
-                print(f'Could not save data for {ctx.guild.name}')
         elif result is True and data is None:
             print(f'Data for {ctx.guild.name} already existed.')
         else:
@@ -316,9 +303,8 @@ class Admin:
         # result, data = await self.__save_new_guild(ctx.guild.id, ctx.channel.id)
         if result is True and data is None:
             await ctx.send(final_report + '```')
-            # result = await self.database.save_new_guild(data)
             if result is True:
-                print(f'New data for {ctx.guild.name} saved to database')
+                print(f'New data for {ctx.guild.name} saved')
 
         elif result is False:
             await ctx.send(data)
@@ -435,7 +421,7 @@ class Admin:
             m1.append(member.name)
             id1.append(member.id)
             await member.remove_roles(role)
-        await ctx.send(f'```{len(id1)} Members will have GDQping role removed: {", ".join(m1)}')
+        await ctx.send(f'```{len(id1)} Members will have GDQping role removed: {", ".join(m1)}```')
 
         await ctx.send(f'{len(role.members)} now have GDQping role \nNow giving them back...')
 

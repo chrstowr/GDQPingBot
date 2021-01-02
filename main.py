@@ -4,7 +4,6 @@ from discord.ext import commands, tasks
 from dotenv import load_dotenv
 from Subscribe import Subscribe
 from Schedule import Schedule
-from Database import Database
 from Help import Help
 from Admin import Admin
 import discord
@@ -16,15 +15,19 @@ bot_owner = 296008737515110400
 # Set prefix for bot
 intents = discord.Intents.default()
 intents.members = True
+intents.messages = True
+
 bot = commands.Bot(command_prefix='+', intents=intents, help_command=None)
 
 # Initiate
 help_command = Help()
-database = Database()
-admin_service = Admin(database)
-schedule = Schedule(database)
-subscribe = Subscribe(database, schedule, bot)
+admin_service = Admin()
+schedule = Schedule()
+subscribe = Subscribe(schedule, bot)
 
+
+# TODO: Add in routine for bot to delete schedule message if user deletes call
+# TODO: Give option to add subs using individual args: +sub 1 2 3 4 6 10 191
 
 @tasks.loop(seconds=1.0)
 async def task_loop():
@@ -47,18 +50,12 @@ async def on_ready():
         print(f'{g.name} | (id: {g.id})')
     print()
 
-    # Check connection with DB
-    if await database.check_connection() is True:
-        print("DB Connection OK!")
-    else:
-        raise ConnectionError('Could not connect to the database')
-
     # Load Schedule
     result, items_loaded = await schedule.load(subscribe)
     if result is True:
         print(f'Schedule successfully loaded: {items_loaded} runs loaded')
     else:
-        raise ConnectionError('Could not connect to the database')
+        raise FileNotFoundError('Could not load subcriptions from file')
 
     print('Getting initiated guilds')
     await admin_service.load()
@@ -82,6 +79,16 @@ async def on_reaction_add(reaction, user):
         if await schedule.is_multi_page_session(reaction):
             await schedule.multi_page_schedule_reaction_listener(reaction, user)
 
+@bot.event
+async def on_message_delete(message):
+    # Ignore messages deleted by bot
+    if message.author == bot.user:
+        return
+
+    if admin_service.files_loaded is True:
+        if admin_service.if_guild_init(message.guild.id):
+            if admin_service.if_registered_channel(message) or not admin_service.is_user_blacklisted(message):
+                await schedule.check_if_assoc_post(message.guild.id, message.id, message.channel)
 
 # init, give/take admin, blacklist/permit, resync, mute/unmute, stop/start
 @bot.command(name='admin')
@@ -227,12 +234,12 @@ async def get_schedule(ctx, *args):
         else:
             await ctx.send('Guild or bot owner please run \'+admin init\' command')
 
-
-@bot.command(name='purge')
-async def purge(ctx, *args):
-    if admin_service.files_loaded is True:
-        if ctx.author.id == bot_owner:
-            await database.purge_subs()
+# TODO: add guild purge option for guild
+# @bot.command(name='purge')
+# async def purge(ctx, *args):
+#     if admin_service.files_loaded is True:
+#         if ctx.author.id == bot_owner:
+#             await database.purge_subs()
 
 
 @bot.command(name='help')

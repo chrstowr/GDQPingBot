@@ -14,12 +14,12 @@ from bs4 import BeautifulSoup
 # TODO: Add timestamps to log outputs
 
 class Schedule:
-    def __init__(self, database_ref):
+    def __init__(self):
         self.data = list()
         self.delay = 0
-        self.database = database_ref
         self.service = ScheduleServices()
         self.multi_page_schedule_sessions = dict()
+        self.schedule_message_user_assoc = dict()
         self.multi_page_schedule_cleanup_next_runtime = datetime.utcnow() + timedelta(seconds=10)
 
         self.accepted_filter_options = ['name', 'runner', 'host']
@@ -159,10 +159,19 @@ class Schedule:
                 limit_tracker = limit_tracker + 1
 
         message_context = await ctx.send(content="https://www.twitch.tv/gamesdonequick", embed=schedule_embed)
+        g_id = str(message_context.guild.id)
+        m_id = str(message_context.id)
+
+        # Track all message ids so they can be deleted later
+        if g_id not in self.schedule_message_user_assoc:
+            self.schedule_message_user_assoc[g_id] = dict()
+
+        original_message = str(ctx.message.id)
+        expires = datetime.utcnow() + timedelta(minutes=30)
+        self.schedule_message_user_assoc[g_id][original_message] = {"id": message_context.id, "expires": expires}
+        await self.__save_message_assoc_to_file()
 
         if len(data_iterator) > limit and filter_schedule is True:
-            g_id = str(message_context.guild.id)
-            m_id = str(message_context.id)
 
             if g_id not in self.multi_page_schedule_sessions:
                 self.multi_page_schedule_sessions[g_id] = dict()
@@ -170,6 +179,57 @@ class Schedule:
             self.multi_page_schedule_sessions[g_id][m_id] = MultiPageScheduleModel(message_context, data_iterator,
                                                                                    filter_applied, limit, self.service)
             await self.multi_page_schedule_sessions[g_id][m_id].add_controls()
+
+    async def __save_message_assoc_to_file(self):
+        def json_filter(o):
+            if isinstance(o, datetime):
+                return o.strftime("%Y-%m-%d %H:%M:%S")
+            else:
+                return o
+
+        try:
+            directory = os.path.dirname(__file__)
+            file = os.path.join(directory, 'data/message_assoc.json')
+            data_file = Path(file)
+            with open(data_file, 'w') as f:
+                f.write(json.dumps(self.schedule_message_user_assoc, indent=4, default=json_filter))
+                f.close()
+                return True
+        except JSONDecodeError as e:
+            print(f'{JSONDecodeError}: {e}')
+            return False
+
+    async def __load_message_assoc_from_file(self):
+        try:
+            directory = os.path.dirname(__file__)
+            file = os.path.join(directory, 'data/message_assoc.json')
+            session_data_file = Path(file)
+            with open(session_data_file, 'r') as f:
+                data = json.load(f)
+                for g_id in data:
+                    for m_id, value in data[g_id].items():
+                        value['expires'] = self.service.strtodatetime(value['expires'])
+                f.close()
+                self.schedule_message_user_assoc = data
+        except JSONDecodeError as e:
+            print(f'{JSONDecodeError}: {e}')
+
+    async def check_if_assoc_post(self, guild_id, message_id, ch_ctx):
+        g_id = str(guild_id)
+        m_id = str(message_id)
+
+        if g_id in self.schedule_message_user_assoc:
+            if m_id in self.schedule_message_user_assoc[g_id]:
+                assoc_data = self.schedule_message_user_assoc[g_id][m_id]
+                message_ctx = await ch_ctx.fetch_message(assoc_data['id'])
+
+                # Check if multipage session
+                if g_id in self.multi_page_schedule_sessions:
+                    if str(assoc_data['id']) in self.multi_page_schedule_sessions[g_id]:
+                        del self.multi_page_schedule_sessions[g_id][str(assoc_data['id'])]
+
+                await message_ctx.delete()
+                del self.schedule_message_user_assoc[g_id][m_id]
 
     # main() reaction listener
     async def multi_page_schedule_reaction_listener(self, reaction, user):
@@ -198,7 +258,7 @@ class Schedule:
         # print(f'Syncing local schedule with online schedule: {datetime.utcnow()}')
         # Sync local schedule with latest schedule
         old_schedule = self.data.copy()
-        await self.dev_sync(subscription)
+        await self.sync(subscription)
         new_schedule = self.data.copy()
         await self.__schedule_comp(old_schedule, new_schedule)
         new_refresh_datetime = datetime.utcnow() + timedelta(minutes=schedule_refresh_rate)
@@ -230,7 +290,7 @@ class Schedule:
 
     async def is_time_to_run_cleanup_service(self):
         past_runtime = datetime.utcnow() > self.multi_page_schedule_cleanup_next_runtime
-        if past_runtime and len(self.multi_page_schedule_sessions):
+        if past_runtime and len(self.multi_page_schedule_sessions) > 0:
             return True
         else:
             return False
@@ -248,6 +308,7 @@ class Schedule:
                 for session_id, session in guild_sessions.copy().items():
                     if session.is_expired():
                         await session.remove_controls()
+                        await session.delete_session()
                         del self.multi_page_schedule_sessions[guild][session_id]
                         cleaned_up_session = cleaned_up_session + 1
 
@@ -267,12 +328,12 @@ class Schedule:
             return None
 
     async def load(self, subscription):
-        # self.data = await self.database.load_schedule()
         await self.__load_from_file()
+        await self.__load_message_assoc_from_file()
         if len(self.data) > 0:
             return True, len(self.data)
         else:
-            await self.dev_sync(subscription)
+            await self.schedule_update_service(subscription)
             if len(self.data) == 0:
                 return False, 0
             else:
@@ -470,6 +531,8 @@ class Schedule:
             with open(session_data_file, 'r') as f:
                 data = json.load(f)
                 f.close()
+                for item in data:
+                    item['time'] = self.service.strtodatetime(item['time'])
                 self.data = data
         except JSONDecodeError as e:
             print(f'{JSONDecodeError}: {e}')
@@ -536,7 +599,7 @@ class Schedule:
             with open(data_file, 'w') as f:
                 f.write(json.dumps(new_fake_schedule, indent=4, default=json_filter))
                 f.close()
-                await self.sync(subscription)
+                await self.schedule_update_service(subscription)
                 return True, f"New schedule generation success! New start datetime: {new_date}"
         except JSONDecodeError as e:
             print(f'{JSONDecodeError}: {e}')
@@ -590,6 +653,10 @@ class MultiPageScheduleModel:
         # print('adding controls')
         await self.ctx.add_reaction("⬆")
         await self.ctx.add_reaction("⬇")
+
+    async def delete_session(self):
+        message = await self.ctx.channel.fetch_message(self.ctx.id)
+        await message.delete()
 
     async def remove_controls(self):
         message = await self.ctx.channel.fetch_message(self.ctx.id)

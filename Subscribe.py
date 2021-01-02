@@ -9,9 +9,8 @@ import discord
 
 class Subscribe:
 
-    def __init__(self, database_ref, schedule_ref, bot):
+    def __init__(self, schedule_ref, bot):
         self.ping_role_name = "GDQping"
-        self.database = database_ref
         self.schedule = schedule_ref
         self.bot = bot
         self.mute = False
@@ -24,7 +23,7 @@ class Subscribe:
         sch_max_len = len(schedule.data)
         role = discord.utils.get(ctx.guild.roles, name=self.ping_role_name)
         member = ctx.author
-        print(f'{member.name} | unsub | {args} | {datetime.utcnow()}')
+        print(f'{member.name} | sub | {args} | {datetime.utcnow()}')
         if sub_all is False:
             options = args[0].split(',')
             args_to_process = len(options)
@@ -52,11 +51,6 @@ class Subscribe:
             else:
                 await ctx.message.add_reaction('❌')
 
-            if result is True:
-                # send updates to database
-                await self.database.sub_to_many_games(data)
-            else:
-                print(f'No updates sent to DB for {ctx.author.name}')
         else:
             # Insert to local data
             guild = ctx.guild.id
@@ -71,17 +65,11 @@ class Subscribe:
                     await member.add_roles(role)
                 await ctx.message.add_reaction('✅')
 
-            # Send data to DB if insert successful
-            if result is True:
-                # send updates to database
-                await self.database.sub_to_many_games(data)
-            else:
-                print(f'No updates sent to DB for {ctx.author.name}')
-
     async def unsub(self, ctx, args, schedule, sub_all=False):
         sch_max_len = len(schedule.data)
         role = discord.utils.get(ctx.guild.roles, name=self.ping_role_name)
         member = ctx.author
+        print(f'{member.name} | sub | {args} | {datetime.utcnow()}')
         if sub_all is False:
             options = args[0].split(',')
             args_to_process = len(options)
@@ -106,11 +94,6 @@ class Subscribe:
             if errors < args_to_process:
                 await ctx.message.add_reaction('✅')
 
-            if result is True:
-                # send updates to database
-                await self.database.unsub_to_many_games(data)
-            else:
-                print(f'No updates sent to DB for {ctx.author.name}')
         else:
             # Insert to local data
             guild = ctx.guild.id
@@ -125,23 +108,11 @@ class Subscribe:
                     await member.remove_roles(role)
                 await ctx.message.add_reaction('✅')
 
-            # Send data to DB if insert successful
-            if result is True:
-                # send updates to database
-                await self.database.unsub_to_many_games(data)
-            else:
-                print(f'No updates sent to DB for {ctx.author.name}')
-
     async def purge(self, ctx):
         result, data = await self.__purge_runs(ctx.author.id, ctx.guild.id)
         print(f'{ctx.author.name} | purge | {datetime.utcnow()}')
         if result is True:
             await ctx.message.add_reaction('✅')
-            # db_result = await self.database.purge_subs_by_user(ctx.author.id, ctx.guild.id)
-            # if db_result is False:
-            #     print(f'Error deleting all subs for {ctx.author.name}')
-        else:
-            await self.database.unsub_to_many_games(data)
 
     @staticmethod
     async def help(ctx):
@@ -182,7 +153,7 @@ class Subscribe:
                         single_sub_chunk.append(f'{sub["run_id"]}. {name} [{time_left}]')
 
             if all_sub_line is None:
-                list_text = list_text + f'❕ - Following only subscribed runs: You will only get a notifications to ' \
+                list_text = list_text + f'❕ - Following only subscribed runs: You will only get notifications to ' \
                                         f'runs you are subscribed to (Please look below to see the games you ' \
                                         f'are following.)'
             else:
