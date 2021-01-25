@@ -1,18 +1,17 @@
-import os
+import asyncio
 import json
-import discord
-from time import perf_counter
-from copy import copy
+import os
 from datetime import datetime, timedelta
-from pathlib import Path
 from json import JSONDecodeError
+from pathlib import Path
+
+import discord
 
 
-class Subcribe:
+class Subscribe:
 
-    def __init__(self, database_ref, schedule_ref, bot):
+    def __init__(self, schedule_ref, bot):
         self.ping_role_name = "GDQping"
-        self.database = database_ref
         self.schedule = schedule_ref
         self.bot = bot
         self.mute = False
@@ -21,12 +20,15 @@ class Subcribe:
 
         self.reminder_service_next_runtime = datetime.utcnow() + timedelta(seconds=1)
 
-    async def sub(self, ctx, args, schedule, sub_all=False):
+    async def sub(self, ctx, args, schedule, sub_all=False, dm=False):
         sch_max_len = len(schedule.data)
         role = discord.utils.get(ctx.guild.roles, name=self.ping_role_name)
         member = ctx.author
         if sub_all is False:
-            options = args[0].split(',')
+            options = list()
+            for a in args:
+                options.extend(a.strip(',').split(','))
+            print(f'{member.name} | sub | {options} | {datetime.utcnow()}')
             args_to_process = len(options)
             errors = 0
             runs_to_insert = dict()
@@ -52,11 +54,6 @@ class Subcribe:
             else:
                 await ctx.message.add_reaction('❌')
 
-            if result is True:
-                # send updates to database
-                await self.database.sub_to_many_games(data)
-            else:
-                print(f'No updates sent to DB for {ctx.author.name}')
         else:
             # Insert to local data
             guild = ctx.guild.id
@@ -71,19 +68,15 @@ class Subcribe:
                     await member.add_roles(role)
                 await ctx.message.add_reaction('✅')
 
-            # Send data to DB if insert successful
-            if result is True:
-                # send updates to database
-                await self.database.sub_to_many_games(data)
-            else:
-                print(f'No updates sent to DB for {ctx.author.name}')
-
     async def unsub(self, ctx, args, schedule, sub_all=False):
         sch_max_len = len(schedule.data)
         role = discord.utils.get(ctx.guild.roles, name=self.ping_role_name)
         member = ctx.author
         if sub_all is False:
-            options = args[0].split(',')
+            options = list()
+            for a in args:
+                options.extend(a.strip(',').split(','))
+            print(f'{member.name} | unsub | {options} | {datetime.utcnow()}')
             args_to_process = len(options)
             errors = 0
             runs_to_remove = dict()
@@ -106,11 +99,6 @@ class Subcribe:
             if errors < args_to_process:
                 await ctx.message.add_reaction('✅')
 
-            if result is True:
-                # send updates to database
-                await self.database.unsub_to_many_games(data)
-            else:
-                print(f'No updates sent to DB for {ctx.author.name}')
         else:
             # Insert to local data
             guild = ctx.guild.id
@@ -125,45 +113,23 @@ class Subcribe:
                     await member.remove_roles(role)
                 await ctx.message.add_reaction('✅')
 
-            # Send data to DB if insert successful
-            if result is True:
-                # send updates to database
-                await self.database.unsub_to_many_games(data)
-            else:
-                print(f'No updates sent to DB for {ctx.author.name}')
-
     async def purge(self, ctx):
         result, data = await self.__purge_runs(ctx.author.id, ctx.guild.id)
-
+        print(f'{ctx.author.name} | purge | {datetime.utcnow()}')
         if result is True:
             await ctx.message.add_reaction('✅')
-            # db_result = await self.database.purge_subs_by_user(ctx.author.id, ctx.guild.id)
-            # if db_result is False:
-            #     print(f'Error deleting all subs for {ctx.author.name}')
-        else:
-            await self.database.unsub_to_many_games(data)
-
-    @staticmethod
-    async def help(ctx):
-        help_text = '```How to subcribe to runs\n'
-        help_text = help_text + '--------------------------\n'
-        help_text = help_text + 'Subcribe to all runs:' \
-                                '\n    +sub all\n'
-        help_text = help_text + 'Subcribe to a specific game:' \
-                                '\n     +sub [run id]\n'
-        help_text = help_text + '\nYou can find the run id by searching the schedule with:' \
-                                '\n+schedule name "[name of game]"'
-        help_text = help_text + '```'
-
-        await ctx.send(help_text)
 
     async def load(self):
         await self.__load_from_file()
         print(f'Loaded {len(self.subscriptions)} subscriptions from file')
 
-    async def list_subs(self, ctx):
-        sub_list = await self.__get_user_subs_by_id(ctx.author.id, ctx.guild.id, limit=10)
-        list_text = f'```md\n{ctx.author.name}\'s Subscriptions ({ctx.guild.name})\n'
+    async def list_subs(self, ctx, dm=False):
+        if dm is True:
+            sub_list = await self.__get_user_subs_by_id(ctx.author.id, None, dm)
+        else:
+            sub_list = await self.__get_user_subs_by_id(ctx.author.id, ctx.guild.id, dm)
+        print(f'{ctx.author.name} | sub list | {datetime.utcnow()}')
+        list_text = f'```md\n{ctx.author.name}\'s Subscriptions\n'
         list_text = list_text + '-----------------------------------\n'
         if sub_list is None or len(sub_list) == 0:
             list_text = list_text + 'You are not subscribed to anything.\n```'
@@ -182,7 +148,7 @@ class Subcribe:
                         single_sub_chunk.append(f'{sub["run_id"]}. {name} [{time_left}]')
 
             if all_sub_line is None:
-                list_text = list_text + f'❕ - Following only subscribed runs: You will only get a notifications to ' \
+                list_text = list_text + f'❕ - Following only subscribed runs: You will only get notifications to ' \
                                         f'runs you are subscribed to (Please look below to see the games you ' \
                                         f'are following.)'
             else:
@@ -192,10 +158,8 @@ class Subcribe:
                 list_text = list_text + single_sub_title + '(None)'
             else:
                 list_text = list_text + single_sub_title + '\n'.join(single_sub_chunk)
-            t3 = perf_counter()
+
             await ctx.author.send(list_text + '```')
-            t4 = perf_counter()
-            print(f'Execute time for sub list ctx.send: {(t4 - t3) * 1000:0.4f}ms')
 
     async def is_time_to_run_service(self):
         if datetime.utcnow() > self.reminder_service_next_runtime:
@@ -243,7 +207,8 @@ class Subcribe:
                                     message_content = \
                                         message_content + f" \"{run['game']}\" is starting Soon " \
                                                           f"- https://www.twitch.tv/gamesdonequick"
-                                    await channel_to_send_to.send(message_content, embed=reminder_embed)
+                                    m_ctx = await channel_to_send_to.send(message_content, embed=reminder_embed)
+                                    print(f'Reminder sent to {m_ctx.guild.name} | #{m_ctx.channel.name}')
                                 else:
                                     await channel_to_send_to.send(f'ERROR: Could not find \'GDQping\' role for guild'
                                                                   f' {channel_to_send_to.guild.name}. Please contact '
@@ -253,7 +218,7 @@ class Subcribe:
 
                 # Clean up un-needed sub data
                 await self.__delete_old_subs(run['run_id'])
-                await self.__save_runs_to_file()
+                await self.__save_subs_to_file()
                 # Set flag that game reminder has been sent
                 run["reminded"] = True
                 await self.schedule.save()
@@ -280,23 +245,30 @@ class Subcribe:
             guild = self.bot.get_guild(guild_id)
             # Get Role
             role = discord.utils.get(guild.roles, name=self.ping_role_name)
-            print(f'> Role Validation for {guild.name}, run #{run_id}')
-            print(f'{len(subs)} subs for run # {run_id}')
-            print(f'{len(role.members)} members with role')
+            print(f'\n> Role Validation for {guild.name}, run #{run_id}')
+            current_guild_role_members = [mem.name for mem in role.members]
 
+            added_roles = list()
             for sub in subs:
                 if not any(r_m.id == sub['discord_id'] for r_m in role.members):
                     member = guild.get_member(sub['discord_id'])
                     await member.add_roles(role)
-                    print(f'Add role to {member.name} ({role.guild.name})')
+                    added_roles.append(f'(+)Add role to {member.name} ({role.guild.name})')
                     role_addition = True
                 else:
                     role_addition = False
 
+            subs_for_run = [guild.get_member(sub['discord_id']).name for sub in subs]
+            current_guild_role_members.sort()
+            subs_for_run.sort()
+            print(f'{len(role.members)} member(s) with role: {", ".join(current_guild_role_members)}')
+            print(f'{len(subs)} sub(s) for run #{run_id}: {", ".join(subs_for_run)}')
+            print("\n".join(added_roles))
+
             for member in role.members:
                 if not any(sub['discord_id'] == member.id for sub in subs):
                     await member.remove_roles(role)
-                    print(f'Removed role for {member.name} ({role.guild.name})')
+                    print(f'(-)Removed role for {member.name} ({role.guild.name})')
                     role_removal = True
                 else:
                     role_removal = False
@@ -306,6 +278,8 @@ class Subcribe:
 
             if len(role.members) == 0:
                 role_removal = False
+
+            await asyncio.sleep(1)
 
     async def __get_subs_by_guild(self, r_id, g_id):
         sub_list = {key: value for key, value in self.subscriptions.copy().items() if
@@ -338,20 +312,26 @@ class Subcribe:
             time_left = f'{hours + minutes}'
             return run['game'], time_left
 
-    async def __get_user_subs_by_id(self, u_id, g_id, limit=50):
-        if limit > 50:
-            limit = 50
-
+    async def __get_user_subs_by_id(self, u_id, g_id, dm, limit=200):
         count = 0
         sub_list = list()
 
-        for (key, value) in self.subscriptions.copy().items():
-            if self.subscriptions[key]['guild_id'] == g_id and self.subscriptions[key]['discord_id'] == u_id \
-                    and count <= limit:
-                sub_list.append(value)
-                count = count + 1
-            elif count > limit:
-                break
+        if dm is False:
+            for (key, value) in self.subscriptions.copy().items():
+                if self.subscriptions[key]['guild_id'] == g_id and self.subscriptions[key]['discord_id'] == u_id \
+                        and count <= limit:
+                    sub_list.append(value)
+                    count = count + 1
+                elif count > limit:
+                    break
+        else:
+            for (key, value) in self.subscriptions.copy().items():
+                if self.subscriptions[key]['discord_id'] == u_id and count <= limit and \
+                        not any(self.subscriptions[key]['run_id'] == v['run_id'] for v in sub_list):
+                    sub_list.append(value)
+                    count = count + 1
+                elif count > limit:
+                    break
 
         def sort_key(e):
             return e['run_id']
@@ -375,7 +355,7 @@ class Subcribe:
         if len(runs_inserted) == 0:
             return False, None
         else:
-            await self.__save_runs_to_file()
+            await self.__save_subs_to_file()
             return True, runs_inserted
 
     async def __remove_runs(self, list_of_runs):
@@ -394,7 +374,7 @@ class Subcribe:
         if len(runs_deleted) == 0:
             return False, None
         else:
-            await self.__save_runs_to_file()
+            await self.__save_subs_to_file()
             return True, runs_deleted
 
     async def __purge_runs(self, u_id, g_id):
@@ -410,12 +390,33 @@ class Subcribe:
                 items_deleted = items_deleted + 1
 
         if len(runs_to_delete) == items_deleted:
-            await self.__save_runs_to_file()
+            await self.__save_subs_to_file()
             return True, runs_to_delete
         else:
             return False, runs_to_delete
 
-    async def __save_runs_to_file(self):
+    async def correct_sub_run_ids(self, run_ids_that_changed):
+        old_sub_dict = self.subscriptions.copy()
+        new_sub_dict = dict()
+
+        print(f'{datetime.utcnow()} - Correcting {len(run_ids_that_changed)} subs: {run_ids_that_changed}')
+
+        # Find matching items, if match, pop it and add to new sub dict()
+        for r_ids in run_ids_that_changed:
+            for key, value in old_sub_dict.copy().items():
+                if value['run_id'] == r_ids[0]:
+                    value['run_id'] = r_ids[1]
+                    new_sub_dict[key] = value
+                    del old_sub_dict[key]
+
+        # Add remaining runs
+        for key, value in old_sub_dict.items():
+            new_sub_dict[key] = value
+
+        self.subscriptions = new_sub_dict
+        await self.__save_subs_to_file()
+
+    async def __save_subs_to_file(self):
         try:
             directory = os.path.dirname(__file__)
             file = os.path.join(directory, 'data/subscriptions.json')

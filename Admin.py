@@ -1,3 +1,4 @@
+import asyncio
 import os
 import json
 import discord
@@ -8,17 +9,13 @@ from json import JSONDecodeError
 
 class Admin:
 
-    def __init__(self, database):
+    def __init__(self):
         # self.auth_guild_ids = list()
         self.guild_directory = {}
-        self.database = database
         self.files_loaded = False
 
     # Get list of initiated guilds
     async def load(self):
-        # db_guild_list = await self.database.get_guild_info()
-        # for guild in db_guild_list:
-        #     self.guild_directory[str(guild['guild_id'])] = guild
         await self.__load_from_file()
 
     async def mute(self, ctx):
@@ -34,7 +31,6 @@ class Admin:
             return False
         else:
             assign_admin_to = ctx.message.mentions[0]
-            # result = await self.database.give_admin_to_user(assign_admin_to.id, ctx.guild.id)
             if assign_admin_to.id not in self.guild_directory[str(ctx.guild.id)]['approved_admins']:
                 self.guild_directory[str(ctx.guild.id)]['approved_admins'].append(assign_admin_to.id)
                 if assign_admin_to.id not in self.guild_directory[str(ctx.guild.id)]['approved_admins']:
@@ -48,7 +44,6 @@ class Admin:
             return False
         else:
             assign_admin_to = ctx.message.mentions[0]
-            # result = await self.database.give_admin_to_user(assign_admin_to.id, ctx.guild.id)
             if assign_admin_to.id in self.guild_directory[str(ctx.guild.id)]['approved_admins']:
                 self.guild_directory[str(ctx.guild.id)]['approved_admins'].remove(assign_admin_to.id)
                 if assign_admin_to.id not in self.guild_directory[str(ctx.guild.id)]['approved_admins']:
@@ -82,7 +77,6 @@ class Admin:
                 result = await self.__blacklist_user(ctx.guild.id, member.id)
                 if result is True:
                     await ctx.message.add_reaction('✅')
-                    await self.database.blacklist_user(ctx.guild.id, member.id)
                 else:
                     await ctx.message.add_reaction('❌')
 
@@ -93,7 +87,6 @@ class Admin:
                 result = await self.__permit_user(ctx.guild.id, member.id)
                 if result is True:
                     await ctx.message.add_reaction('✅')
-                    # await self.database.permit_user(ctx.guild.id, member.id)
                 else:
                     await ctx.message.add_reaction('❌')
 
@@ -105,6 +98,15 @@ class Admin:
             return True
         else:
             return False
+
+    def check_permissions(self, ctx, bot):
+        bot_member = ctx.guild.get_member(bot.user.id)
+        permissions = ctx.channel.permissions_for(bot_member)
+        perm_list = list()
+        for perm, value in iter(permissions):
+            if value:
+                perm_list.append(perm)
+        print(perm_list)
 
     def if_guild_init(self, g_id):
         if str(g_id) in self.guild_directory:
@@ -119,7 +121,7 @@ class Admin:
         else:
             return False
 
-    async def start(self, ctx):
+    async def start(self, ctx, bot):
         check_ctx = await ctx.send('Please wait checking guild permissions and settings...')
         final_report = '```Report:\n'
         member = ctx.author
@@ -153,8 +155,9 @@ class Admin:
         print(f'Attempting to remove role from {member.name}')
 
         # Check if role can be removed
-        await member.remove_roles(role)
         member = ctx.guild.get_member(member.id)
+        await asyncio.sleep(1)
+        await member.remove_roles(role)
         if not any(r.name == role.name for r in member.roles):
             final_report = final_report + f'✅ - \"GDQping\" role can be removed from members.\n'
         else:
@@ -204,6 +207,15 @@ class Admin:
                                           f'restricted to this channel. So, its commands will only work here.'
         elif len(channels) == 1:
             final_report = final_report + f'✅ - The bot is restricted only to this channel.\n'
+
+        bot_member = ctx.guild.get_member(bot.user.id)
+        permissions = ctx.channel.permissions_for(bot_member)
+        perm_list = list()
+        for perm, value in iter(permissions):
+            if value:
+                perm_list.append(perm)
+
+        print(f'Permissions ({ctx.guild.name}): {", ".join(perm_list)}')
 
         # Add final passage to report
         final_report = final_report + f'\n🎉 - Everything looks good! The bot has been initialized for this guild, ' \
@@ -211,18 +223,15 @@ class Admin:
                                       f'help command, or posting it in the top bar).'
         result, data = await self.__save_new_guild(ctx.guild.id, ctx.channel.id)
         if result is True and data is not None:
-            await ctx.send(final_report + '```')
-            result = await self.database.save_new_guild(data)
-            if result is True:
-                print(f'New data for {ctx.guild.name} saved to database')
-            else:
-                print(f'Could not save data for {ctx.guild.name}')
+            report_ctx = await ctx.send(final_report + '```')
+            await check_ctx.delete(delay=15.0)
+            await report_ctx.delete(delay=15.0)
         elif result is True and data is None:
             print(f'Data for {ctx.guild.name} already existed.')
         else:
             await ctx.send('```Error saving guild initialization, please contact the developer```')
 
-    async def move(self, ctx):
+    async def move(self, ctx, bot):
         check_ctx = await ctx.send('Please wait checking guild permissions and settings...')
         final_report = '```Report:\n'
         member = ctx.author
@@ -247,6 +256,7 @@ class Admin:
             else:
                 final_report = final_report + f'❌ - \"GDQping\" role cannot be given to members.\n'
                 await ctx.send(final_report + '```')
+                return
         except Exception:
             final_report = final_report + f'❌ - \"GDQping\" role cannot be given to members.\n'
             await ctx.send(final_report + '```')
@@ -307,6 +317,15 @@ class Admin:
                                           f'restricted to this channel. So, its commands will only work here.'
         elif len(channels) == 1:
             final_report = final_report + f'✅ - The bot is restricted only to this channel.\n'
+
+        bot_member = ctx.guild.get_member(bot.user.id)
+        permissions = ctx.channel.permissions_for(bot_member)
+        perm_list = list()
+        for perm, value in iter(permissions):
+            if value:
+                perm_list.append(perm)
+
+        print(f'Permissions ({ctx.guild.name}): {", ".join(perm_list)}')
 
         # Add final passage to report
         final_report = final_report + f'\n🎉 - Everything looks good! The bot has been initialized for this guild, ' \
@@ -315,11 +334,11 @@ class Admin:
         result, data = await self.__move_channel(ctx.guild.id, ctx.channel.id)
         # result, data = await self.__save_new_guild(ctx.guild.id, ctx.channel.id)
         if result is True and data is None:
-            await ctx.send(final_report + '```')
-            # result = await self.database.save_new_guild(data)
+            report_ctx = await ctx.send(final_report + '```')
             if result is True:
-                print(f'New data for {ctx.guild.name} saved to database')
-
+                print(f'New data for {ctx.guild.name} saved')
+                await check_ctx.delete(delay=15.0)
+                await report_ctx.delete(delay=15.0)
         elif result is False:
             await ctx.send(data)
 
@@ -407,20 +426,16 @@ class Admin:
         else:
             return True
 
-    @staticmethod
-    async def help(ctx):
-        text = '```Admin Commands:\n'
-        text = text + '+admin init - Initializes and checks the permissions of a server. (Used one time)\n'
-        text = text + '+admin give_admin @[user] - Give a user permission to use admin commands. Only usable ' \
-                      'by the bot owner or guild owner. \n'
-        text = text + '+admin take_admin @[user} - Take away permission to use admin commands. Only usable ' \
-                      'by the bot owner or guild owner. \n'
-        text = text + '+admin blacklist @[user] - Will disallow a user from using any bot commands.\n'
-        text = text + '+admin permit @[user] - Will disallow a user from using any bot commands.\n'
-        # text = text + '+admin mute - Will remove the role ping from the run reminder message\n'
-        # text = text + '+admin unmute - Will add the role ping from the run reminder message\n'
-        text = text + '+admin resync - Force a schedule resync to GDQ website\n'
-        await ctx.send(text + '```')
+    async def delete_bot_msg(self, ctx, args):
+        if len(args) > 1:
+            for arg in args[1:]:
+                try:
+                    m_id = int(arg)
+                    message = await ctx.channel.fetch_message(m_id)
+                    await message.delete()
+                    print(f'Bot msg: {m_id} deleted by {ctx.author.name}')
+                except ValueError:
+                    print(f'\'{arg}\' arg is not a valid int')
 
     async def test_members(self, ctx, bot):
         guild = bot.get_guild(ctx.guild.id)
@@ -435,7 +450,7 @@ class Admin:
             m1.append(member.name)
             id1.append(member.id)
             await member.remove_roles(role)
-        await ctx.send(f'```{len(id1)} Members will have GDQping role removed: {", ".join(m1)}')
+        await ctx.send(f'```{len(id1)} Members will have GDQping role removed: {", ".join(m1)}```')
 
         await ctx.send(f'{len(role.members)} now have GDQping role \nNow giving them back...')
 
@@ -444,3 +459,13 @@ class Admin:
             await member.add_roles(role)
 
         await ctx.send(f'{len(role.members)} now have GDQping role: {role.members}')
+
+    async def add_praise(self, message):
+        g_id = str(message.guild.id)
+        if g_id in self.guild_directory:
+            if 'praise' not in self.guild_directory[g_id]:
+                self.guild_directory[g_id]['praise'] = 0
+
+            p = self.guild_directory[g_id]['praise']
+            self.guild_directory[g_id]['praise'] = p + 1
+            await self.__save_to_file()
