@@ -2,32 +2,33 @@ class Help:
 
     async def send(self, ctx, args, is_admin):
         if len(args) == 0:
-            await ctx.send(self.default())
+            await ctx.author.send(self.default())
         elif args[0].lower() == 'sub':
-            await ctx.send(self.sub())
+            await ctx.author.send(self.sub())
         elif args[0].lower() == 'unsub':
-            await ctx.send(self.unsub())
+            await ctx.author.send(self.unsub())
         elif args[0].lower() == 'schedule':
-            await ctx.send(self.schedule())
+            await ctx.author.send(self.schedule())
         elif args[0].lower() == 'admin' and is_admin:
-            await ctx.send(self.admin())
-        else:
-            await ctx.send(self.default())
+            await ctx.author.send(self.admin())
 
     @staticmethod
     def default():
         return '```\n' \
                'GDQping bot - receive notifications when a GDQ run is about to start.\n\n' \
                '    Quick Tutorial:\n' \
-               '    1. Search for a run on the schedule\n' \
-               '    2. Find the ID of the run with +schedule\n' \
-               '    3. Use sub cmd to subscribe to that run\n' \
-               '    4. Get a ping about 10 minutes before\n' \
-               '    5. Profit!\n\n' \
+               '    1. Use \'+schedule all\' to get all run ids\n' \
+               '    2. Construct your sub command, example:\n' \
+               '       +sub 1 3 5 or +sub 1,2,3,4\n' \
+               '       OR +sub all to subscribe to all runs\n' \
+               '    3. Use the sub command in the bot channel\n' \
+               '    5. Get a ping about 10 minutes before a run\n' \
+               '    6. Profit!\n\n' \
                'Commands:\n' \
                '    +sub [number]- Subcribe to a GDQ run\n' \
                '    +unsub [number]- Unsubscribe to a GDQ run\n' \
-               '    +schedule - Get the AGDQ 2021 schedule\n' \
+               '    +upcoming - Get the upcoming games\n' \
+               '    +schedule "query here"- Query GDQ Schedule\n' \
                '    +admin - Only admins (obv) can use these\n\n' \
                'Type +help [category] for more info on that category\n' \
                '\n```'
@@ -65,8 +66,9 @@ class Help:
     def schedule():
         return '```\n' \
                'Usage:\n' \
-               '    +schedule (Show 5 next runs on the schedule)\n\n' \
+               '    +upcoming (Show 5 next runs on the schedule)\n\n' \
                '    +schedule \"search string\" (Quickly search for a run)\n\n' \
+               '    +schedule all (Get all IDs via DM, works only once an hour)\n\n' \
                '    +schedule [\'name\', \'runner\', \'host\'] \"search string\" ' \
                     '(Search for a run using it\'s name, runner, or host)\n\n' \
                'View the latest schedule for AQGDQ 2021. The schedule is sync\'d to the AGDQ schedule every ' \

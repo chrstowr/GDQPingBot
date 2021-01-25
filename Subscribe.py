@@ -1,3 +1,4 @@
+import asyncio
 import json
 import os
 from datetime import datetime, timedelta
@@ -19,13 +20,15 @@ class Subscribe:
 
         self.reminder_service_next_runtime = datetime.utcnow() + timedelta(seconds=1)
 
-    async def sub(self, ctx, args, schedule, sub_all=False):
+    async def sub(self, ctx, args, schedule, sub_all=False, dm=False):
         sch_max_len = len(schedule.data)
         role = discord.utils.get(ctx.guild.roles, name=self.ping_role_name)
         member = ctx.author
-        print(f'{member.name} | sub | {args} | {datetime.utcnow()}')
         if sub_all is False:
-            options = args[0].split(',')
+            options = list()
+            for a in args:
+                options.extend(a.strip(',').split(','))
+            print(f'{member.name} | sub | {options} | {datetime.utcnow()}')
             args_to_process = len(options)
             errors = 0
             runs_to_insert = dict()
@@ -69,9 +72,11 @@ class Subscribe:
         sch_max_len = len(schedule.data)
         role = discord.utils.get(ctx.guild.roles, name=self.ping_role_name)
         member = ctx.author
-        print(f'{member.name} | sub | {args} | {datetime.utcnow()}')
         if sub_all is False:
-            options = args[0].split(',')
+            options = list()
+            for a in args:
+                options.extend(a.strip(',').split(','))
+            print(f'{member.name} | unsub | {options} | {datetime.utcnow()}')
             args_to_process = len(options)
             errors = 0
             runs_to_remove = dict()
@@ -114,27 +119,17 @@ class Subscribe:
         if result is True:
             await ctx.message.add_reaction('✅')
 
-    @staticmethod
-    async def help(ctx):
-        help_text = '```How to subcribe to runs\n'
-        help_text = help_text + '--------------------------\n'
-        help_text = help_text + 'Subcribe to all runs:' \
-                                '\n    +sub all\n'
-        help_text = help_text + 'Subcribe to a specific game:' \
-                                '\n     +sub [run id]\n'
-        help_text = help_text + '\nYou can find the run id by searching the schedule with:' \
-                                '\n+schedule name "[name of game]"'
-        help_text = help_text + '```'
-
-        await ctx.send(help_text)
-
     async def load(self):
         await self.__load_from_file()
         print(f'Loaded {len(self.subscriptions)} subscriptions from file')
 
-    async def list_subs(self, ctx):
-        sub_list = await self.__get_user_subs_by_id(ctx.author.id, ctx.guild.id, limit=10)
-        list_text = f'```md\n{ctx.author.name}\'s Subscriptions ({ctx.guild.name})\n'
+    async def list_subs(self, ctx, dm=False):
+        if dm is True:
+            sub_list = await self.__get_user_subs_by_id(ctx.author.id, None, dm)
+        else:
+            sub_list = await self.__get_user_subs_by_id(ctx.author.id, ctx.guild.id, dm)
+        print(f'{ctx.author.name} | sub list | {datetime.utcnow()}')
+        list_text = f'```md\n{ctx.author.name}\'s Subscriptions\n'
         list_text = list_text + '-----------------------------------\n'
         if sub_list is None or len(sub_list) == 0:
             list_text = list_text + 'You are not subscribed to anything.\n```'
@@ -212,7 +207,8 @@ class Subscribe:
                                     message_content = \
                                         message_content + f" \"{run['game']}\" is starting Soon " \
                                                           f"- https://www.twitch.tv/gamesdonequick"
-                                    await channel_to_send_to.send(message_content, embed=reminder_embed)
+                                    m_ctx = await channel_to_send_to.send(message_content, embed=reminder_embed)
+                                    print(f'Reminder sent to {m_ctx.guild.name} | #{m_ctx.channel.name}')
                                 else:
                                     await channel_to_send_to.send(f'ERROR: Could not find \'GDQping\' role for guild'
                                                                   f' {channel_to_send_to.guild.name}. Please contact '
@@ -249,23 +245,30 @@ class Subscribe:
             guild = self.bot.get_guild(guild_id)
             # Get Role
             role = discord.utils.get(guild.roles, name=self.ping_role_name)
-            print(f'> Role Validation for {guild.name}, run #{run_id}')
-            print(f'{len(subs)} subs for run # {run_id}')
-            print(f'{len(role.members)} members with role')
+            print(f'\n> Role Validation for {guild.name}, run #{run_id}')
+            current_guild_role_members = [mem.name for mem in role.members]
 
+            added_roles = list()
             for sub in subs:
                 if not any(r_m.id == sub['discord_id'] for r_m in role.members):
                     member = guild.get_member(sub['discord_id'])
                     await member.add_roles(role)
-                    print(f'Add role to {member.name} ({role.guild.name})')
+                    added_roles.append(f'(+)Add role to {member.name} ({role.guild.name})')
                     role_addition = True
                 else:
                     role_addition = False
 
+            subs_for_run = [guild.get_member(sub['discord_id']).name for sub in subs]
+            current_guild_role_members.sort()
+            subs_for_run.sort()
+            print(f'{len(role.members)} member(s) with role: {", ".join(current_guild_role_members)}')
+            print(f'{len(subs)} sub(s) for run #{run_id}: {", ".join(subs_for_run)}')
+            print("\n".join(added_roles))
+
             for member in role.members:
                 if not any(sub['discord_id'] == member.id for sub in subs):
                     await member.remove_roles(role)
-                    print(f'Removed role for {member.name} ({role.guild.name})')
+                    print(f'(-)Removed role for {member.name} ({role.guild.name})')
                     role_removal = True
                 else:
                     role_removal = False
@@ -275,6 +278,8 @@ class Subscribe:
 
             if len(role.members) == 0:
                 role_removal = False
+
+            await asyncio.sleep(1)
 
     async def __get_subs_by_guild(self, r_id, g_id):
         sub_list = {key: value for key, value in self.subscriptions.copy().items() if
@@ -307,20 +312,26 @@ class Subscribe:
             time_left = f'{hours + minutes}'
             return run['game'], time_left
 
-    async def __get_user_subs_by_id(self, u_id, g_id, limit=50):
-        if limit > 50:
-            limit = 50
-
+    async def __get_user_subs_by_id(self, u_id, g_id, dm, limit=200):
         count = 0
         sub_list = list()
 
-        for (key, value) in self.subscriptions.copy().items():
-            if self.subscriptions[key]['guild_id'] == g_id and self.subscriptions[key]['discord_id'] == u_id \
-                    and count <= limit:
-                sub_list.append(value)
-                count = count + 1
-            elif count > limit:
-                break
+        if dm is False:
+            for (key, value) in self.subscriptions.copy().items():
+                if self.subscriptions[key]['guild_id'] == g_id and self.subscriptions[key]['discord_id'] == u_id \
+                        and count <= limit:
+                    sub_list.append(value)
+                    count = count + 1
+                elif count > limit:
+                    break
+        else:
+            for (key, value) in self.subscriptions.copy().items():
+                if self.subscriptions[key]['discord_id'] == u_id and count <= limit and \
+                        not any(self.subscriptions[key]['run_id'] == v['run_id'] for v in sub_list):
+                    sub_list.append(value)
+                    count = count + 1
+                elif count > limit:
+                    break
 
         def sort_key(e):
             return e['run_id']
@@ -388,7 +399,7 @@ class Subscribe:
         old_sub_dict = self.subscriptions.copy()
         new_sub_dict = dict()
 
-        print(f'Correcting {len(run_ids_that_changed)} subs: {run_ids_that_changed} | {datetime.utcnow()}')
+        print(f'{datetime.utcnow()} - Correcting {len(run_ids_that_changed)} subs: {run_ids_that_changed}')
 
         # Find matching items, if match, pop it and add to new sub dict()
         for r_ids in run_ids_that_changed:

@@ -22,12 +22,16 @@ bot = commands.Bot(command_prefix='+', intents=intents, help_command=None)
 # Initiate
 help_command = Help()
 admin_service = Admin()
-schedule = Schedule()
+schedule = Schedule(bot)
 subscribe = Subscribe(schedule, bot)
 
 
-# TODO: Add in routine for bot to delete schedule message if user deletes call
-# TODO: Give option to add subs using individual args: +sub 1 2 3 4 6 10 191
+# Idea list:
+# TODO: Detach user from guilds, create an index of what guild each user is in
+# TODO: Allow sub command to work from DM
+# TODO: Add VOD link command
+# TODO: Change to MongoDB atlas?
+# TODO: Figure out web dashboard
 
 @tasks.loop(seconds=1.0)
 async def task_loop():
@@ -71,6 +75,23 @@ async def on_ready():
 
 
 @bot.event
+async def on_message(message):
+    if admin_service.files_loaded is True:
+        if message.guild is not None:
+            if message.author.id == bot_owner or message.author.id == message.guild.owner_id or await admin_service.is_guild_admin(
+                    message):
+                if message.author.id == bot.user.id:
+                    return
+
+                if message.content.lower().startswith('good gdqbot'):
+                    await message.add_reaction('🥰')
+                    print(f'{message.author.name} ({message.guild.name}) praised the bot!')
+                    await admin_service.add_praise(message)
+
+    await bot.process_commands(message)
+
+
+@bot.event
 async def on_reaction_add(reaction, user):
     if admin_service.files_loaded is True:
         if user.id == bot.user.id:
@@ -78,6 +99,7 @@ async def on_reaction_add(reaction, user):
 
         if await schedule.is_multi_page_session(reaction):
             await schedule.multi_page_schedule_reaction_listener(reaction, user)
+
 
 @bot.event
 async def on_message_delete(message):
@@ -88,7 +110,8 @@ async def on_message_delete(message):
     if admin_service.files_loaded is True:
         if admin_service.if_guild_init(message.guild.id):
             if admin_service.if_registered_channel(message) or not admin_service.is_user_blacklisted(message):
-                await schedule.check_if_assoc_post(message.guild.id, message.id, message.channel)
+                await schedule.on_message_delete_assoc_listener(message.guild.id, message.id, message.channel)
+
 
 # init, give/take admin, blacklist/permit, resync, mute/unmute, stop/start
 @bot.command(name='admin')
@@ -98,7 +121,7 @@ async def admin(ctx, *args):
             t1 = perf_counter()
             if args[0].lower() == 'init':
                 if admin_service.if_guild_init(ctx.guild.id) is False:
-                    await admin_service.start(ctx)
+                    await admin_service.start(ctx, bot)
                 else:
                     if admin_service.if_registered_channel(ctx):
                         await ctx.send('This guild has already been initialized')
@@ -166,6 +189,10 @@ async def admin(ctx, *args):
                     await ctx.message.add_reaction('✅')
             elif args[0].lower() == 'roles':
                 await admin_service.test_members(ctx, bot)
+            elif args[0].lower() == 'check_perms':
+                admin_service.check_permissions(ctx, bot)
+            elif args[0].lower() == 'del_msg':
+                await admin_service.delete_bot_msg(ctx, args)
             t2 = perf_counter()
             print(f'Execute time for admin action: {(t2 - t1) * 1000:0.4f}ms')
         else:
@@ -176,45 +203,47 @@ async def admin(ctx, *args):
 async def move(ctx, *args):
     if admin_service.files_loaded is True:
         if ctx.author.id == bot_owner or ctx.author.id == ctx.guild.owner_id:
-            await admin_service.move(ctx)
+            await admin_service.move(ctx, bot)
 
 
 @bot.command(name='sub')
 async def add(ctx, *args):
     if admin_service.files_loaded is True:
-        if admin_service.if_guild_init(ctx.guild.id):
-            if admin_service.if_registered_channel(ctx) or not admin_service.is_user_blacklisted(ctx):
-                t1 = perf_counter()
-                if len(args) < 1:
-                    await subscribe.help(ctx)
-                elif args[0].lower() == 'all':
+        if not (ctx.guild is None and isinstance(ctx.channel, discord.channel.DMChannel)):
+            if ctx.guild is not None and admin_service.if_guild_init(ctx.guild.id):
+                if admin_service.if_registered_channel(ctx) and not admin_service.is_user_blacklisted(ctx):
                     t1 = perf_counter()
-                    await subscribe.sub(ctx, args, schedule, sub_all=True)
+                    if len(args) > 0:
+                        if args[0].lower() == 'all':
+                            t1 = perf_counter()
+                            await subscribe.sub(ctx, args, schedule, sub_all=True)
+                            t2 = perf_counter()
+                        elif args[0].lower() == 'list':
+                            await subscribe.list_subs(ctx)
+                        else:
+                            await subscribe.sub(ctx, args, schedule)
                     t2 = perf_counter()
-                elif args[0].lower() == 'list':
-                    await subscribe.list_subs(ctx)
-                else:
-                    await subscribe.sub(ctx, args, schedule)
-                t2 = perf_counter()
-                print(f'Execute time for sub: {(t2 - t1) * 1000:0.4f}ms')
+                    print(f'Execute time for sub: {(t2 - t1) * 1000:0.4f}ms')
+            else:
+                await ctx.send('Guild or bot owner please run \'+admin init\' command')
         else:
-            await ctx.send('Guild or bot owner please run \'+admin init\' command')
+            if args[0].lower() == 'list':
+                await subscribe.list_subs(ctx, dm=True)
 
 
 @bot.command(name='unsub')
 async def remove(ctx, *args):
     if admin_service.files_loaded is True:
-        if admin_service.if_guild_init(ctx.guild.id):
+        if ctx.guild is not None and admin_service.if_guild_init(ctx.guild.id):
             t1 = perf_counter()
-            if admin_service.if_registered_channel(ctx) or not admin_service.is_user_blacklisted(ctx):
-                if len(args) < 1 or len(args) > 1:
-                    await subscribe.help(ctx)
-                elif args[0].lower() == 'all':
-                    await subscribe.unsub(ctx, args, schedule, sub_all=True)
-                elif args[0].lower() == 'purge':
-                    await subscribe.purge(ctx)
-                else:
-                    await subscribe.unsub(ctx, args, schedule)
+            if admin_service.if_registered_channel(ctx) and not admin_service.is_user_blacklisted(ctx):
+                if len(args) > 0:
+                    if args[0].lower() == 'all':
+                        await subscribe.unsub(ctx, args, schedule, sub_all=True)
+                    elif args[0].lower() == 'purge':
+                        await subscribe.purge(ctx)
+                    else:
+                        await subscribe.unsub(ctx, args, schedule)
             t2 = perf_counter()
             print(f'Execute time for unsub: {(t2 - t1) * 1000:0.4f}ms')
 
@@ -222,34 +251,60 @@ async def remove(ctx, *args):
             await ctx.send('Guild or bot owner please run \'+admin init\' command')
 
 
-@bot.command(name='schedule')
+@bot.command(aliases=['upcoming', 'u'])
+async def get_upcoming(ctx, *args):
+    if admin_service.files_loaded is True:
+        if not (ctx.guild is None and isinstance(ctx.channel, discord.channel.DMChannel)):
+            if admin_service.if_guild_init(ctx.guild.id):
+                if admin_service.if_registered_channel(ctx) and not admin_service.is_user_blacklisted(ctx):
+                    if len(args) == 0:
+                        await schedule.get(ctx)
+                    elif len(args) == 1:
+                        # Check if correct_format
+                        result, hour = await schedule.check_hour_format(args[0])
+                        if result is True:
+                            await schedule.get(ctx, by_hour=True, hour=hour)
+                        else:
+                            await ctx.message.add_reaction("❌")
+            else:
+                await ctx.send('Guild or bot owner please run \'+admin init\' command')
+        else:
+            if len(args) == 0:
+                await schedule.get(ctx)
+            elif len(args) == 1:
+                # Check if correct_format
+                result, hour = await schedule.check_hour_format(args[0])
+                if result is True:
+                    await schedule.get(ctx, by_hour=True, hour=hour)
+                else:
+                    await ctx.message.add_reaction("❌")
+
+
+@bot.command(aliases=['schedule', 's'])
 async def get_schedule(ctx, *args):
     if admin_service.files_loaded is True:
-        if admin_service.if_guild_init(ctx.guild.id):
-            if admin_service.if_registered_channel(ctx) or not admin_service.is_user_blacklisted(ctx):
-                if len(args) == 0:
-                    await schedule.get(ctx)
-                else:
-                    await schedule.get(ctx, filter_schedule=True, args=args)
+        if not (ctx.guild is None and isinstance(ctx.channel, discord.channel.DMChannel)):
+            if admin_service.if_guild_init(ctx.guild.id):
+                if admin_service.if_registered_channel(ctx) and not admin_service.is_user_blacklisted(ctx):
+                    if len(args) == 1 and args[0] == 'all':
+                        await schedule.get_full(ctx)
+                    elif len(args) > 0:
+                        await schedule.get(ctx, filter_schedule=True, args=args)
+            else:
+                await ctx.send('Guild or bot owner please run \'+admin init\' command')
         else:
-            await ctx.send('Guild or bot owner please run \'+admin init\' command')
-
-# TODO: add guild purge option for guild
-# @bot.command(name='purge')
-# async def purge(ctx, *args):
-#     if admin_service.files_loaded is True:
-#         if ctx.author.id == bot_owner:
-#             await database.purge_subs()
+            if len(args) == 1 and args[0] == 'all':
+                await schedule.get_full(ctx)
+            elif len(args) > 0:
+                await schedule.get(ctx, filter_schedule=True, args=args)
 
 
 @bot.command(name='help')
 async def help(ctx, *args):
     if admin_service.files_loaded is True:
-        if admin_service.if_guild_init(ctx.guild.id):
-            if admin_service.if_registered_channel(ctx) or not admin_service.is_user_blacklisted(ctx):
-                is_admin = ctx.author.id == bot_owner or ctx.author.id == ctx.guild.owner_id or await admin_service.is_guild_admin(
-                    ctx)
-                await help_command.send(ctx, args, is_admin)
+        is_admin = ctx.author.id == bot_owner or ctx.author.id == ctx.guild.owner_id or await admin_service.is_guild_admin(
+            ctx)
+        await help_command.send(ctx, args, is_admin)
 
 
 bot.run(TOKEN)
